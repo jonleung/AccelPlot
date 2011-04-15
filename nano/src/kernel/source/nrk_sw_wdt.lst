@@ -1,0 +1,33 @@
+   1               		.file	"nrk_sw_wdt.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.global __do_copy_data
+   8               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+ 124               		.comm _nrk_signal_list,4,1
+ 125               		.comm nrk_idle_task_stk,128,1
+ 126               		.comm nrk_kernel_stk_ptr,2,1
+ 127               		.comm error_task,1,1
+ 128               		.comm error_num,1,1
+ 135               	.Letext0:
+ 136               	/* File "../../src/kernel/source/nrk_sw_wdt.c": code    0 = 0x0000 (   0), prologues   0, epilogues
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 nrk_sw_wdt.c
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:6      *ABS*:0000000000000001 __zero_reg__
+                            *COM*:0000000000000004 _nrk_signal_list
+                            *COM*:0000000000000080 nrk_idle_task_stk
+                            *COM*:0000000000000002 nrk_kernel_stk_ptr
+                            *COM*:0000000000000001 error_task
+                            *COM*:0000000000000001 error_num
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

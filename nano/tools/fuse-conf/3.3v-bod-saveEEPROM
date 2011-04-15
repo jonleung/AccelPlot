@@ -1,0 +1,4 @@
+avrdude -b115200 -F -p atmega1281 -P /dev/ttyUSB1  -c avr910 -V -U lfuse:w:0xFF:m -v
+avrdude -b115200 -F -p atmega1281 -P /dev/ttyUSB1  -c avr910 -V -U hfuse:w:0xD1:m -v
+avrdude -b115200 -F -p atmega1281 -P /dev/ttyUSB1  -c avr910 -V -U efuse:w:0xF5:m -v
+echo "Setup for: 3.3v Powered Node with brown out, no sleep. EEPROM will NOT clear on flashing"

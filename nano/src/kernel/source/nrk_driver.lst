@@ -1,0 +1,623 @@
+   1               		.file	"nrk_driver.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.global __do_copy_data
+   8               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+ 134               	.global	nrk_register_driver
+ 136               	nrk_register_driver:
+ 137               		.stabd	46,0,0
+   1:../../src/kernel/source/nrk_driver.c **** /******************************************************************************
+   2:../../src/kernel/source/nrk_driver.c **** *  Nano-RK, a real-time operating system for sensor networks.
+   3:../../src/kernel/source/nrk_driver.c **** *  Copyright (C) 2007, Real-Time and Multimedia Lab, Carnegie Mellon University
+   4:../../src/kernel/source/nrk_driver.c **** *  All rights reserved.
+   5:../../src/kernel/source/nrk_driver.c **** *
+   6:../../src/kernel/source/nrk_driver.c **** *  This is the Open Source Version of Nano-RK included as part of a Dual
+   7:../../src/kernel/source/nrk_driver.c **** *  Licensing Model. If you are unsure which license to use please refer to:
+   8:../../src/kernel/source/nrk_driver.c **** *  http://www.nanork.org/nano-RK/wiki/Licensing
+   9:../../src/kernel/source/nrk_driver.c **** *
+  10:../../src/kernel/source/nrk_driver.c **** *  This program is free software: you can redistribute it and/or modify
+  11:../../src/kernel/source/nrk_driver.c **** *  it under the terms of the GNU General Public License as published by
+  12:../../src/kernel/source/nrk_driver.c **** *  the Free Software Foundation, version 2.0 of the License.
+  13:../../src/kernel/source/nrk_driver.c **** *
+  14:../../src/kernel/source/nrk_driver.c **** *  This program is distributed in the hope that it will be useful,
+  15:../../src/kernel/source/nrk_driver.c **** *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  16:../../src/kernel/source/nrk_driver.c **** *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  17:../../src/kernel/source/nrk_driver.c **** *  GNU General Public License for more details.
+  18:../../src/kernel/source/nrk_driver.c **** *
+  19:../../src/kernel/source/nrk_driver.c **** *  You should have received a copy of the GNU General Public License
+  20:../../src/kernel/source/nrk_driver.c **** *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  21:../../src/kernel/source/nrk_driver.c **** *
+  22:../../src/kernel/source/nrk_driver.c **** *  Contributing Authors (specific to this file):
+  23:../../src/kernel/source/nrk_driver.c **** *  Zane Starr
+  24:../../src/kernel/source/nrk_driver.c **** *  Anthony Rowe
+  25:../../src/kernel/source/nrk_driver.c **** *******************************************************************************/
+  26:../../src/kernel/source/nrk_driver.c **** 
+  27:../../src/kernel/source/nrk_driver.c **** #include <nrk_cfg.h>
+  28:../../src/kernel/source/nrk_driver.c **** 
+  29:../../src/kernel/source/nrk_driver.c **** #ifdef  NRK_MAX_DRIVER_CNT
+  30:../../src/kernel/source/nrk_driver.c **** 
+  31:../../src/kernel/source/nrk_driver.c **** #include <nrk.h>
+  32:../../src/kernel/source/nrk_driver.c **** #include <nrk_events.h>
+  33:../../src/kernel/source/nrk_driver.c **** #include <nrk_task.h>
+  34:../../src/kernel/source/nrk_driver.c **** #include <nrk_error.h>
+  35:../../src/kernel/source/nrk_driver.c **** #include <nrk_scheduler.h>
+  36:../../src/kernel/source/nrk_driver.c **** #include <include.h>
+  37:../../src/kernel/source/nrk_driver.c **** #include <ulib.h>
+  38:../../src/kernel/source/nrk_driver.c **** #include <nrk_timer.h>
+  39:../../src/kernel/source/nrk_driver.c **** #include <nrk_time.h>
+  40:../../src/kernel/source/nrk_driver.c **** #include <nrk_cpu.h>
+  41:../../src/kernel/source/nrk_driver.c **** #include <nrk_driver.h>
+  42:../../src/kernel/source/nrk_driver.c **** #include <nrk_driver_list.h>
+  43:../../src/kernel/source/nrk_driver.c **** 
+  44:../../src/kernel/source/nrk_driver.c **** 
+  45:../../src/kernel/source/nrk_driver.c **** NRKDriver nrk_drivers[NRK_MAX_DRIVER_CNT];
+  46:../../src/kernel/source/nrk_driver.c **** uint8_t nrk_driver_init[NRK_MAX_DRIVER_CNT];
+  47:../../src/kernel/source/nrk_driver.c **** 
+  48:../../src/kernel/source/nrk_driver.c **** int8_t _nrk_driver_count;
+  49:../../src/kernel/source/nrk_driver.c **** 
+  50:../../src/kernel/source/nrk_driver.c **** /*
+  51:../../src/kernel/source/nrk_driver.c ****  * nrk_register_driver()
+  52:../../src/kernel/source/nrk_driver.c ****  *
+  53:../../src/kernel/source/nrk_driver.c ****  * This function takes a pointer to the entrance of a driver function
+  54:../../src/kernel/source/nrk_driver.c ****  * and returns a device handler for the driver.
+  55:../../src/kernel/source/nrk_driver.c ****  *
+  56:../../src/kernel/source/nrk_driver.c ****  *
+  57:../../src/kernel/source/nrk_driver.c ****  */
+  58:../../src/kernel/source/nrk_driver.c **** 
+  59:../../src/kernel/source/nrk_driver.c **** int8_t nrk_register_driver(void *devicemanager,uint8_t dev_index)
+  60:../../src/kernel/source/nrk_driver.c **** {
+ 139               	.LM0:
+ 140               	.LFBB1:
+ 141               	/* prologue: frame size=0 */
+ 142               	/* prologue end (size=0) */
+  61:../../src/kernel/source/nrk_driver.c **** 		if(_nrk_driver_count<NRK_MAX_DRIVER_CNT)
+ 144               	.LM1:
+ 145 0000 2091 0000 		lds r18,_nrk_driver_count
+ 146 0004 1216      		cp __zero_reg__,r18
+ 147 0006 04F4      		brge .L2
+ 149               	.LM2:
+ 150 0008 8FEF      		ldi r24,lo8(-1)
+ 151 000a 9FEF      		ldi r25,hi8(-1)
+ 152 000c 0895      		ret
+ 153               	.L2:
+  62:../../src/kernel/source/nrk_driver.c **** 		{
+  63:../../src/kernel/source/nrk_driver.c ****                  nrk_drivers[_nrk_driver_count].dev_id=dev_index; 
+ 155               	.LM3:
+ 156 000e E22F      		mov r30,r18
+ 157 0010 FF27      		clr r31
+ 158 0012 E7FD      		sbrc r30,7
+ 159 0014 F095      		com r31
+ 160 0016 EE0F      		lsl r30
+ 161 0018 FF1F      		rol r31
+ 162 001a EE0F      		lsl r30
+ 163 001c FF1F      		rol r31
+ 164 001e DF01      		movw r26,r30
+ 165 0020 A050      		subi r26,lo8(-(nrk_drivers))
+ 166 0022 B040      		sbci r27,hi8(-(nrk_drivers))
+ 167 0024 6C93      		st X,r22
+  64:../../src/kernel/source/nrk_driver.c ****                  nrk_drivers[_nrk_driver_count].devicemanager=(void*)devicemanager;
+ 169               	.LM4:
+ 170 0026 E050      		subi r30,lo8(-(nrk_drivers+2))
+ 171 0028 F040      		sbci r31,hi8(-(nrk_drivers+2))
+ 172 002a 9183      		std Z+1,r25
+ 173 002c 8083      		st Z,r24
+  65:../../src/kernel/source/nrk_driver.c **** 		 _nrk_driver_count++;
+ 175               	.LM5:
+ 176 002e 2F5F      		subi r18,lo8(-(1))
+ 177 0030 2093 0000 		sts _nrk_driver_count,r18
+ 178 0034 81E0      		ldi r24,lo8(1)
+ 179 0036 90E0      		ldi r25,hi8(1)
+  66:../../src/kernel/source/nrk_driver.c **** 		 return NRK_OK;
+  67:../../src/kernel/source/nrk_driver.c **** 	        }
+  68:../../src/kernel/source/nrk_driver.c **** 		 else
+  69:../../src/kernel/source/nrk_driver.c **** 			 return NRK_ERROR;
+  70:../../src/kernel/source/nrk_driver.c **** }
+ 181               	.LM6:
+ 182 0038 0895      		ret
+ 183               	/* epilogue: frame size=0 */
+ 184               	/* epilogue: noreturn */
+ 185               	/* epilogue end (size=0) */
+ 186               	/* function nrk_register_driver size 29 (29) */
+ 188               	.Lscope1:
+ 190               		.stabd	78,0,0
+ 194               	.global	nrk_open
+ 196               	nrk_open:
+ 197               		.stabd	46,0,0
+  71:../../src/kernel/source/nrk_driver.c **** 
+  72:../../src/kernel/source/nrk_driver.c **** 
+  73:../../src/kernel/source/nrk_driver.c **** int8_t nrk_open(uint8_t dev_index,uint8_t opt) 
+  74:../../src/kernel/source/nrk_driver.c **** {
+ 199               	.LM7:
+ 200               	.LFBB2:
+ 201               	/* prologue: frame size=0 */
+ 202 003a 0F93      		push r16
+ 203 003c 1F93      		push r17
+ 204 003e CF93      		push r28
+ 205 0040 DF93      		push r29
+ 206               	/* prologue end (size=4) */
+ 207 0042 062F      		mov r16,r22
+  75:../../src/kernel/source/nrk_driver.c **** uint8_t cnt;
+  76:../../src/kernel/source/nrk_driver.c **** 
+  77:../../src/kernel/source/nrk_driver.c **** 
+  78:../../src/kernel/source/nrk_driver.c **** 		for(cnt=0;cnt<_nrk_driver_count;cnt++)
+ 209               	.LM8:
+ 210 0044 9091 0000 		lds r25,_nrk_driver_count
+ 211 0048 A92F      		mov r26,r25
+ 212 004a BB27      		clr r27
+ 213 004c A7FD      		sbrc r26,7
+ 214 004e B095      		com r27
+ 215 0050 40E0      		ldi r20,lo8(0)
+ 216 0052 50E0      		ldi r21,hi8(0)
+  79:../../src/kernel/source/nrk_driver.c **** 		{
+  80:../../src/kernel/source/nrk_driver.c **** 		      if(nrk_drivers[cnt].dev_id==dev_index)  
+ 218               	.LM9:
+ 219 0054 682F      		mov r22,r24
+ 220 0056 7727      		clr r23
+ 221 0058 00C0      		rjmp .L7
+ 222               	.L8:
+ 224               	.LM10:
+ 225 005a 4F5F      		subi r20,lo8(-(1))
+ 226 005c 5F4F      		sbci r21,hi8(-(1))
+ 228               	.LM11:
+ 229 005e E901      		movw r28,r18
+ 230 0060 CC0F      		lsl r28
+ 231 0062 DD1F      		rol r29
+ 232 0064 CC0F      		lsl r28
+ 233 0066 DD1F      		rol r29
+ 234 0068 FE01      		movw r30,r28
+ 235 006a E050      		subi r30,lo8(-(nrk_drivers))
+ 236 006c F040      		sbci r31,hi8(-(nrk_drivers))
+ 237 006e 8081      		ld r24,Z
+ 238 0070 9927      		clr r25
+ 239 0072 87FD      		sbrc r24,7
+ 240 0074 9095      		com r25
+ 241 0076 8617      		cp r24,r22
+ 242 0078 9707      		cpc r25,r23
+ 243 007a 01F4      		brne .L7
+  81:../../src/kernel/source/nrk_driver.c **** 		      {
+  82:../../src/kernel/source/nrk_driver.c **** 				if(nrk_driver_init[cnt]==WAS_NOT_OPEN)
+ 245               	.LM12:
+ 246 007c F901      		movw r30,r18
+ 247 007e E050      		subi r30,lo8(-(nrk_driver_init))
+ 248 0080 F040      		sbci r31,hi8(-(nrk_driver_init))
+ 249 0082 8081      		ld r24,Z
+ 250 0084 8823      		tst r24
+ 251 0086 01F4      		brne .L10
+  83:../../src/kernel/source/nrk_driver.c **** 				      {
+  84:../../src/kernel/source/nrk_driver.c **** 					// Only call init the first time driver is opened
+  85:../../src/kernel/source/nrk_driver.c ****                                         nrk_driver_init[cnt]=WAS_OPEN;
+ 253               	.LM13:
+ 254 0088 81E0      		ldi r24,lo8(1)
+ 255 008a 8083      		st Z,r24
+  86:../../src/kernel/source/nrk_driver.c ****         				nrk_drivers[cnt].devicemanager(INIT,opt,NULL,0);
+ 257               	.LM14:
+ 258 008c FE01      		movw r30,r28
+ 259 008e E050      		subi r30,lo8(-(nrk_drivers+2))
+ 260 0090 F040      		sbci r31,hi8(-(nrk_drivers+2))
+ 261 0092 0190      		ld __tmp_reg__,Z+
+ 262 0094 F081      		ld r31,Z
+ 263 0096 E02D      		mov r30,__tmp_reg__
+ 264 0098 20E0      		ldi r18,lo8(0)
+ 265 009a 40E0      		ldi r20,lo8(0)
+ 266 009c 50E0      		ldi r21,hi8(0)
+ 267 009e 602F      		mov r22,r16
+ 268 00a0 80E0      		ldi r24,lo8(0)
+ 269 00a2 0995      		icall
+ 270               	.L10:
+  87:../../src/kernel/source/nrk_driver.c **** 				      }
+  88:../../src/kernel/source/nrk_driver.c ****         		nrk_drivers[cnt].devicemanager(OPEN,opt,NULL,0);
+ 272               	.LM15:
+ 273 00a4 C050      		subi r28,lo8(-(nrk_drivers+2))
+ 274 00a6 D040      		sbci r29,hi8(-(nrk_drivers+2))
+ 275 00a8 E881      		ld r30,Y
+ 276 00aa F981      		ldd r31,Y+1
+ 277 00ac 20E0      		ldi r18,lo8(0)
+ 278 00ae 40E0      		ldi r20,lo8(0)
+ 279 00b0 50E0      		ldi r21,hi8(0)
+ 280 00b2 602F      		mov r22,r16
+ 281 00b4 81E0      		ldi r24,lo8(1)
+ 282 00b6 0995      		icall
+  89:../../src/kernel/source/nrk_driver.c **** 		        return cnt;
+ 284               	.LM16:
+ 285 00b8 812F      		mov r24,r17
+ 286 00ba 9927      		clr r25
+ 287 00bc 87FD      		sbrc r24,7
+ 288 00be 9095      		com r25
+ 289 00c0 00C0      		rjmp .L12
+ 290               	.L7:
+ 291 00c2 142F      		mov r17,r20
+ 293               	.LM17:
+ 294 00c4 242F      		mov r18,r20
+ 295 00c6 3327      		clr r19
+ 296 00c8 2A17      		cp r18,r26
+ 297 00ca 3B07      		cpc r19,r27
+ 298 00cc 04F0      		brlt .L8
+ 299 00ce 8FEF      		ldi r24,lo8(-1)
+ 300 00d0 9FEF      		ldi r25,hi8(-1)
+ 301               	.L12:
+ 302               	/* epilogue: frame size=0 */
+ 303 00d2 DF91      		pop r29
+ 304 00d4 CF91      		pop r28
+ 305 00d6 1F91      		pop r17
+ 306 00d8 0F91      		pop r16
+ 307 00da 0895      		ret
+ 308               	/* epilogue end (size=5) */
+ 309               	/* function nrk_open size 81 (72) */
+ 314               	.Lscope2:
+ 316               		.stabd	78,0,0
+ 320               	.global	nrk_get_status
+ 322               	nrk_get_status:
+ 323               		.stabd	46,0,0
+  90:../../src/kernel/source/nrk_driver.c **** 		      }
+  91:../../src/kernel/source/nrk_driver.c **** 		}
+  92:../../src/kernel/source/nrk_driver.c **** 
+  93:../../src/kernel/source/nrk_driver.c ****  return NRK_ERROR;
+  94:../../src/kernel/source/nrk_driver.c **** }
+  95:../../src/kernel/source/nrk_driver.c ****  
+  96:../../src/kernel/source/nrk_driver.c **** int8_t nrk_close(uint8_t dev_fd)
+  97:../../src/kernel/source/nrk_driver.c **** {
+  98:../../src/kernel/source/nrk_driver.c **** uint8_t error;
+  99:../../src/kernel/source/nrk_driver.c **** 
+ 100:../../src/kernel/source/nrk_driver.c **** 	if(dev_fd>_nrk_driver_count)
+ 101:../../src/kernel/source/nrk_driver.c **** 		{
+ 102:../../src/kernel/source/nrk_driver.c **** 		_nrk_errno_set(1);  // invalid device
+ 103:../../src/kernel/source/nrk_driver.c **** 		return NRK_ERROR;
+ 104:../../src/kernel/source/nrk_driver.c **** 		}
+ 105:../../src/kernel/source/nrk_driver.c **** 
+ 106:../../src/kernel/source/nrk_driver.c **** error=nrk_drivers[dev_fd].devicemanager(CLOSE,0,NULL,0);
+ 107:../../src/kernel/source/nrk_driver.c **** 
+ 108:../../src/kernel/source/nrk_driver.c **** // Do we need to do init on a second reopen?
+ 109:../../src/kernel/source/nrk_driver.c **** //if(!error)
+ 110:../../src/kernel/source/nrk_driver.c **** //	driver_record_init[dev_fd]=0;
+ 111:../../src/kernel/source/nrk_driver.c **** 
+ 112:../../src/kernel/source/nrk_driver.c **** return error;
+ 113:../../src/kernel/source/nrk_driver.c **** } 
+ 114:../../src/kernel/source/nrk_driver.c **** 
+ 115:../../src/kernel/source/nrk_driver.c **** 
+ 116:../../src/kernel/source/nrk_driver.c **** int8_t nrk_write(uint8_t dev_fd,uint8_t *buffer, uint8_t size)
+ 117:../../src/kernel/source/nrk_driver.c **** {
+ 118:../../src/kernel/source/nrk_driver.c **** 	if(dev_fd>_nrk_driver_count)
+ 119:../../src/kernel/source/nrk_driver.c **** 		{
+ 120:../../src/kernel/source/nrk_driver.c **** 		_nrk_errno_set(1);  // invalid device
+ 121:../../src/kernel/source/nrk_driver.c **** 		return NRK_ERROR;
+ 122:../../src/kernel/source/nrk_driver.c **** 		}
+ 123:../../src/kernel/source/nrk_driver.c **** 
+ 124:../../src/kernel/source/nrk_driver.c ****          return nrk_drivers[dev_fd].devicemanager(WRITE,0,buffer,size);
+ 125:../../src/kernel/source/nrk_driver.c **** 
+ 126:../../src/kernel/source/nrk_driver.c **** }
+ 127:../../src/kernel/source/nrk_driver.c **** 
+ 128:../../src/kernel/source/nrk_driver.c **** int8_t nrk_read(uint8_t dev_fd,uint8_t *buffer,uint8_t size)
+ 129:../../src/kernel/source/nrk_driver.c **** {
+ 130:../../src/kernel/source/nrk_driver.c **** 	if(dev_fd>_nrk_driver_count)
+ 131:../../src/kernel/source/nrk_driver.c **** 		{
+ 132:../../src/kernel/source/nrk_driver.c **** 		_nrk_errno_set(1);  // invalid device
+ 133:../../src/kernel/source/nrk_driver.c **** 		return NRK_ERROR;
+ 134:../../src/kernel/source/nrk_driver.c **** 		}
+ 135:../../src/kernel/source/nrk_driver.c **** 
+ 136:../../src/kernel/source/nrk_driver.c ****          return nrk_drivers[dev_fd].devicemanager(READ,0,buffer,size);
+ 137:../../src/kernel/source/nrk_driver.c **** 
+ 138:../../src/kernel/source/nrk_driver.c **** }
+ 139:../../src/kernel/source/nrk_driver.c **** /*if key is 0 then assumed to create a frequency setting*/
+ 140:../../src/kernel/source/nrk_driver.c **** int8_t nrk_set_status(uint8_t dev_fd,uint8_t key,uint8_t value)
+ 141:../../src/kernel/source/nrk_driver.c **** {
+ 142:../../src/kernel/source/nrk_driver.c **** 	if(dev_fd<0 || dev_fd>_nrk_driver_count)
+ 143:../../src/kernel/source/nrk_driver.c **** 		{
+ 144:../../src/kernel/source/nrk_driver.c **** 		_nrk_errno_set(1);  // invalid device
+ 145:../../src/kernel/source/nrk_driver.c **** 		return NRK_ERROR;
+ 146:../../src/kernel/source/nrk_driver.c **** 		}
+ 147:../../src/kernel/source/nrk_driver.c ****          return nrk_drivers[dev_fd].devicemanager(SET_STATUS,key,NULL,value);
+ 148:../../src/kernel/source/nrk_driver.c **** } 
+ 149:../../src/kernel/source/nrk_driver.c **** 
+ 150:../../src/kernel/source/nrk_driver.c **** int8_t nrk_get_status(uint8_t dev_fd,uint8_t key)
+ 151:../../src/kernel/source/nrk_driver.c **** {
+ 325               	.LM18:
+ 326               	.LFBB3:
+ 327               	/* prologue: frame size=0 */
+ 328               	/* prologue end (size=0) */
+ 152:../../src/kernel/source/nrk_driver.c **** 	if(dev_fd>_nrk_driver_count)
+ 330               	.LM19:
+ 331 00dc E82F      		mov r30,r24
+ 332 00de FF27      		clr r31
+ 333 00e0 8091 0000 		lds r24,_nrk_driver_count
+ 334 00e4 9927      		clr r25
+ 335 00e6 87FD      		sbrc r24,7
+ 336 00e8 9095      		com r25
+ 337 00ea 8E17      		cp r24,r30
+ 338 00ec 9F07      		cpc r25,r31
+ 339 00ee 04F4      		brge .L18
+ 153:../../src/kernel/source/nrk_driver.c **** 		{
+ 154:../../src/kernel/source/nrk_driver.c **** 		_nrk_errno_set(1);  // invalid device
+ 341               	.LM20:
+ 342 00f0 81E0      		ldi r24,lo8(1)
+ 343 00f2 0E94 0000 		call _nrk_errno_set
+ 344 00f6 8FEF      		ldi r24,lo8(-1)
+ 345 00f8 9FEF      		ldi r25,hi8(-1)
+ 346 00fa 0895      		ret
+ 347               	.L18:
+ 155:../../src/kernel/source/nrk_driver.c **** 		return NRK_ERROR;
+ 156:../../src/kernel/source/nrk_driver.c **** 		}
+ 157:../../src/kernel/source/nrk_driver.c **** 
+ 158:../../src/kernel/source/nrk_driver.c ****    	return nrk_drivers[dev_fd].devicemanager(GET_STATUS,key,NULL,0);
+ 349               	.LM21:
+ 350 00fc EE0F      		lsl r30
+ 351 00fe FF1F      		rol r31
+ 352 0100 EE0F      		lsl r30
+ 353 0102 FF1F      		rol r31
+ 354 0104 E050      		subi r30,lo8(-(nrk_drivers+2))
+ 355 0106 F040      		sbci r31,hi8(-(nrk_drivers+2))
+ 356 0108 0190      		ld __tmp_reg__,Z+
+ 357 010a F081      		ld r31,Z
+ 358 010c E02D      		mov r30,__tmp_reg__
+ 359 010e 20E0      		ldi r18,lo8(0)
+ 360 0110 40E0      		ldi r20,lo8(0)
+ 361 0112 50E0      		ldi r21,hi8(0)
+ 362 0114 83E0      		ldi r24,lo8(3)
+ 363 0116 0995      		icall
+ 364 0118 9927      		clr r25
+ 365 011a 87FD      		sbrc r24,7
+ 366 011c 9095      		com r25
+ 159:../../src/kernel/source/nrk_driver.c **** }
+ 368               	.LM22:
+ 369 011e 0895      		ret
+ 370               	/* epilogue: frame size=0 */
+ 371               	/* epilogue: noreturn */
+ 372               	/* epilogue end (size=0) */
+ 373               	/* function nrk_get_status size 34 (34) */
+ 375               	.Lscope3:
+ 377               		.stabd	78,0,0
+ 382               	.global	nrk_set_status
+ 384               	nrk_set_status:
+ 385               		.stabd	46,0,0
+ 387               	.LM23:
+ 388               	.LFBB4:
+ 389               	/* prologue: frame size=0 */
+ 390               	/* prologue end (size=0) */
+ 391 0120 242F      		mov r18,r20
+ 393               	.LM24:
+ 394 0122 E82F      		mov r30,r24
+ 395 0124 FF27      		clr r31
+ 396 0126 8091 0000 		lds r24,_nrk_driver_count
+ 397 012a 9927      		clr r25
+ 398 012c 87FD      		sbrc r24,7
+ 399 012e 9095      		com r25
+ 400 0130 8E17      		cp r24,r30
+ 401 0132 9F07      		cpc r25,r31
+ 402 0134 04F4      		brge .L23
+ 404               	.LM25:
+ 405 0136 81E0      		ldi r24,lo8(1)
+ 406 0138 0E94 0000 		call _nrk_errno_set
+ 407 013c 8FEF      		ldi r24,lo8(-1)
+ 408 013e 9FEF      		ldi r25,hi8(-1)
+ 409 0140 0895      		ret
+ 410               	.L23:
+ 412               	.LM26:
+ 413 0142 EE0F      		lsl r30
+ 414 0144 FF1F      		rol r31
+ 415 0146 EE0F      		lsl r30
+ 416 0148 FF1F      		rol r31
+ 417 014a E050      		subi r30,lo8(-(nrk_drivers+2))
+ 418 014c F040      		sbci r31,hi8(-(nrk_drivers+2))
+ 419 014e 0190      		ld __tmp_reg__,Z+
+ 420 0150 F081      		ld r31,Z
+ 421 0152 E02D      		mov r30,__tmp_reg__
+ 422 0154 40E0      		ldi r20,lo8(0)
+ 423 0156 50E0      		ldi r21,hi8(0)
+ 424 0158 84E0      		ldi r24,lo8(4)
+ 425 015a 0995      		icall
+ 426 015c 9927      		clr r25
+ 427 015e 87FD      		sbrc r24,7
+ 428 0160 9095      		com r25
+ 430               	.LM27:
+ 431 0162 0895      		ret
+ 432               	/* epilogue: frame size=0 */
+ 433               	/* epilogue: noreturn */
+ 434               	/* epilogue end (size=0) */
+ 435               	/* function nrk_set_status size 34 (34) */
+ 437               	.Lscope4:
+ 439               		.stabd	78,0,0
+ 444               	.global	nrk_read
+ 446               	nrk_read:
+ 447               		.stabd	46,0,0
+ 449               	.LM28:
+ 450               	.LFBB5:
+ 451               	/* prologue: frame size=0 */
+ 452               	/* prologue end (size=0) */
+ 453 0164 242F      		mov r18,r20
+ 455               	.LM29:
+ 456 0166 E82F      		mov r30,r24
+ 457 0168 FF27      		clr r31
+ 458 016a 8091 0000 		lds r24,_nrk_driver_count
+ 459 016e 9927      		clr r25
+ 460 0170 87FD      		sbrc r24,7
+ 461 0172 9095      		com r25
+ 462 0174 8E17      		cp r24,r30
+ 463 0176 9F07      		cpc r25,r31
+ 464 0178 04F4      		brge .L28
+ 466               	.LM30:
+ 467 017a 81E0      		ldi r24,lo8(1)
+ 468 017c 0E94 0000 		call _nrk_errno_set
+ 469 0180 8FEF      		ldi r24,lo8(-1)
+ 470 0182 9FEF      		ldi r25,hi8(-1)
+ 471 0184 0895      		ret
+ 472               	.L28:
+ 474               	.LM31:
+ 475 0186 EE0F      		lsl r30
+ 476 0188 FF1F      		rol r31
+ 477 018a EE0F      		lsl r30
+ 478 018c FF1F      		rol r31
+ 479 018e E050      		subi r30,lo8(-(nrk_drivers+2))
+ 480 0190 F040      		sbci r31,hi8(-(nrk_drivers+2))
+ 481 0192 0190      		ld __tmp_reg__,Z+
+ 482 0194 F081      		ld r31,Z
+ 483 0196 E02D      		mov r30,__tmp_reg__
+ 484 0198 AB01      		movw r20,r22
+ 485 019a 60E0      		ldi r22,lo8(0)
+ 486 019c 85E0      		ldi r24,lo8(5)
+ 487 019e 0995      		icall
+ 488 01a0 9927      		clr r25
+ 489 01a2 87FD      		sbrc r24,7
+ 490 01a4 9095      		com r25
+ 492               	.LM32:
+ 493 01a6 0895      		ret
+ 494               	/* epilogue: frame size=0 */
+ 495               	/* epilogue: noreturn */
+ 496               	/* epilogue end (size=0) */
+ 497               	/* function nrk_read size 34 (34) */
+ 499               	.Lscope5:
+ 501               		.stabd	78,0,0
+ 506               	.global	nrk_write
+ 508               	nrk_write:
+ 509               		.stabd	46,0,0
+ 511               	.LM33:
+ 512               	.LFBB6:
+ 513               	/* prologue: frame size=0 */
+ 514               	/* prologue end (size=0) */
+ 515 01a8 242F      		mov r18,r20
+ 517               	.LM34:
+ 518 01aa E82F      		mov r30,r24
+ 519 01ac FF27      		clr r31
+ 520 01ae 8091 0000 		lds r24,_nrk_driver_count
+ 521 01b2 9927      		clr r25
+ 522 01b4 87FD      		sbrc r24,7
+ 523 01b6 9095      		com r25
+ 524 01b8 8E17      		cp r24,r30
+ 525 01ba 9F07      		cpc r25,r31
+ 526 01bc 04F4      		brge .L33
+ 528               	.LM35:
+ 529 01be 81E0      		ldi r24,lo8(1)
+ 530 01c0 0E94 0000 		call _nrk_errno_set
+ 531 01c4 8FEF      		ldi r24,lo8(-1)
+ 532 01c6 9FEF      		ldi r25,hi8(-1)
+ 533 01c8 0895      		ret
+ 534               	.L33:
+ 536               	.LM36:
+ 537 01ca EE0F      		lsl r30
+ 538 01cc FF1F      		rol r31
+ 539 01ce EE0F      		lsl r30
+ 540 01d0 FF1F      		rol r31
+ 541 01d2 E050      		subi r30,lo8(-(nrk_drivers+2))
+ 542 01d4 F040      		sbci r31,hi8(-(nrk_drivers+2))
+ 543 01d6 0190      		ld __tmp_reg__,Z+
+ 544 01d8 F081      		ld r31,Z
+ 545 01da E02D      		mov r30,__tmp_reg__
+ 546 01dc AB01      		movw r20,r22
+ 547 01de 60E0      		ldi r22,lo8(0)
+ 548 01e0 86E0      		ldi r24,lo8(6)
+ 549 01e2 0995      		icall
+ 550 01e4 9927      		clr r25
+ 551 01e6 87FD      		sbrc r24,7
+ 552 01e8 9095      		com r25
+ 554               	.LM37:
+ 555 01ea 0895      		ret
+ 556               	/* epilogue: frame size=0 */
+ 557               	/* epilogue: noreturn */
+ 558               	/* epilogue end (size=0) */
+ 559               	/* function nrk_write size 34 (34) */
+ 561               	.Lscope6:
+ 563               		.stabd	78,0,0
+ 566               	.global	nrk_close
+ 568               	nrk_close:
+ 569               		.stabd	46,0,0
+ 571               	.LM38:
+ 572               	.LFBB7:
+ 573               	/* prologue: frame size=0 */
+ 574               	/* prologue end (size=0) */
+ 576               	.LM39:
+ 577 01ec E82F      		mov r30,r24
+ 578 01ee FF27      		clr r31
+ 579 01f0 8091 0000 		lds r24,_nrk_driver_count
+ 580 01f4 9927      		clr r25
+ 581 01f6 87FD      		sbrc r24,7
+ 582 01f8 9095      		com r25
+ 583 01fa 8E17      		cp r24,r30
+ 584 01fc 9F07      		cpc r25,r31
+ 585 01fe 04F4      		brge .L38
+ 587               	.LM40:
+ 588 0200 81E0      		ldi r24,lo8(1)
+ 589 0202 0E94 0000 		call _nrk_errno_set
+ 590 0206 8FEF      		ldi r24,lo8(-1)
+ 591 0208 9FEF      		ldi r25,hi8(-1)
+ 592 020a 0895      		ret
+ 593               	.L38:
+ 595               	.LM41:
+ 596 020c EE0F      		lsl r30
+ 597 020e FF1F      		rol r31
+ 598 0210 EE0F      		lsl r30
+ 599 0212 FF1F      		rol r31
+ 600 0214 E050      		subi r30,lo8(-(nrk_drivers+2))
+ 601 0216 F040      		sbci r31,hi8(-(nrk_drivers+2))
+ 602 0218 0190      		ld __tmp_reg__,Z+
+ 603 021a F081      		ld r31,Z
+ 604 021c E02D      		mov r30,__tmp_reg__
+ 605 021e 20E0      		ldi r18,lo8(0)
+ 606 0220 40E0      		ldi r20,lo8(0)
+ 607 0222 50E0      		ldi r21,hi8(0)
+ 608 0224 60E0      		ldi r22,lo8(0)
+ 609 0226 82E0      		ldi r24,lo8(2)
+ 610 0228 0995      		icall
+ 612               	.LM42:
+ 613 022a 9927      		clr r25
+ 614 022c 87FD      		sbrc r24,7
+ 615 022e 9095      		com r25
+ 617               	.LM43:
+ 618 0230 0895      		ret
+ 619               	/* epilogue: frame size=0 */
+ 620               	/* epilogue: noreturn */
+ 621               	/* epilogue end (size=0) */
+ 622               	/* function nrk_close size 35 (35) */
+ 624               	.Lscope7:
+ 626               		.stabd	78,0,0
+ 627               		.comm _nrk_signal_list,4,1
+ 628               		.comm nrk_idle_task_stk,128,1
+ 629               		.comm nrk_kernel_stk_ptr,2,1
+ 630               		.comm error_task,1,1
+ 631               		.comm error_num,1,1
+ 632               		.comm _nrk_cpu_state,1,1
+ 633               		.comm next_next_wakeup,2,1
+ 634               		.comm _nrk_prev_timer_val,1,1
+ 635               		.comm _nrk_time_trigger,1,1
+ 636               		.comm app_timer0_callback,2,1
+ 637               		.comm app_timer0_prescale,1,1
+ 638               		.comm nrk_drivers,4,1
+ 639               		.comm nrk_driver_init,1,1
+ 640               		.comm _nrk_driver_count,1,1
+ 656               	.Letext0:
+ 657               	/* File "../../src/kernel/source/nrk_driver.c": code  281 = 0x0119 ( 272), prologues   4, epilogues
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 nrk_driver.c
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:136    .text:0000000000000000 nrk_register_driver
+                            *COM*:0000000000000001 _nrk_driver_count
+                            *COM*:0000000000000004 nrk_drivers
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:196    .text:000000000000003a nrk_open
+                            *COM*:0000000000000001 nrk_driver_init
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:322    .text:00000000000000dc nrk_get_status
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:384    .text:0000000000000120 nrk_set_status
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:446    .text:0000000000000164 nrk_read
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:508    .text:00000000000001a8 nrk_write
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXukuT.s:568    .text:00000000000001ec nrk_close
+                            *COM*:0000000000000004 _nrk_signal_list
+                            *COM*:0000000000000080 nrk_idle_task_stk
+                            *COM*:0000000000000002 nrk_kernel_stk_ptr
+                            *COM*:0000000000000001 error_task
+                            *COM*:0000000000000001 error_num
+                            *COM*:0000000000000001 _nrk_cpu_state
+                            *COM*:0000000000000002 next_next_wakeup
+                            *COM*:0000000000000001 _nrk_prev_timer_val
+                            *COM*:0000000000000001 _nrk_time_trigger
+                            *COM*:0000000000000002 app_timer0_callback
+                            *COM*:0000000000000001 app_timer0_prescale
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+_nrk_errno_set

@@ -1,0 +1,4 @@
+avrdude -b115200 -F -p atmega128 -P /dev/ttyUSB1  -c avr910 -V -U lfuse:w:0xEC:m -v
+avrdude -b115200 -F -p atmega128 -P /dev/ttyUSB1  -c avr910 -V -U hfuse:w:0xD9:m -v
+avrdude -b115200 -F -p atmega128 -P /dev/ttyUSB1  -c avr910 -V -U efuse:w:0xFF:m -v
+echo "Setup for: Battery Powered Node with no brown out. EEPROM will clear on flashing"

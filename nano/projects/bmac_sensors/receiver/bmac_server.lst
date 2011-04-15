@@ -1,0 +1,475 @@
+   1               		.file	"bmac_server.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.global __do_copy_data
+   8               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+ 131               		.data
+ 132               	.LC0:
+ 133 0000 4372 6561 		.string	"Create done\r"
+ 133      7465 2064 
+ 133      6F6E 650D 
+ 133      00
+ 134               		.text
+ 136               	.global	nrk_create_taskset
+ 138               	nrk_create_taskset:
+ 139               		.stabd	46,0,0
+   1:bmac_server.c **** /******************************************************************************
+   2:bmac_server.c ****  *  Nano-RK, a real-time operating system for sensor networks.
+   3:bmac_server.c ****  *  Copyright (C) 2007, Real-Time and Multimedia Lab, Carnegie Mellon University
+   4:bmac_server.c ****  *  All rights reserved.
+   5:bmac_server.c ****  *
+   6:bmac_server.c ****  *  This is the Open Source Version of Nano-RK included as part of a Dual
+   7:bmac_server.c ****  *  Licensing Model. If you are unsure which license to use please refer to:
+   8:bmac_server.c ****  *  http://www.nanork.org/nano-RK/wiki/Licensing
+   9:bmac_server.c ****  *
+  10:bmac_server.c ****  *  This program is free software: you can redistribute it and/or modify
+  11:bmac_server.c ****  *  it under the terms of the GNU General Public License as published by
+  12:bmac_server.c ****  *  the Free Software Foundation, version 2.0 of the License.
+  13:bmac_server.c ****  *
+  14:bmac_server.c ****  *  This program is distributed in the hope that it will be useful,
+  15:bmac_server.c ****  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  16:bmac_server.c ****  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  17:bmac_server.c ****  *  GNU General Public License for more details.
+  18:bmac_server.c ****  *
+  19:bmac_server.c ****  *  You should have received a copy of the GNU General Public License
+  20:bmac_server.c ****  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  21:bmac_server.c ****  *
+  22:bmac_server.c ****  *******************************************************************************/
+  23:bmac_server.c **** 
+  24:bmac_server.c **** 
+  25:bmac_server.c **** #include <nrk.h>
+  26:bmac_server.c **** #include <include.h>
+  27:bmac_server.c **** #include <ulib.h>
+  28:bmac_server.c **** #include <stdio.h>
+  29:bmac_server.c **** #include <avr/sleep.h>
+  30:bmac_server.c **** #include <hal.h>
+  31:bmac_server.c **** #include <bmac.h>
+  32:bmac_server.c **** #include <nrk_error.h>
+  33:bmac_server.c **** 
+  34:bmac_server.c **** nrk_task_type RX_TASK;
+  35:bmac_server.c **** NRK_STK rx_task_stack[NRK_APP_STACKSIZE];
+  36:bmac_server.c **** void rx_task (void);
+  37:bmac_server.c **** 
+  38:bmac_server.c **** void nrk_create_taskset ();
+  39:bmac_server.c **** 
+  40:bmac_server.c **** uint8_t rx_buf[RF_MAX_PAYLOAD_SIZE];
+  41:bmac_server.c **** 
+  42:bmac_server.c **** int main ()
+  43:bmac_server.c **** {
+  44:bmac_server.c **** 	uint16_t div;
+  45:bmac_server.c **** 	nrk_setup_ports ();
+  46:bmac_server.c **** 	nrk_setup_uart (UART_BAUDRATE_115K2);
+  47:bmac_server.c **** 
+  48:bmac_server.c **** 	nrk_init ();
+  49:bmac_server.c **** 
+  50:bmac_server.c **** 	nrk_led_clr (0);
+  51:bmac_server.c **** 	nrk_led_clr (1);
+  52:bmac_server.c **** 	nrk_led_clr (2);
+  53:bmac_server.c **** 	nrk_led_clr (3);
+  54:bmac_server.c **** 
+  55:bmac_server.c **** 	nrk_time_set (0, 0);
+  56:bmac_server.c **** 
+  57:bmac_server.c **** 	bmac_task_config ();
+  58:bmac_server.c **** 
+  59:bmac_server.c **** 	nrk_create_taskset ();
+  60:bmac_server.c **** 	nrk_start ();
+  61:bmac_server.c **** 
+  62:bmac_server.c **** 	return 0;
+  63:bmac_server.c **** }
+  64:bmac_server.c **** 
+  65:bmac_server.c **** void rx_task ()
+  66:bmac_server.c **** {
+  67:bmac_server.c **** 	uint8_t i, len;
+  68:bmac_server.c **** 	int8_t rssi, val;
+  69:bmac_server.c **** 	uint8_t *local_rx_buf;
+  70:bmac_server.c **** 	nrk_time_t check_period;
+  71:bmac_server.c **** 	printf ("rx_task PID=%d\r\n", nrk_get_pid ());
+  72:bmac_server.c **** 
+  73:bmac_server.c **** 	// init bmac on channel 25 
+  74:bmac_server.c **** 	bmac_init (25);
+  75:bmac_server.c **** 
+  76:bmac_server.c **** 	// By default the RX check rate is 100ms
+  77:bmac_server.c **** 	// below shows how to change that
+  78:bmac_server.c **** 	//check_period.secs=0;
+  79:bmac_server.c **** 	//check_period.nano_secs=200*NANOS_PER_MS;
+  80:bmac_server.c **** 	//val=bmac_set_rx_check_rate(check_period);
+  81:bmac_server.c **** 
+  82:bmac_server.c **** 	// The default Clear Channel Assement RSSI threshold is -45
+  83:bmac_server.c **** 	// Setting this value higher means that you will only trigger
+  84:bmac_server.c **** 	// receive with a very strong signal.  Setting this lower means
+  85:bmac_server.c **** 	// bmac will try to receive fainter packets.  If the value is set
+  86:bmac_server.c **** 	// too high or too low performance will suffer greatly.
+  87:bmac_server.c **** 	// bmac_set_cca_thresh(-45); 
+  88:bmac_server.c **** 
+  89:bmac_server.c **** 
+  90:bmac_server.c **** 	if(val==NRK_ERROR) nrk_kprintf( PSTR("ERROR setting bmac rate\r\n" ));
+  91:bmac_server.c **** 	// This sets the next RX buffer.
+  92:bmac_server.c **** 	// This can be called at anytime before releaseing the packet
+  93:bmac_server.c **** 	// if you wish to do a zero-copy buffer switch
+  94:bmac_server.c **** 	bmac_rx_pkt_set_buffer (rx_buf, RF_MAX_PAYLOAD_SIZE);
+  95:bmac_server.c **** 
+  96:bmac_server.c **** 	while (1) {
+  97:bmac_server.c **** 		// Wait until an RX packet is received
+  98:bmac_server.c **** 		val = bmac_wait_until_rx_pkt ();
+  99:bmac_server.c **** 		// Get the RX packet 
+ 100:bmac_server.c **** 		nrk_led_set (ORANGE_LED);
+ 101:bmac_server.c **** 		local_rx_buf = bmac_rx_pkt_get (&len, &rssi);
+ 102:bmac_server.c **** 		for (i = 0; i < len; i++)
+ 103:bmac_server.c **** 			printf ("%c", rx_buf[i]);
+ 104:bmac_server.c **** 		nrk_led_clr (ORANGE_LED);
+ 105:bmac_server.c **** 		// Release the RX buffer so future packets can arrive 
+ 106:bmac_server.c **** 		bmac_rx_pkt_release ();
+ 107:bmac_server.c **** 	}
+ 108:bmac_server.c **** 
+ 109:bmac_server.c **** }
+ 110:bmac_server.c **** 
+ 111:bmac_server.c **** void nrk_create_taskset ()
+ 112:bmac_server.c **** {
+ 141               	.LM0:
+ 142               	.LFBB1:
+ 143               	/* prologue: frame size=0 */
+ 144               	/* prologue end (size=0) */
+ 113:bmac_server.c **** 	RX_TASK.task = rx_task;
+ 146               	.LM1:
+ 147 0000 80E0      		ldi r24,lo8(pm(rx_task))
+ 148 0002 90E0      		ldi r25,hi8(pm(rx_task))
+ 149 0004 9093 0000 		sts (RX_TASK+5)+1,r25
+ 150 0008 8093 0000 		sts RX_TASK+5,r24
+ 114:bmac_server.c **** 	RX_TASK.Ptos = (void *) &rx_task_stack[NRK_APP_STACKSIZE - 1];
+ 152               	.LM2:
+ 153 000c 80E0      		ldi r24,lo8(rx_task_stack+127)
+ 154 000e 90E0      		ldi r25,hi8(rx_task_stack+127)
+ 155 0010 9093 0000 		sts (RX_TASK+1)+1,r25
+ 156 0014 8093 0000 		sts RX_TASK+1,r24
+ 115:bmac_server.c **** 	RX_TASK.Pbos = (void *) &rx_task_stack[0];
+ 158               	.LM3:
+ 159 0018 80E0      		ldi r24,lo8(rx_task_stack)
+ 160 001a 90E0      		ldi r25,hi8(rx_task_stack)
+ 161 001c 9093 0000 		sts (RX_TASK+3)+1,r25
+ 162 0020 8093 0000 		sts RX_TASK+3,r24
+ 116:bmac_server.c **** 	RX_TASK.prio = 2;
+ 164               	.LM4:
+ 165 0024 82E0      		ldi r24,lo8(2)
+ 166 0026 8093 0000 		sts RX_TASK+8,r24
+ 117:bmac_server.c **** 	RX_TASK.FirstActivation = TRUE;
+ 168               	.LM5:
+ 169 002a 81E0      		ldi r24,lo8(1)
+ 170 002c 8093 0000 		sts RX_TASK+7,r24
+ 118:bmac_server.c **** 	RX_TASK.Type = BASIC_TASK;
+ 172               	.LM6:
+ 173 0030 8093 0000 		sts RX_TASK+9,r24
+ 119:bmac_server.c **** 	RX_TASK.SchType = PREEMPTIVE;
+ 175               	.LM7:
+ 176 0034 8093 0000 		sts RX_TASK+10,r24
+ 120:bmac_server.c **** 	RX_TASK.period.secs = 1;
+ 178               	.LM8:
+ 179 0038 81E0      		ldi r24,lo8(1)
+ 180 003a 90E0      		ldi r25,hi8(1)
+ 181 003c A0E0      		ldi r26,hlo8(1)
+ 182 003e B0E0      		ldi r27,hhi8(1)
+ 183 0040 8093 0000 		sts RX_TASK+11,r24
+ 184 0044 9093 0000 		sts (RX_TASK+11)+1,r25
+ 185 0048 A093 0000 		sts (RX_TASK+11)+2,r26
+ 186 004c B093 0000 		sts (RX_TASK+11)+3,r27
+ 121:bmac_server.c **** 	RX_TASK.period.nano_secs = 0;
+ 188               	.LM9:
+ 189 0050 1092 0000 		sts RX_TASK+15,__zero_reg__
+ 190 0054 1092 0000 		sts (RX_TASK+15)+1,__zero_reg__
+ 191 0058 1092 0000 		sts (RX_TASK+15)+2,__zero_reg__
+ 192 005c 1092 0000 		sts (RX_TASK+15)+3,__zero_reg__
+ 122:bmac_server.c **** 	RX_TASK.cpu_reserve.secs = 1;
+ 194               	.LM10:
+ 195 0060 8093 0000 		sts RX_TASK+19,r24
+ 196 0064 9093 0000 		sts (RX_TASK+19)+1,r25
+ 197 0068 A093 0000 		sts (RX_TASK+19)+2,r26
+ 198 006c B093 0000 		sts (RX_TASK+19)+3,r27
+ 123:bmac_server.c **** 	RX_TASK.cpu_reserve.nano_secs = 500 * NANOS_PER_MS;
+ 200               	.LM11:
+ 201 0070 80E0      		ldi r24,lo8(500000000)
+ 202 0072 95E6      		ldi r25,hi8(500000000)
+ 203 0074 ADEC      		ldi r26,hlo8(500000000)
+ 204 0076 BDE1      		ldi r27,hhi8(500000000)
+ 205 0078 8093 0000 		sts RX_TASK+23,r24
+ 206 007c 9093 0000 		sts (RX_TASK+23)+1,r25
+ 207 0080 A093 0000 		sts (RX_TASK+23)+2,r26
+ 208 0084 B093 0000 		sts (RX_TASK+23)+3,r27
+ 124:bmac_server.c **** 	RX_TASK.offset.secs = 0;
+ 210               	.LM12:
+ 211 0088 1092 0000 		sts RX_TASK+27,__zero_reg__
+ 212 008c 1092 0000 		sts (RX_TASK+27)+1,__zero_reg__
+ 213 0090 1092 0000 		sts (RX_TASK+27)+2,__zero_reg__
+ 214 0094 1092 0000 		sts (RX_TASK+27)+3,__zero_reg__
+ 125:bmac_server.c **** 	RX_TASK.offset.nano_secs = 0;
+ 216               	.LM13:
+ 217 0098 1092 0000 		sts RX_TASK+31,__zero_reg__
+ 218 009c 1092 0000 		sts (RX_TASK+31)+1,__zero_reg__
+ 219 00a0 1092 0000 		sts (RX_TASK+31)+2,__zero_reg__
+ 220 00a4 1092 0000 		sts (RX_TASK+31)+3,__zero_reg__
+ 126:bmac_server.c **** 	nrk_activate_task (&RX_TASK);
+ 222               	.LM14:
+ 223 00a8 80E0      		ldi r24,lo8(RX_TASK)
+ 224 00aa 90E0      		ldi r25,hi8(RX_TASK)
+ 225 00ac 0E94 0000 		call nrk_activate_task
+ 127:bmac_server.c **** 
+ 128:bmac_server.c **** 	printf ("Create done\r\n");
+ 227               	.LM15:
+ 228 00b0 80E0      		ldi r24,lo8(.LC0)
+ 229 00b2 90E0      		ldi r25,hi8(.LC0)
+ 230 00b4 0E94 0000 		call puts
+ 231               	/* epilogue: frame size=0 */
+ 232 00b8 0895      		ret
+ 233               	/* epilogue end (size=1) */
+ 234               	/* function nrk_create_taskset size 93 (92) */
+ 236               	.Lscope1:
+ 238               		.stabd	78,0,0
+ 239               		.data
+ 240               	.LC1:
+ 241 000d 7278 5F74 		.string	"rx_task PID=%d\r\n"
+ 241      6173 6B20 
+ 241      5049 443D 
+ 241      2564 0D0A 
+ 241      00
+ 242               		.text
+ 244               	.global	rx_task
+ 246               	rx_task:
+ 247               		.stabd	46,0,0
+ 249               	.LM16:
+ 250               	.LFBB2:
+ 251               	/* prologue: frame size=2 */
+ 252 00ba CF92      		push r12
+ 253 00bc DF92      		push r13
+ 254 00be EF92      		push r14
+ 255 00c0 FF92      		push r15
+ 256 00c2 0F93      		push r16
+ 257 00c4 1F93      		push r17
+ 258 00c6 CF93      		push r28
+ 259 00c8 DF93      		push r29
+ 260 00ca CDB7      		in r28,__SP_L__
+ 261 00cc DEB7      		in r29,__SP_H__
+ 262 00ce 2297      		sbiw r28,2
+ 263 00d0 0FB6      		in __tmp_reg__,__SREG__
+ 264 00d2 F894      		cli
+ 265 00d4 DEBF      		out __SP_H__,r29
+ 266 00d6 0FBE      		out __SREG__,__tmp_reg__
+ 267 00d8 CDBF      		out __SP_L__,r28
+ 268               	/* prologue end (size=16) */
+ 270               	.LM17:
+ 271 00da 0E94 0000 		call nrk_get_pid
+ 272 00de 9927      		clr r25
+ 273 00e0 9F93      		push r25
+ 274 00e2 8F93      		push r24
+ 275 00e4 80E0      		ldi r24,lo8(.LC1)
+ 276 00e6 90E0      		ldi r25,hi8(.LC1)
+ 277 00e8 9F93      		push r25
+ 278 00ea 8F93      		push r24
+ 279 00ec 0E94 0000 		call printf
+ 281               	.LM18:
+ 282 00f0 89E1      		ldi r24,lo8(25)
+ 283 00f2 0E94 0000 		call bmac_init
+ 285               	.LM19:
+ 286 00f6 0F90      		pop __tmp_reg__
+ 287 00f8 0F90      		pop __tmp_reg__
+ 288 00fa 0F90      		pop __tmp_reg__
+ 289 00fc 0F90      		pop __tmp_reg__
+ 290 00fe 1F3F      		cpi r17,lo8(-1)
+ 291 0100 01F4      		brne .L4
+ 293               	.LM20:
+ 294 0102 80E0      		ldi r24,lo8(__c.2347)
+ 295 0104 90E0      		ldi r25,hi8(__c.2347)
+ 296 0106 0E94 0000 		call nrk_kprintf
+ 297               	.L4:
+ 299               	.LM21:
+ 300 010a 64E7      		ldi r22,lo8(116)
+ 301 010c 80E0      		ldi r24,lo8(rx_buf)
+ 302 010e 90E0      		ldi r25,hi8(rx_buf)
+ 303 0110 0E94 0000 		call bmac_rx_pkt_set_buffer
+ 305               	.LM22:
+ 306 0114 82E0      		ldi r24,lo8(2)
+ 307 0116 C82E      		mov r12,r24
+ 308 0118 D12C      		mov r13,__zero_reg__
+ 309 011a CC0E      		add r12,r28
+ 310 011c DD1E      		adc r13,r29
+ 311 011e 7E01      		movw r14,r28
+ 312 0120 0894      		sec
+ 313 0122 E11C      		adc r14,__zero_reg__
+ 314 0124 F11C      		adc r15,__zero_reg__
+ 315               	.L6:
+ 317               	.LM23:
+ 318 0126 0E94 0000 		call bmac_wait_until_rx_pkt
+ 320               	.LM24:
+ 321 012a 80E0      		ldi r24,lo8(0)
+ 322 012c 90E0      		ldi r25,hi8(0)
+ 323 012e 0E94 0000 		call nrk_led_set
+ 325               	.LM25:
+ 326 0132 B601      		movw r22,r12
+ 327 0134 C701      		movw r24,r14
+ 328 0136 0E94 0000 		call bmac_rx_pkt_get
+ 329 013a 00E0      		ldi r16,lo8(0)
+ 330 013c 10E0      		ldi r17,hi8(0)
+ 331 013e 00C0      		rjmp .L7
+ 332               	.L8:
+ 334               	.LM26:
+ 335 0140 FF27      		clr r31
+ 336 0142 E050      		subi r30,lo8(-(rx_buf))
+ 337 0144 F040      		sbci r31,hi8(-(rx_buf))
+ 338 0146 8081      		ld r24,Z
+ 339 0148 9927      		clr r25
+ 340 014a 0E94 0000 		call putchar
+ 341               	.L7:
+ 342 014e E02F      		mov r30,r16
+ 343 0150 0F5F      		subi r16,lo8(-(1))
+ 344 0152 1F4F      		sbci r17,hi8(-(1))
+ 346               	.LM27:
+ 347 0154 8981      		ldd r24,Y+1
+ 348 0156 E817      		cp r30,r24
+ 349 0158 00F0      		brlo .L8
+ 351               	.LM28:
+ 352 015a 80E0      		ldi r24,lo8(0)
+ 353 015c 90E0      		ldi r25,hi8(0)
+ 354 015e 0E94 0000 		call nrk_led_clr
+ 356               	.LM29:
+ 357 0162 0E94 0000 		call bmac_rx_pkt_release
+ 358 0166 00C0      		rjmp .L6
+ 359               	/* epilogue: frame size=2 */
+ 360               	/* epilogue: noreturn */
+ 361               	/* epilogue end (size=0) */
+ 362               	/* function rx_task size 87 (71) */
+ 370               	.Lscope2:
+ 372               		.stabd	78,0,0
+ 374               	.global	main
+ 376               	main:
+ 377               		.stabd	46,0,0
+ 379               	.LM30:
+ 380               	.LFBB3:
+ 381               	/* prologue: frame size=0 */
+ 382 0168 C0E0      		ldi r28,lo8(__stack - 0)
+ 383 016a D0E0      		ldi r29,hi8(__stack - 0)
+ 384 016c DEBF      		out __SP_H__,r29
+ 385 016e CDBF      		out __SP_L__,r28
+ 386               	/* prologue end (size=4) */
+ 388               	.LM31:
+ 389 0170 0E94 0000 		call nrk_setup_ports
+ 391               	.LM32:
+ 392 0174 87E0      		ldi r24,lo8(7)
+ 393 0176 90E0      		ldi r25,hi8(7)
+ 394 0178 0E94 0000 		call nrk_setup_uart
+ 396               	.LM33:
+ 397 017c 0E94 0000 		call nrk_init
+ 399               	.LM34:
+ 400 0180 80E0      		ldi r24,lo8(0)
+ 401 0182 90E0      		ldi r25,hi8(0)
+ 402 0184 0E94 0000 		call nrk_led_clr
+ 404               	.LM35:
+ 405 0188 81E0      		ldi r24,lo8(1)
+ 406 018a 90E0      		ldi r25,hi8(1)
+ 407 018c 0E94 0000 		call nrk_led_clr
+ 409               	.LM36:
+ 410 0190 82E0      		ldi r24,lo8(2)
+ 411 0192 90E0      		ldi r25,hi8(2)
+ 412 0194 0E94 0000 		call nrk_led_clr
+ 414               	.LM37:
+ 415 0198 83E0      		ldi r24,lo8(3)
+ 416 019a 90E0      		ldi r25,hi8(3)
+ 417 019c 0E94 0000 		call nrk_led_clr
+ 419               	.LM38:
+ 420 01a0 20E0      		ldi r18,lo8(0)
+ 421 01a2 30E0      		ldi r19,hi8(0)
+ 422 01a4 40E0      		ldi r20,hlo8(0)
+ 423 01a6 50E0      		ldi r21,hhi8(0)
+ 424 01a8 60E0      		ldi r22,lo8(0)
+ 425 01aa 70E0      		ldi r23,hi8(0)
+ 426 01ac 80E0      		ldi r24,hlo8(0)
+ 427 01ae 90E0      		ldi r25,hhi8(0)
+ 428 01b0 0E94 0000 		call nrk_time_set
+ 430               	.LM39:
+ 431 01b4 0E94 0000 		call bmac_task_config
+ 433               	.LM40:
+ 434 01b8 0E94 0000 		call nrk_create_taskset
+ 436               	.LM41:
+ 437 01bc 0E94 0000 		call nrk_start
+ 439               	.LM42:
+ 440 01c0 80E0      		ldi r24,lo8(0)
+ 441 01c2 90E0      		ldi r25,hi8(0)
+ 442               	/* epilogue: frame size=0 */
+ 443 01c4 0C94 0000 		jmp exit
+ 444               	/* epilogue end (size=2) */
+ 445               	/* function main size 48 (42) */
+ 447               	.Lscope3:
+ 449               		.stabd	78,0,0
+ 450               		.section	.progmem.data,"a",@progbits
+ 453               	__c.2347:
+ 454 0000 4552 524F 		.string	"ERROR setting bmac rate\r\n"
+ 454      5220 7365 
+ 454      7474 696E 
+ 454      6720 626D 
+ 454      6163 2072 
+ 455               		.comm _nrk_signal_list,4,1
+ 456               		.comm nrk_idle_task_stk,128,1
+ 457               		.comm nrk_kernel_stk_ptr,2,1
+ 458               		.comm bmac_rx_pkt_signal,1,1
+ 459               		.comm bmac_tx_pkt_done_signal,1,1
+ 460               		.comm bmac_enable_signal,1,1
+ 461               		.comm bmac_rfRxInfo,9,1
+ 462               		.comm bmac_rfTxInfo,7,1
+ 463               		.comm error_task,1,1
+ 464               		.comm error_num,1,1
+ 465               		.comm RX_TASK,35,1
+ 466               		.comm rx_task_stack,128,1
+ 467               		.comm rx_buf,116,1
+ 482               		.text
+ 484               	.Letext0:
+ 485               	/* File "bmac_server.c": code  228 = 0x00e4 ( 205), prologues  20, epilogues   3 */
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 bmac_server.c
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTdq3o4.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTdq3o4.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTdq3o4.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTdq3o4.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTdq3o4.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTdq3o4.s:138    .text:0000000000000000 nrk_create_taskset
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTdq3o4.s:246    .text:00000000000000ba rx_task
+                            *COM*:0000000000000023 RX_TASK
+                            *COM*:0000000000000080 rx_task_stack
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTdq3o4.s:453    .progmem.data:0000000000000000 __c.2347
+                            *COM*:0000000000000074 rx_buf
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTdq3o4.s:376    .text:0000000000000168 main
+                            *COM*:0000000000000004 _nrk_signal_list
+                            *COM*:0000000000000080 nrk_idle_task_stk
+                            *COM*:0000000000000002 nrk_kernel_stk_ptr
+                            *COM*:0000000000000001 bmac_rx_pkt_signal
+                            *COM*:0000000000000001 bmac_tx_pkt_done_signal
+                            *COM*:0000000000000001 bmac_enable_signal
+                            *COM*:0000000000000009 bmac_rfRxInfo
+                            *COM*:0000000000000007 bmac_rfTxInfo
+                            *COM*:0000000000000001 error_task
+                            *COM*:0000000000000001 error_num
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+nrk_activate_task
+puts
+nrk_get_pid
+printf
+bmac_init
+nrk_kprintf
+bmac_rx_pkt_set_buffer
+bmac_wait_until_rx_pkt
+nrk_led_set
+bmac_rx_pkt_get
+putchar
+nrk_led_clr
+bmac_rx_pkt_release
+__stack
+nrk_setup_ports
+nrk_setup_uart
+nrk_init
+nrk_time_set
+bmac_task_config
+nrk_start
+exit

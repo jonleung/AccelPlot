@@ -1,0 +1,568 @@
+   1               		.file	"basic_sensors.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.global __do_copy_data
+   8               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+ 139               	.global	nrk_register_drivers
+ 141               	nrk_register_drivers:
+ 142               		.stabd	46,0,0
+   1:basic_sensors.c **** /******************************************************************************
+   2:basic_sensors.c ****  *  Nano-RK, a real-time operating system for sensor networks.
+   3:basic_sensors.c ****  *  Copyright (C) 2007, Real-Time and Multimedia Lab, Carnegie Mellon University
+   4:basic_sensors.c ****  *  All rights reserved.
+   5:basic_sensors.c ****  *
+   6:basic_sensors.c ****  *  This is the Open Source Version of Nano-RK included as part of a Dual
+   7:basic_sensors.c ****  *  Licensing Model. If you are unsure which license to use please refer to:
+   8:basic_sensors.c ****  *  http://www.nanork.org/nano-RK/wiki/Licensing
+   9:basic_sensors.c ****  *
+  10:basic_sensors.c ****  *  This program is free software: you can redistribute it and/or modify
+  11:basic_sensors.c ****  *  it under the terms of the GNU General Public License as published by
+  12:basic_sensors.c ****  *  the Free Software Foundation, version 2.0 of the License.
+  13:basic_sensors.c ****  *
+  14:basic_sensors.c ****  *  This program is distributed in the hope that it will be useful,
+  15:basic_sensors.c ****  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  16:basic_sensors.c ****  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  17:basic_sensors.c ****  *  GNU General Public License for more details.
+  18:basic_sensors.c ****  *
+  19:basic_sensors.c ****  *  You should have received a copy of the GNU General Public License
+  20:basic_sensors.c ****  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  21:basic_sensors.c ****  *
+  22:basic_sensors.c ****  *  Contributing Authors (specific to this file):
+  23:basic_sensors.c ****  *  Zane Starr
+  24:basic_sensors.c ****  *******************************************************************************/
+  25:basic_sensors.c **** 
+  26:basic_sensors.c **** 
+  27:basic_sensors.c **** #include <nrk.h>
+  28:basic_sensors.c **** #include <include.h>
+  29:basic_sensors.c **** #include <ulib.h>
+  30:basic_sensors.c **** #include <stdio.h>
+  31:basic_sensors.c **** #include <avr/sleep.h>
+  32:basic_sensors.c **** #include <hal.h>
+  33:basic_sensors.c **** #include <nrk_error.h>
+  34:basic_sensors.c **** #include <nrk_timer.h>
+  35:basic_sensors.c **** #include <nrk_driver_list.h>
+  36:basic_sensors.c **** #include <nrk_driver.h>
+  37:basic_sensors.c **** #include <ff_basic_sensor.h>
+  38:basic_sensors.c **** 
+  39:basic_sensors.c **** 
+  40:basic_sensors.c **** NRK_STK Stack1[NRK_APP_STACKSIZE];
+  41:basic_sensors.c **** nrk_task_type TaskOne;
+  42:basic_sensors.c **** void Task1(void);
+  43:basic_sensors.c **** 
+  44:basic_sensors.c **** 
+  45:basic_sensors.c **** void nrk_create_taskset();
+  46:basic_sensors.c **** void nrk_register_drivers();
+  47:basic_sensors.c **** uint8_t kill_stack(uint8_t val);
+  48:basic_sensors.c **** 
+  49:basic_sensors.c **** int
+  50:basic_sensors.c **** main ()
+  51:basic_sensors.c **** {
+  52:basic_sensors.c **** 	uint8_t t;
+  53:basic_sensors.c **** 	nrk_setup_ports();
+  54:basic_sensors.c **** 	nrk_setup_uart(UART_BAUDRATE_115K2);
+  55:basic_sensors.c **** 
+  56:basic_sensors.c **** 	printf( "Starting up...\r\n" );
+  57:basic_sensors.c **** 
+  58:basic_sensors.c **** 	nrk_init();
+  59:basic_sensors.c **** 	nrk_time_set(0,0);
+  60:basic_sensors.c **** 
+  61:basic_sensors.c **** 	nrk_register_drivers();
+  62:basic_sensors.c **** 	nrk_create_taskset ();
+  63:basic_sensors.c **** 	nrk_start();
+  64:basic_sensors.c **** 
+  65:basic_sensors.c **** 	return 0;
+  66:basic_sensors.c **** }
+  67:basic_sensors.c **** 
+  68:basic_sensors.c **** 
+  69:basic_sensors.c **** void Task1()
+  70:basic_sensors.c **** {
+  71:basic_sensors.c **** 	int8_t fd,val;
+  72:basic_sensors.c **** 	uint16_t buf;
+  73:basic_sensors.c **** 
+  74:basic_sensors.c **** 	printf( "My node's address is %d\r\n",NODE_ADDR );
+  75:basic_sensors.c **** 
+  76:basic_sensors.c **** 	printf( "Task1 PID=%d\r\n",nrk_get_pid());
+  77:basic_sensors.c **** 
+  78:basic_sensors.c **** 	// Open ADC device as read 
+  79:basic_sensors.c **** 	fd=nrk_open(FIREFLY_SENSOR_BASIC,READ);
+  80:basic_sensors.c **** 	if(fd==NRK_ERROR) nrk_kprintf(PSTR("Failed to open sensor driver\r\n"));
+  81:basic_sensors.c **** 
+  82:basic_sensors.c **** 	while(1) {
+  83:basic_sensors.c **** 		nrk_led_toggle(BLUE_LED);
+  84:basic_sensors.c **** 		// Example of setting a sensor 
+  85:basic_sensors.c **** 		val=nrk_set_status(fd,SENSOR_SELECT,ACC_X);	
+  86:basic_sensors.c **** 		val=nrk_read(fd,&buf,2);
+  87:basic_sensors.c **** 		printf( "x=%d,",buf);
+  88:basic_sensors.c **** 		
+  89:basic_sensors.c **** 		val=nrk_set_status(fd,SENSOR_SELECT,ACC_Y);
+  90:basic_sensors.c ****        val=nrk_read(fd,&buf,2);
+  91:basic_sensors.c ****        printf( "y=%d,",buf);
+  92:basic_sensors.c **** 
+  93:basic_sensors.c ****        val=nrk_set_status(fd,SENSOR_SELECT,ACC_Z);
+  94:basic_sensors.c ****        val=nrk_read(fd,&buf,2);
+  95:basic_sensors.c ****        printf( "z=%d\r\n",buf);	
+  96:basic_sensors.c **** 
+  97:basic_sensors.c **** 		//TODO: ESE 350- Insert your code here for other sensors. see http://www.nanork.org/wiki/firefly-
+  98:basic_sensors.c **** 
+  99:basic_sensors.c **** 		nrk_wait_until_next_period();
+ 100:basic_sensors.c **** 	}
+ 101:basic_sensors.c **** 	nrk_close(fd);
+ 102:basic_sensors.c **** }
+ 103:basic_sensors.c **** 
+ 104:basic_sensors.c **** 
+ 105:basic_sensors.c **** 	void
+ 106:basic_sensors.c **** nrk_create_taskset()
+ 107:basic_sensors.c **** {
+ 108:basic_sensors.c **** 	TaskOne.task = Task1;
+ 109:basic_sensors.c **** 	nrk_task_set_stk( &TaskOne, Stack1, NRK_APP_STACKSIZE);
+ 110:basic_sensors.c **** 	TaskOne.prio = 1;
+ 111:basic_sensors.c **** 	TaskOne.FirstActivation = TRUE;
+ 112:basic_sensors.c **** 	TaskOne.Type = BASIC_TASK;
+ 113:basic_sensors.c **** 	TaskOne.SchType = PREEMPTIVE;
+ 114:basic_sensors.c **** 	TaskOne.period.secs = 0;
+ 115:basic_sensors.c **** 	TaskOne.period.nano_secs = 100*NANOS_PER_MS;
+ 116:basic_sensors.c **** 	TaskOne.cpu_reserve.secs = 0;
+ 117:basic_sensors.c **** 	TaskOne.cpu_reserve.nano_secs =  50*NANOS_PER_MS;
+ 118:basic_sensors.c **** 	TaskOne.offset.secs = 0;
+ 119:basic_sensors.c **** 	TaskOne.offset.nano_secs= 0;
+ 120:basic_sensors.c **** 	nrk_activate_task (&TaskOne);
+ 121:basic_sensors.c **** 
+ 122:basic_sensors.c **** }
+ 123:basic_sensors.c **** 
+ 124:basic_sensors.c **** void nrk_register_drivers()
+ 125:basic_sensors.c **** {
+ 144               	.LM0:
+ 145               	.LFBB1:
+ 146               	/* prologue: frame size=0 */
+ 147               	/* prologue end (size=0) */
+ 126:basic_sensors.c **** 	int8_t val;
+ 127:basic_sensors.c **** 
+ 128:basic_sensors.c **** 	// Register the Basic FireFly Sensor device driver
+ 129:basic_sensors.c **** 	// Make sure to add: 
+ 130:basic_sensors.c **** 	//     #define NRK_MAX_DRIVER_CNT  
+ 131:basic_sensors.c **** 	//     in nrk_cfg.h
+ 132:basic_sensors.c **** 	// Make sure to add: 
+ 133:basic_sensors.c **** 	//     SRC += $(ROOT_DIR)/src/drivers/platform/$(PLATFORM_TYPE)/source/ff_basic_sensor.c
+ 134:basic_sensors.c **** 	//     in makefile
+ 135:basic_sensors.c **** 	val=nrk_register_driver( &dev_manager_ff_sensors,FIREFLY_SENSOR_BASIC);
+ 149               	.LM1:
+ 150 0000 61E0      		ldi r22,lo8(1)
+ 151 0002 80E0      		ldi r24,lo8(pm(dev_manager_ff_sensors))
+ 152 0004 90E0      		ldi r25,hi8(pm(dev_manager_ff_sensors))
+ 153 0006 0E94 0000 		call nrk_register_driver
+ 136:basic_sensors.c **** 	if(val==NRK_ERROR) nrk_kprintf( PSTR("Failed to load my ADC driver\r\n") );
+ 155               	.LM2:
+ 156 000a 8F3F      		cpi r24,lo8(-1)
+ 157 000c 01F4      		brne .L4
+ 159               	.LM3:
+ 160 000e 80E0      		ldi r24,lo8(__c.2383)
+ 161 0010 90E0      		ldi r25,hi8(__c.2383)
+ 162 0012 0E94 0000 		call nrk_kprintf
+ 163               	.L4:
+ 164 0016 0895      		ret
+ 165               	/* epilogue: frame size=0 */
+ 166               	/* epilogue: noreturn */
+ 167               	/* epilogue end (size=0) */
+ 168               	/* function nrk_register_drivers size 12 (12) */
+ 170               	.Lscope1:
+ 172               		.stabd	78,0,0
+ 174               	.global	nrk_create_taskset
+ 176               	nrk_create_taskset:
+ 177               		.stabd	46,0,0
+ 179               	.LM4:
+ 180               	.LFBB2:
+ 181               	/* prologue: frame size=0 */
+ 182 0018 0F93      		push r16
+ 183 001a 1F93      		push r17
+ 184               	/* prologue end (size=2) */
+ 186               	.LM5:
+ 187 001c 80E0      		ldi r24,lo8(pm(Task1))
+ 188 001e 90E0      		ldi r25,hi8(pm(Task1))
+ 189 0020 9093 0000 		sts (TaskOne+5)+1,r25
+ 190 0024 8093 0000 		sts TaskOne+5,r24
+ 192               	.LM6:
+ 193 0028 00E0      		ldi r16,lo8(TaskOne)
+ 194 002a 10E0      		ldi r17,hi8(TaskOne)
+ 195 002c 40E8      		ldi r20,lo8(128)
+ 196 002e 50E0      		ldi r21,hi8(128)
+ 197 0030 60E0      		ldi r22,lo8(Stack1)
+ 198 0032 70E0      		ldi r23,hi8(Stack1)
+ 199 0034 C801      		movw r24,r16
+ 200 0036 0E94 0000 		call nrk_task_set_stk
+ 202               	.LM7:
+ 203 003a 81E0      		ldi r24,lo8(1)
+ 204 003c 8093 0000 		sts TaskOne+8,r24
+ 206               	.LM8:
+ 207 0040 8093 0000 		sts TaskOne+7,r24
+ 209               	.LM9:
+ 210 0044 8093 0000 		sts TaskOne+9,r24
+ 212               	.LM10:
+ 213 0048 8093 0000 		sts TaskOne+10,r24
+ 215               	.LM11:
+ 216 004c 1092 0000 		sts TaskOne+11,__zero_reg__
+ 217 0050 1092 0000 		sts (TaskOne+11)+1,__zero_reg__
+ 218 0054 1092 0000 		sts (TaskOne+11)+2,__zero_reg__
+ 219 0058 1092 0000 		sts (TaskOne+11)+3,__zero_reg__
+ 221               	.LM12:
+ 222 005c 80E0      		ldi r24,lo8(100000000)
+ 223 005e 91EE      		ldi r25,hi8(100000000)
+ 224 0060 A5EF      		ldi r26,hlo8(100000000)
+ 225 0062 B5E0      		ldi r27,hhi8(100000000)
+ 226 0064 8093 0000 		sts TaskOne+15,r24
+ 227 0068 9093 0000 		sts (TaskOne+15)+1,r25
+ 228 006c A093 0000 		sts (TaskOne+15)+2,r26
+ 229 0070 B093 0000 		sts (TaskOne+15)+3,r27
+ 231               	.LM13:
+ 232 0074 1092 0000 		sts TaskOne+19,__zero_reg__
+ 233 0078 1092 0000 		sts (TaskOne+19)+1,__zero_reg__
+ 234 007c 1092 0000 		sts (TaskOne+19)+2,__zero_reg__
+ 235 0080 1092 0000 		sts (TaskOne+19)+3,__zero_reg__
+ 237               	.LM14:
+ 238 0084 80E8      		ldi r24,lo8(50000000)
+ 239 0086 90EF      		ldi r25,hi8(50000000)
+ 240 0088 AAEF      		ldi r26,hlo8(50000000)
+ 241 008a B2E0      		ldi r27,hhi8(50000000)
+ 242 008c 8093 0000 		sts TaskOne+23,r24
+ 243 0090 9093 0000 		sts (TaskOne+23)+1,r25
+ 244 0094 A093 0000 		sts (TaskOne+23)+2,r26
+ 245 0098 B093 0000 		sts (TaskOne+23)+3,r27
+ 247               	.LM15:
+ 248 009c 1092 0000 		sts TaskOne+27,__zero_reg__
+ 249 00a0 1092 0000 		sts (TaskOne+27)+1,__zero_reg__
+ 250 00a4 1092 0000 		sts (TaskOne+27)+2,__zero_reg__
+ 251 00a8 1092 0000 		sts (TaskOne+27)+3,__zero_reg__
+ 253               	.LM16:
+ 254 00ac 1092 0000 		sts TaskOne+31,__zero_reg__
+ 255 00b0 1092 0000 		sts (TaskOne+31)+1,__zero_reg__
+ 256 00b4 1092 0000 		sts (TaskOne+31)+2,__zero_reg__
+ 257 00b8 1092 0000 		sts (TaskOne+31)+3,__zero_reg__
+ 259               	.LM17:
+ 260 00bc C801      		movw r24,r16
+ 261 00be 0E94 0000 		call nrk_activate_task
+ 262               	/* epilogue: frame size=0 */
+ 263 00c2 1F91      		pop r17
+ 264 00c4 0F91      		pop r16
+ 265 00c6 0895      		ret
+ 266               	/* epilogue end (size=3) */
+ 267               	/* function nrk_create_taskset size 88 (83) */
+ 269               	.Lscope2:
+ 271               		.stabd	78,0,0
+ 272               		.data
+ 273               	.LC0:
+ 274 0000 4D79 206E 		.string	"My node's address is %d\r\n"
+ 274      6F64 6527 
+ 274      7320 6164 
+ 274      6472 6573 
+ 274      7320 6973 
+ 275               	.LC1:
+ 276 001a 5461 736B 		.string	"Task1 PID=%d\r\n"
+ 276      3120 5049 
+ 276      443D 2564 
+ 276      0D0A 00
+ 277               	.LC2:
+ 278 0029 783D 2564 		.string	"x=%d,"
+ 278      2C00 
+ 279               	.LC3:
+ 280 002f 793D 2564 		.string	"y=%d,"
+ 280      2C00 
+ 281               	.LC4:
+ 282 0035 7A3D 2564 		.string	"z=%d\r\n"
+ 282      0D0A 00
+ 283               		.text
+ 285               	.global	Task1
+ 287               	Task1:
+ 288               		.stabd	46,0,0
+ 290               	.LM18:
+ 291               	.LFBB3:
+ 292               	/* prologue: frame size=2 */
+ 293 00c8 8F92      		push r8
+ 294 00ca 9F92      		push r9
+ 295 00cc AF92      		push r10
+ 296 00ce BF92      		push r11
+ 297 00d0 CF92      		push r12
+ 298 00d2 DF92      		push r13
+ 299 00d4 EF92      		push r14
+ 300 00d6 FF92      		push r15
+ 301 00d8 1F93      		push r17
+ 302 00da CF93      		push r28
+ 303 00dc DF93      		push r29
+ 304 00de CDB7      		in r28,__SP_L__
+ 305 00e0 DEB7      		in r29,__SP_H__
+ 306 00e2 2297      		sbiw r28,2
+ 307 00e4 0FB6      		in __tmp_reg__,__SREG__
+ 308 00e6 F894      		cli
+ 309 00e8 DEBF      		out __SP_H__,r29
+ 310 00ea 0FBE      		out __SREG__,__tmp_reg__
+ 311 00ec CDBF      		out __SP_L__,r28
+ 312               	/* prologue end (size=19) */
+ 314               	.LM19:
+ 315 00ee 1F92      		push __zero_reg__
+ 316 00f0 1F92      		push __zero_reg__
+ 317 00f2 80E0      		ldi r24,lo8(.LC0)
+ 318 00f4 90E0      		ldi r25,hi8(.LC0)
+ 319 00f6 9F93      		push r25
+ 320 00f8 8F93      		push r24
+ 321 00fa 0E94 0000 		call printf
+ 323               	.LM20:
+ 324 00fe 0E94 0000 		call nrk_get_pid
+ 325 0102 9927      		clr r25
+ 326 0104 9F93      		push r25
+ 327 0106 8F93      		push r24
+ 328 0108 80E0      		ldi r24,lo8(.LC1)
+ 329 010a 90E0      		ldi r25,hi8(.LC1)
+ 330 010c 9F93      		push r25
+ 331 010e 8F93      		push r24
+ 332 0110 0E94 0000 		call printf
+ 334               	.LM21:
+ 335 0114 65E0      		ldi r22,lo8(5)
+ 336 0116 81E0      		ldi r24,lo8(1)
+ 337 0118 0E94 0000 		call nrk_open
+ 338 011c 182F      		mov r17,r24
+ 340               	.LM22:
+ 341 011e 8DB7      		in r24,__SP_L__
+ 342 0120 9EB7      		in r25,__SP_H__
+ 343 0122 0896      		adiw r24,8
+ 344 0124 0FB6      		in __tmp_reg__,__SREG__
+ 345 0126 F894      		cli
+ 346 0128 9EBF      		out __SP_H__,r25
+ 347 012a 0FBE      		out __SREG__,__tmp_reg__
+ 348 012c 8DBF      		out __SP_L__,r24
+ 349 012e 1F3F      		cpi r17,lo8(-1)
+ 350 0130 01F4      		brne .L8
+ 352               	.LM23:
+ 353 0132 80E0      		ldi r24,lo8(__c.2363)
+ 354 0134 90E0      		ldi r25,hi8(__c.2363)
+ 355 0136 0E94 0000 		call nrk_kprintf
+ 356               	.L8:
+ 358               	.LM24:
+ 359 013a 7E01      		movw r14,r28
+ 360 013c 0894      		sec
+ 361 013e E11C      		adc r14,__zero_reg__
+ 362 0140 F11C      		adc r15,__zero_reg__
+ 364               	.LM25:
+ 365 0142 20E0      		ldi r18,lo8(.LC2)
+ 366 0144 822E      		mov r8,r18
+ 367 0146 20E0      		ldi r18,hi8(.LC2)
+ 368 0148 922E      		mov r9,r18
+ 370               	.LM26:
+ 371 014a 90E0      		ldi r25,lo8(.LC3)
+ 372 014c A92E      		mov r10,r25
+ 373 014e 90E0      		ldi r25,hi8(.LC3)
+ 374 0150 B92E      		mov r11,r25
+ 376               	.LM27:
+ 377 0152 80E0      		ldi r24,lo8(.LC4)
+ 378 0154 C82E      		mov r12,r24
+ 379 0156 80E0      		ldi r24,hi8(.LC4)
+ 380 0158 D82E      		mov r13,r24
+ 381               	.L11:
+ 383               	.LM28:
+ 384 015a 81E0      		ldi r24,lo8(1)
+ 385 015c 90E0      		ldi r25,hi8(1)
+ 386 015e 0E94 0000 		call nrk_led_toggle
+ 388               	.LM29:
+ 389 0162 42E0      		ldi r20,lo8(2)
+ 390 0164 61E0      		ldi r22,lo8(1)
+ 391 0166 812F      		mov r24,r17
+ 392 0168 0E94 0000 		call nrk_set_status
+ 394               	.LM30:
+ 395 016c 42E0      		ldi r20,lo8(2)
+ 396 016e B701      		movw r22,r14
+ 397 0170 812F      		mov r24,r17
+ 398 0172 0E94 0000 		call nrk_read
+ 400               	.LM31:
+ 401 0176 8981      		ldd r24,Y+1
+ 402 0178 9A81      		ldd r25,Y+2
+ 403 017a 9F93      		push r25
+ 404 017c 8F93      		push r24
+ 405 017e 9F92      		push r9
+ 406 0180 8F92      		push r8
+ 407 0182 0E94 0000 		call printf
+ 409               	.LM32:
+ 410 0186 45E0      		ldi r20,lo8(5)
+ 411 0188 61E0      		ldi r22,lo8(1)
+ 412 018a 812F      		mov r24,r17
+ 413 018c 0E94 0000 		call nrk_set_status
+ 415               	.LM33:
+ 416 0190 42E0      		ldi r20,lo8(2)
+ 417 0192 B701      		movw r22,r14
+ 418 0194 812F      		mov r24,r17
+ 419 0196 0E94 0000 		call nrk_read
+ 421               	.LM34:
+ 422 019a 8981      		ldd r24,Y+1
+ 423 019c 9A81      		ldd r25,Y+2
+ 424 019e 9F93      		push r25
+ 425 01a0 8F93      		push r24
+ 426 01a2 BF92      		push r11
+ 427 01a4 AF92      		push r10
+ 428 01a6 0E94 0000 		call printf
+ 430               	.LM35:
+ 431 01aa 46E0      		ldi r20,lo8(6)
+ 432 01ac 61E0      		ldi r22,lo8(1)
+ 433 01ae 812F      		mov r24,r17
+ 434 01b0 0E94 0000 		call nrk_set_status
+ 436               	.LM36:
+ 437 01b4 42E0      		ldi r20,lo8(2)
+ 438 01b6 B701      		movw r22,r14
+ 439 01b8 812F      		mov r24,r17
+ 440 01ba 0E94 0000 		call nrk_read
+ 442               	.LM37:
+ 443 01be 8981      		ldd r24,Y+1
+ 444 01c0 9A81      		ldd r25,Y+2
+ 445 01c2 9F93      		push r25
+ 446 01c4 8F93      		push r24
+ 447 01c6 DF92      		push r13
+ 448 01c8 CF92      		push r12
+ 449 01ca 0E94 0000 		call printf
+ 451               	.LM38:
+ 452 01ce 0E94 0000 		call nrk_wait_until_next_period
+ 454               	.LM39:
+ 455 01d2 8DB7      		in r24,__SP_L__
+ 456 01d4 9EB7      		in r25,__SP_H__
+ 457 01d6 0C96      		adiw r24,12
+ 458 01d8 0FB6      		in __tmp_reg__,__SREG__
+ 459 01da F894      		cli
+ 460 01dc 9EBF      		out __SP_H__,r25
+ 461 01de 0FBE      		out __SREG__,__tmp_reg__
+ 462 01e0 8DBF      		out __SP_L__,r24
+ 463 01e2 00C0      		rjmp .L11
+ 464               	/* epilogue: frame size=2 */
+ 465               	/* epilogue: noreturn */
+ 466               	/* epilogue end (size=0) */
+ 467               	/* function Task1 size 142 (123) */
+ 473               	.Lscope3:
+ 475               		.stabd	78,0,0
+ 476               		.data
+ 477               	.LC5:
+ 478 003c 5374 6172 		.string	"Starting up...\r"
+ 478      7469 6E67 
+ 478      2075 702E 
+ 478      2E2E 0D00 
+ 479               		.text
+ 481               	.global	main
+ 483               	main:
+ 484               		.stabd	46,0,0
+ 486               	.LM40:
+ 487               	.LFBB4:
+ 488               	/* prologue: frame size=0 */
+ 489 01e4 C0E0      		ldi r28,lo8(__stack - 0)
+ 490 01e6 D0E0      		ldi r29,hi8(__stack - 0)
+ 491 01e8 DEBF      		out __SP_H__,r29
+ 492 01ea CDBF      		out __SP_L__,r28
+ 493               	/* prologue end (size=4) */
+ 495               	.LM41:
+ 496 01ec 0E94 0000 		call nrk_setup_ports
+ 498               	.LM42:
+ 499 01f0 87E0      		ldi r24,lo8(7)
+ 500 01f2 90E0      		ldi r25,hi8(7)
+ 501 01f4 0E94 0000 		call nrk_setup_uart
+ 503               	.LM43:
+ 504 01f8 80E0      		ldi r24,lo8(.LC5)
+ 505 01fa 90E0      		ldi r25,hi8(.LC5)
+ 506 01fc 0E94 0000 		call puts
+ 508               	.LM44:
+ 509 0200 0E94 0000 		call nrk_init
+ 511               	.LM45:
+ 512 0204 20E0      		ldi r18,lo8(0)
+ 513 0206 30E0      		ldi r19,hi8(0)
+ 514 0208 40E0      		ldi r20,hlo8(0)
+ 515 020a 50E0      		ldi r21,hhi8(0)
+ 516 020c 60E0      		ldi r22,lo8(0)
+ 517 020e 70E0      		ldi r23,hi8(0)
+ 518 0210 80E0      		ldi r24,hlo8(0)
+ 519 0212 90E0      		ldi r25,hhi8(0)
+ 520 0214 0E94 0000 		call nrk_time_set
+ 522               	.LM46:
+ 523 0218 0E94 0000 		call nrk_register_drivers
+ 525               	.LM47:
+ 526 021c 0E94 0000 		call nrk_create_taskset
+ 528               	.LM48:
+ 529 0220 0E94 0000 		call nrk_start
+ 531               	.LM49:
+ 532 0224 80E0      		ldi r24,lo8(0)
+ 533 0226 90E0      		ldi r25,hi8(0)
+ 534               	/* epilogue: frame size=0 */
+ 535 0228 0C94 0000 		jmp exit
+ 536               	/* epilogue end (size=2) */
+ 537               	/* function main size 36 (30) */
+ 539               	.Lscope4:
+ 541               		.stabd	78,0,0
+ 542               		.section	.progmem.data,"a",@progbits
+ 545               	__c.2383:
+ 546 0000 4661 696C 		.string	"Failed to load my ADC driver\r\n"
+ 546      6564 2074 
+ 546      6F20 6C6F 
+ 546      6164 206D 
+ 546      7920 4144 
+ 549               	__c.2363:
+ 550 001f 4661 696C 		.string	"Failed to open sensor driver\r\n"
+ 550      6564 2074 
+ 550      6F20 6F70 
+ 550      656E 2073 
+ 550      656E 736F 
+ 551               		.comm _nrk_signal_list,4,1
+ 552               		.comm nrk_idle_task_stk,128,1
+ 553               		.comm nrk_kernel_stk_ptr,2,1
+ 554               		.comm error_task,1,1
+ 555               		.comm error_num,1,1
+ 556               		.comm _nrk_prev_timer_val,1,1
+ 557               		.comm _nrk_time_trigger,1,1
+ 558               		.comm app_timer0_callback,2,1
+ 559               		.comm app_timer0_prescale,1,1
+ 560               		.comm Stack1,128,1
+ 561               		.comm TaskOne,35,1
+ 575               		.text
+ 577               	.Letext0:
+ 578               	/* File "basic_sensors.c": code  278 = 0x0116 ( 248), prologues  25, epilogues   5 */
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 basic_sensors.c
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:141    .text:0000000000000000 nrk_register_drivers
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:545    .progmem.data:0000000000000000 __c.2383
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:176    .text:0000000000000018 nrk_create_taskset
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:287    .text:00000000000000c8 Task1
+                            *COM*:0000000000000023 TaskOne
+                            *COM*:0000000000000080 Stack1
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:549    .progmem.data:000000000000001f __c.2363
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccTWktyL.s:483    .text:00000000000001e4 main
+                            *COM*:0000000000000004 _nrk_signal_list
+                            *COM*:0000000000000080 nrk_idle_task_stk
+                            *COM*:0000000000000002 nrk_kernel_stk_ptr
+                            *COM*:0000000000000001 error_task
+                            *COM*:0000000000000001 error_num
+                            *COM*:0000000000000001 _nrk_prev_timer_val
+                            *COM*:0000000000000001 _nrk_time_trigger
+                            *COM*:0000000000000002 app_timer0_callback
+                            *COM*:0000000000000001 app_timer0_prescale
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+dev_manager_ff_sensors
+nrk_register_driver
+nrk_kprintf
+nrk_task_set_stk
+nrk_activate_task
+printf
+nrk_get_pid
+nrk_open
+nrk_led_toggle
+nrk_set_status
+nrk_read
+nrk_wait_until_next_period
+__stack
+nrk_setup_ports
+nrk_setup_uart
+puts
+nrk_init
+nrk_time_set
+nrk_start
+exit
