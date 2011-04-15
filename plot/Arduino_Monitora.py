@@ -22,25 +22,25 @@ def receiving(ser):
 			buffer = lines[-1]
 
 
-	class SerialData(object):
-		def __init__(self, init=20):
-			try:
-				self.ser = ser = serial.Serial(
-						port='/dev/tty.usbserial-000013FDA',#TODO Change Dev Sig
-						baudrate=115200,#TODO Change Baud Rate
-						bytesize=serial.EIGHTBITS,
-						parity=serial.PARITY_NONE,
-						stopbits=serial.STOPBITS_ONE,
-						timeout=0.1,
-						xonxoff=0,
-						rtscts=0,
-						interCharTimeout=None
-						)
-			except serial.serialutil.SerialException:
+class SerialData(object):
+	def __init__(self, init=20):
+		try:
+			self.ser = ser = serial.Serial(
+					port='/dev/tty.usbserial-000013FDA',#TODO Change Dev Sig
+					baudrate=115200,#TODO Change Baud Rate
+					bytesize=serial.EIGHTBITS,
+					parity=serial.PARITY_NONE,
+					stopbits=serial.STOPBITS_ONE,
+					timeout=0.1,
+					xonxoff=0,
+					rtscts=0,
+					interCharTimeout=None
+					)
+		except serial.serialutil.SerialException:
 #no serial connection
-				self.ser = None
-			else:
-				Thread(target=receiving, args=(self.ser,)).start()
+			self.ser = None
+		else:
+			Thread(target=receiving, args=(self.ser,)).start()
 
 	def next(self):
 		if not self.ser:
@@ -63,10 +63,10 @@ def receiving(ser):
 	
 	def __del__(self):
 		if self.ser:
-		self.ser.close()
+			self.ser.close()
 
-		if __name__=='__main__':
-s = SerialData()
+if __name__=='__main__':
+	s = SerialData()
 	for i in range(1000):
-	time.sleep(.03)
-	print s.next()
+		time.sleep(.03)
+		print s.next()
