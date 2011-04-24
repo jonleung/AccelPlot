@@ -2271,74 +2271,74 @@
  2249               	/* File "../../../src/net/bmac/bmac.c": code 1078 = 0x0436 ( 998), prologues  26, epilogues  54 */
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 bmac.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:144    .text:0000000000000000 rf_rx_callback
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:164    .text:0000000000000002 bmac_tx_reserve_set
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:186    .text:0000000000000008 bmac_tx_reserve_get
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:209    .text:000000000000000e bmac_addr_decode_dest_mac
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:144    .text:0000000000000000 rf_rx_callback
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:164    .text:0000000000000002 bmac_tx_reserve_set
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:186    .text:0000000000000008 bmac_tx_reserve_get
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:209    .text:000000000000000e bmac_addr_decode_dest_mac
                             *COM*:0000000000000007 bmac_rfTxInfo
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:236    .text:000000000000001c bmac_set_cca_active
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2197   .bss:00000000000000b5 cca_active
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:259    .text:0000000000000022 bmac_rx_pkt_set_buffer
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:236    .text:000000000000001c bmac_set_cca_active
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2197   .bss:00000000000000b5 cca_active
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:259    .text:0000000000000022 bmac_rx_pkt_set_buffer
                             *COM*:0000000000000009 bmac_rfRxInfo
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2191   .bss:00000000000000a8 rx_buf_empty
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:305    .text:0000000000000044 bmac_tx_pkt_nonblocking
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2190   .bss:00000000000000a7 tx_data_ready
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:351    .text:000000000000006c bmac_rx_pkt_ready
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:382    .text:0000000000000080 bmac_rx_pkt_release
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:409    .text:000000000000008c bmac_set_rx_check_rate
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2196   .bss:00000000000000ad _bmac_check_period
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:496    .text:0000000000000114 bmac_started
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2192   .bss:00000000000000a9 bmac_running
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:520    .text:0000000000000120 bmac_rx_failure_count_get
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2189   .bss:00000000000000a3 rx_failure_cnt
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:542    .text:000000000000012a bmac_rx_failure_count_reset
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:571    .text:0000000000000140 _b_pow
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:628    .text:0000000000000166 bmac_task_config
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2191   .bss:00000000000000a8 rx_buf_empty
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:305    .text:0000000000000044 bmac_tx_pkt_nonblocking
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2190   .bss:00000000000000a7 tx_data_ready
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:351    .text:000000000000006c bmac_rx_pkt_ready
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:382    .text:0000000000000080 bmac_rx_pkt_release
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:409    .text:000000000000008c bmac_set_rx_check_rate
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2196   .bss:00000000000000ad _bmac_check_period
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:496    .text:0000000000000114 bmac_started
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2192   .bss:00000000000000a9 bmac_running
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:520    .text:0000000000000120 bmac_rx_failure_count_get
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2189   .bss:00000000000000a3 rx_failure_cnt
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:542    .text:000000000000012a bmac_rx_failure_count_reset
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:571    .text:0000000000000140 _b_pow
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:628    .text:0000000000000166 bmac_task_config
                              .bss:0000000000000000 bmac_task
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2044   .text:00000000000007b0 bmac_nw_task
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2188   .bss:0000000000000023 bmac_task_stack
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:728    .text:0000000000000216 _bmac_channel_check
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:782    .text:0000000000000246 _bmac_tx
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2193   .bss:00000000000000aa pkt_got_ack
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2044   .text:00000000000007b0 bmac_nw_task
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2188   .bss:0000000000000023 bmac_task_stack
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:728    .text:0000000000000216 _bmac_channel_check
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:782    .text:0000000000000246 _bmac_tx
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2193   .bss:00000000000000aa pkt_got_ack
                             *COM*:0000000000000001 bmac_tx_pkt_done_signal
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:954    .text:0000000000000356 _bmac_rx
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2194   .bss:00000000000000ab g_chan
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1106   .text:000000000000044c bmac_get_tx_done_signal
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1134   .text:0000000000000460 bmac_get_rx_pkt_signal
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:954    .text:0000000000000356 _bmac_rx
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2194   .bss:00000000000000ab g_chan
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1106   .text:000000000000044c bmac_get_tx_done_signal
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1134   .text:0000000000000460 bmac_get_rx_pkt_signal
                             *COM*:0000000000000001 bmac_rx_pkt_signal
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1164   .text:0000000000000474 bmac_tx_pkt
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2174   .progmem.data:000000000000003f __c.2735
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2170   .progmem.data:000000000000001c __c.2737
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1274   .text:0000000000000516 bmac_enable
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2195   .bss:00000000000000ac is_enabled
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1164   .text:0000000000000474 bmac_tx_pkt
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2174   .progmem.data:000000000000003f __c.2735
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2170   .progmem.data:000000000000001c __c.2737
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1274   .text:0000000000000516 bmac_enable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2195   .bss:00000000000000ac is_enabled
                             *COM*:0000000000000001 bmac_enable_signal
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1303   .text:000000000000052a bmac_disable
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1328   .text:0000000000000534 bmac_set_channel
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1375   .text:000000000000055a bmac_init
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2198   .bss:00000000000000b6 tx_reserve
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2186   .progmem.data:00000000000000b7 __c.2639
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2182   .progmem.data:000000000000008f __c.2641
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2178   .progmem.data:0000000000000063 __c.2643
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1589   .text:000000000000069c bmac_set_cca_thresh
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1615   .text:00000000000006a6 bmac_set_rf_power
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1651   .text:00000000000006ba bmac_encryption_disable
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1676   .text:00000000000006c4 bmac_encryption_enable
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1703   .text:00000000000006ce bmac_encryption_set_key
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1739   .text:00000000000006e2 bmac_rx_pkt_is_encrypted
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1766   .text:00000000000006ee bmac_addr_decode_set_my_mac
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1791   .text:00000000000006f8 bmac_addr_decode_enable
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1816   .text:0000000000000702 bmac_addr_decode_disable
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1841   .text:000000000000070c bmac_auto_ack_enable
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1866   .text:0000000000000716 bmac_auto_ack_disable
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1893   .text:0000000000000720 bmac_encryption_set_ctr_counter
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1929   .text:0000000000000734 bmac_wait_until_rx_pkt
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:1994   .text:0000000000000784 bmac_rx_pkt_get
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc4Jvajw.s:2166   .progmem.data:0000000000000000 __c.2781
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1303   .text:000000000000052a bmac_disable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1328   .text:0000000000000534 bmac_set_channel
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1375   .text:000000000000055a bmac_init
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2198   .bss:00000000000000b6 tx_reserve
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2186   .progmem.data:00000000000000b7 __c.2639
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2182   .progmem.data:000000000000008f __c.2641
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2178   .progmem.data:0000000000000063 __c.2643
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1589   .text:000000000000069c bmac_set_cca_thresh
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1615   .text:00000000000006a6 bmac_set_rf_power
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1651   .text:00000000000006ba bmac_encryption_disable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1676   .text:00000000000006c4 bmac_encryption_enable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1703   .text:00000000000006ce bmac_encryption_set_key
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1739   .text:00000000000006e2 bmac_rx_pkt_is_encrypted
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1766   .text:00000000000006ee bmac_addr_decode_set_my_mac
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1791   .text:00000000000006f8 bmac_addr_decode_enable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1816   .text:0000000000000702 bmac_addr_decode_disable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1841   .text:000000000000070c bmac_auto_ack_enable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1866   .text:0000000000000716 bmac_auto_ack_disable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1893   .text:0000000000000720 bmac_encryption_set_ctr_counter
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1929   .text:0000000000000734 bmac_wait_until_rx_pkt
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:1994   .text:0000000000000784 bmac_rx_pkt_get
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckkhNpz.s:2166   .progmem.data:0000000000000000 __c.2781
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000080 nrk_idle_task_stk
                             *COM*:0000000000000002 nrk_kernel_stk_ptr

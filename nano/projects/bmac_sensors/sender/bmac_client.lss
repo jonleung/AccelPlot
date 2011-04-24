@@ -342,11 +342,11 @@ void nrk_create_taskset ()
      546:	10 92 04 06 	sts	0x0604, r1
      54a:	10 92 05 06 	sts	0x0605, r1
      54e:	10 92 06 06 	sts	0x0606, r1
-   TX_TASK.period.nano_secs = 250* NANOS_PER_MS;
-     552:	80 e8       	ldi	r24, 0x80	; 128
-     554:	92 eb       	ldi	r25, 0xB2	; 178
-     556:	a6 ee       	ldi	r26, 0xE6	; 230
-     558:	be e0       	ldi	r27, 0x0E	; 14
+   TX_TASK.period.nano_secs = 5 * NANOS_PER_MS;//250* NANOS_PER_MS;
+     552:	80 e4       	ldi	r24, 0x40	; 64
+     554:	9b e4       	ldi	r25, 0x4B	; 75
+     556:	ac e4       	ldi	r26, 0x4C	; 76
+     558:	b0 e0       	ldi	r27, 0x00	; 0
      55a:	80 93 07 06 	sts	0x0607, r24
      55e:	90 93 08 06 	sts	0x0608, r25
      562:	a0 93 09 06 	sts	0x0609, r26

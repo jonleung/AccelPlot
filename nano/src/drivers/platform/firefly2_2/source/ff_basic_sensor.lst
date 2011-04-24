@@ -11,322 +11,322 @@
  137               	.global	init_adc
  139               	init_adc:
  140               		.stabd	46,0,0
-   1:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** /******************************************************************************
-   2:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Nano-RK, a real-time operating system for sensor networks.
-   3:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Copyright (C) 2007, Real-Time and Multimedia Lab, Carnegie Mellon University
-   4:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  All rights reserved.
-   5:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
-   6:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  This is the Open Source Version of Nano-RK included as part of a Dual
-   7:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Licensing Model. If you are unsure which license to use please refer to:
-   8:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  http://www.nanork.org/nano-RK/wiki/Licensing
-   9:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
-  10:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  This program is free software: you can redistribute it and/or modify
-  11:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  it under the terms of the GNU General Public License as published by
-  12:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  the Free Software Foundation, version 2.0 of the License.
-  13:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
-  14:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  This program is distributed in the hope that it will be useful,
-  15:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  16:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  17:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  GNU General Public License for more details.
-  18:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
-  19:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  You should have received a copy of the GNU General Public License
-  20:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  21:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
-  22:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Contributing Authors (specific to this file):
-  23:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Anthony Rowe
-  24:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Zane Starr
-  25:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *******************************************************************************/
-  26:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  27:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  28:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk_driver_list.h>
-  29:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk_driver.h>
-  30:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <ff_basic_sensor.h>
-  31:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <include.h>
-  32:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <stdio.h>
-  33:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <ulib.h>
-  34:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk_error.h>
-  35:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk.h>
-  36:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <stdint.h>
-  37:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <basic_rf.h>
-  38:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk_timer.h>
-  39:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  40:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_STARTUP_DELAY  1000
-  41:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_SETUP_DELAY  200
-  42:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  43:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t channel;
-  44:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t is_open;
-  45:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  46:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // VREF is set to VCC by default
-  47:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_INIT() \
-  48:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     do { \
-  49:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADCSRA = BM(ADPS0) | BM(ADPS1); \
-  50:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX = BM(REFS0);  \
-  51:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while (0)
-  52:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  53:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_VREF_VCC() \
-  54:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****    do { \
-  55:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX &= ~(BM(REFS1));  \
-  56:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX |= BM(REFS0);  \
-  57:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while(0)
-  58:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  59:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  60:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_VREF_1_1() \
-  61:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****    do { \
-  62:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX &= ~(BM(REFS0));  \
-  63:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX |= BM(REFS1);  \
-  64:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while(0)
-  65:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  66:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  67:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_VREF_2_56() \
-  68:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****    do { \
-  69:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX |= BM(REFS1) | BM(REFS0);  \
-  70:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while(0)
-  71:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  72:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_SET_CHANNEL(channel) do { ADMUX &= ~0x1F; ADMUX |= (ADMUX & ~0x1F) | (channel); } while
-  73:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  74:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // Enables/disables the ADC
-  75:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_ENABLE() do { ADCSRA |= BM(ADEN); } while (0)
-  76:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_DISABLE() do { ADCSRA &= ~BM(ADEN); } while (0)
-  77:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  78:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_SAMPLE_SINGLE() \
-  79:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     do { \
-  80:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** ADCSRA |= BM(ADSC); \
-  81:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** while (!(ADCSRA & 0x10)); \
-  82:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while(0)
-  83:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  84:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // Macros for obtaining the latest sample value
-  85:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_GET_SAMPLE_10(x) \
-  86:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** do { \
-  87:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** x =  ADCL; \
-  88:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** x |= ADCH << 8; \
-  89:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while (0)
-  90:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  91:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_GET_SAMPLE_8(x) \
-  92:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** do { \
-  93:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** x = ((uint8_t) ADCL) >> 2; \
-  94:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** x |= ((int8_t) ADCH) << 6; \
-  95:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while (0)
-  96:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
-  97:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint16_t read_voltage_status();
-  98:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t dev_manager_ff_sensors(uint8_t action,uint8_t opt,uint8_t *buffer,uint8_t size)
-  99:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
- 100:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t count=0;
- 101:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // key and value get passed as opt and size
- 102:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t key=opt;
- 103:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t value=size;
- 104:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 105:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****      switch(action)
- 106:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****      {
- 107:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****             case INIT: 
- 108:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			// Set the pwr ctrl pin as output
- 109:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			DDRF = PWR_CTRL_MASK;
- 110:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			PORTF |= PWR_CTRL_MASK;
- 111:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     		init_adc();  
- 112:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			is_open=0;
- 113:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		      return 1;
- 114:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     
- 115:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	    case OPEN:  
- 116:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(is_open==1) return NRK_ERROR;
- 117:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    is_open=1; 
- 118:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(opt&READ_FLAG)
- 119:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    {
- 120:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		   	// Turn on Sensor Node Power
- 121:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			PORTF &= ~(PWR_CTRL_MASK);
- 122:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			channel=0;
- 123:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			ADC_SET_CHANNEL (0);
- 124:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			nrk_spin_wait_us(ADC_STARTUP_DELAY);
- 125:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	return NRK_OK;
- 126:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    }
- 127:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(opt&WRITE_FLAG)
- 128:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    {
- 129:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	return NRK_ERROR;
- 130:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    }
- 131:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(opt&APPEND_FLAG)
- 132:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    {
- 133:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	return NRK_ERROR;
- 134:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    }
- 135:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(((opt)&(READ_FLAG|WRITE_FLAG|APPEND_FLAG))==0)
- 136:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	return NRK_ERROR;
- 137:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    else return NRK_OK;
- 138:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		
- 139:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	    
- 140:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 141:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****              case READ:
- 142:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     	      count=0;
- 143:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		      if(size!=1 && size!=2) return 0;
- 144:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(channel!=BAT && channel<7)
- 145:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			{
- 146:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      /* Conversion to 8-bit value*/
- 147:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      uint16_t val=get_adc_val();
- 148:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 149:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(size==2)
- 150:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      	{
- 151:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=val  & 0xFF;
- 152:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		count++;
- 153:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		buffer[count]=(val>>8)  & 0xFF;
- 154:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
- 155:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 156:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(size==1)
- 157:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      	{
- 158:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		buffer[count]=(val>>2)  & 0xFF;
- 159:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
- 160:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 161:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 162:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			} else if(channel==BAT)
- 163:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			{
- 164:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			uint16_t tmp;
- 165:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			tmp=read_voltage_status();
- 166:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(size==2)
- 167:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				{
- 168:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=tmp & 0xFF;
- 169:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					count++;
- 170:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=(tmp>>8) & 0xFF;
- 171:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
- 172:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(size==1)
- 173:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				{
- 174:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=(tmp>>2) & 0xFF;
- 175:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
- 176:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			}else if(channel==AUDIO_P2P)
- 177:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			{
- 178:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			/* Conversion to 8-bit value*/
- 179:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      //uint16_t val=get_adc_val();
- 180:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      uint16_t val,min, max;
- 181:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      uint8_t i;
- 182:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				max=0;
- 183:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			        min=1025;
- 184:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      for(i=0; i<64; i++ )
- 185:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				{
- 186:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				val=get_adc_val();
- 187:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(val<min)min=val;
- 188:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(val>max)max=val;
- 189:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				// 8 Khz
- 190:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				nrk_spin_wait_us(125);	
- 191:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
- 192:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			 	val=max-min;	
- 193:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(size==2)
- 194:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      	{
- 195:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=val  & 0xFF;
- 196:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		count++;
- 197:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		buffer[count]=(val>>8)  & 0xFF;
- 198:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
- 199:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 200:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(size==1)
- 201:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      	{
- 202:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		buffer[count]=(val>>2)  & 0xFF;
- 203:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
- 204:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 205:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			}
- 206:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			
- 207:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		      count++;
- 208:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****                       return count;
- 209:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 210:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****              case CLOSE:
- 211:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			// Turn off sensor power
- 212:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			PORTF |= PWR_CTRL_MASK;
- 213:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	is_open=0; 
- 214:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****                         return NRK_OK;
- 215:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****              
- 216:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     case GET_STATUS:
- 217:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     		// use "key" here 
- 218:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(key==SENSOR_SELECT) return channel;
- 219:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     		return NRK_ERROR;
- 220:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			
- 221:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****              case SET_STATUS:
- 222:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     		// use "key" and "value" here
- 223:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			if(key==SENSOR_SELECT) 
- 224:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			{
- 225:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			// Set to audio channel if it is an average value
- 226:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(value==AUDIO_P2P) 
- 227:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			  {
- 228:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				channel=value;
- 229:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				   //ADC_VREF_2_56();	
- 230:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				ADC_VREF_VCC();	
- 231:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				ADC_SET_CHANNEL (AUDIO);
- 232:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				nrk_spin_wait_us(ADC_SETUP_DELAY);
- 233:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				return NRK_OK;
- 234:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 235:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			  } else
- 236:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			  {
- 237:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(value>7) 
- 238:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				{
- 239:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					_nrk_errno_set(1);
- 240:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					return NRK_ERROR;
- 241:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
- 242:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				channel=value;
- 243:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(channel==LIGHT)
- 244:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				   ADC_VREF_VCC();	
- 245:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				else
- 246:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				   ADC_VREF_2_56();	
- 247:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				ADC_SET_CHANNEL (channel);
- 248:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				nrk_spin_wait_us(ADC_SETUP_DELAY);
- 249:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				return NRK_OK;
- 250:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			  }
- 251:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			}
- 252:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			return NRK_ERROR;
- 253:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     default:
- 254:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		nrk_kernel_error_add(NRK_DEVICE_DRIVER,0);
- 255:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		 return 0;
- 256:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	}
- 257:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
- 258:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 259:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 260:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // read_voltage_status()
- 261:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** //
- 262:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // This function sets different voltage threshold levels on
- 263:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // the cc2420 chip to search for the voltage.
- 264:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // If the voltage is above 3.3 volts, then the ADC reads
- 265:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // the external voltage value going through a voltage divider.
- 266:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // This function will return VOLTS*100
- 267:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint16_t read_voltage_status()
- 268:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
- 269:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** volatile uint16_t val;
- 270:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t check,level;
- 271:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** nrk_sem_t *radio_sem;
- 272:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 273:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** radio_sem= rf_get_sem();
- 274:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 275:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // if semaphore not created, then assume you own the radio 
- 276:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** if(radio_sem!=NULL)
- 277:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****  nrk_sem_pend (radio_sem);
- 278:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 279:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     // activate cc2420 vreg
- 280:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     SET_VREG_ACTIVE();
- 281:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     // FIXME: Check at end if VREG needs to be disabled again...
- 282:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 283:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** level=0;
- 284:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** while(level<0x1F)
- 285:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
- 286:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** val=0x0020 | level;
- 287:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** FASTSPI_SETREG(CC2420_BATTMON, val);
- 288:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** nrk_spin_wait_us(2);
- 289:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** FASTSPI_GETREG(CC2420_BATTMON, val);
- 290:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** if(val&0x0040) break; 
- 291:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** level++;
- 292:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
- 293:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** if(radio_sem!=NULL)
- 294:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****  nrk_sem_post(radio_sem);
- 295:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** if(level==0)
- 296:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   {
- 297:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   val=get_adc_val();
- 298:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   // FIXME:  This probably isn't correct...
- 299:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   if(val>174) val-=174;
- 300:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   if(val<330) val=330;
- 301:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   }
- 302:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** else val=(9000-(level*125)) / 27;
- 303:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 304:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** return val;
- 305:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
- 306:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 307:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 308:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 309:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** void init_adc()
- 310:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
+   1:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** /******************************************************************************
+   2:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Nano-RK, a real-time operating system for sensor networks.
+   3:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Copyright (C) 2007, Real-Time and Multimedia Lab, Carnegie Mellon University
+   4:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  All rights reserved.
+   5:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
+   6:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  This is the Open Source Version of Nano-RK included as part of a Dual
+   7:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Licensing Model. If you are unsure which license to use please refer to:
+   8:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  http://www.nanork.org/nano-RK/wiki/Licensing
+   9:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
+  10:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  This program is free software: you can redistribute it and/or modify
+  11:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  it under the terms of the GNU General Public License as published by
+  12:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  the Free Software Foundation, version 2.0 of the License.
+  13:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
+  14:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  This program is distributed in the hope that it will be useful,
+  15:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  16:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  17:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  GNU General Public License for more details.
+  18:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
+  19:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  You should have received a copy of the GNU General Public License
+  20:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  21:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *
+  22:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Contributing Authors (specific to this file):
+  23:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Anthony Rowe
+  24:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *  Zane Starr
+  25:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** *******************************************************************************/
+  26:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  27:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  28:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk_driver_list.h>
+  29:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk_driver.h>
+  30:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <ff_basic_sensor.h>
+  31:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <include.h>
+  32:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <stdio.h>
+  33:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <ulib.h>
+  34:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk_error.h>
+  35:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk.h>
+  36:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <stdint.h>
+  37:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <basic_rf.h>
+  38:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #include <nrk_timer.h>
+  39:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  40:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_STARTUP_DELAY  1000
+  41:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_SETUP_DELAY  200
+  42:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  43:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t channel;
+  44:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t is_open;
+  45:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  46:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // VREF is set to VCC by default
+  47:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_INIT() \
+  48:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     do { \
+  49:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADCSRA = BM(ADPS0) | BM(ADPS1); \
+  50:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX = BM(REFS0);  \
+  51:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while (0)
+  52:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  53:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_VREF_VCC() \
+  54:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****    do { \
+  55:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX &= ~(BM(REFS1));  \
+  56:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX |= BM(REFS0);  \
+  57:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while(0)
+  58:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  59:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  60:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_VREF_1_1() \
+  61:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****    do { \
+  62:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX &= ~(BM(REFS0));  \
+  63:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX |= BM(REFS1);  \
+  64:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while(0)
+  65:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  66:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  67:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_VREF_2_56() \
+  68:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****    do { \
+  69:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADMUX |= BM(REFS1) | BM(REFS0);  \
+  70:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while(0)
+  71:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  72:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_SET_CHANNEL(channel) do { ADMUX &= ~0x1F; ADMUX |= (ADMUX & ~0x1F) | (channel); } while
+  73:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  74:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // Enables/disables the ADC
+  75:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_ENABLE() do { ADCSRA |= BM(ADEN); } while (0)
+  76:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_DISABLE() do { ADCSRA &= ~BM(ADEN); } while (0)
+  77:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  78:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_SAMPLE_SINGLE() \
+  79:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     do { \
+  80:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** ADCSRA |= BM(ADSC); \
+  81:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** while (!(ADCSRA & 0x10)); \
+  82:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while(0)
+  83:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  84:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // Macros for obtaining the latest sample value
+  85:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_GET_SAMPLE_10(x) \
+  86:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** do { \
+  87:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** x =  ADCL; \
+  88:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** x |= ADCH << 8; \
+  89:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while (0)
+  90:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  91:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** #define ADC_GET_SAMPLE_8(x) \
+  92:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** do { \
+  93:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** x = ((uint8_t) ADCL) >> 2; \
+  94:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** x |= ((int8_t) ADCH) << 6; \
+  95:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** } while (0)
+  96:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+  97:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint16_t read_voltage_status();
+  98:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t dev_manager_ff_sensors(uint8_t action,uint8_t opt,uint8_t *buffer,uint8_t size)
+  99:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
+ 100:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t count=0;
+ 101:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // key and value get passed as opt and size
+ 102:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t key=opt;
+ 103:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t value=size;
+ 104:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 105:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****      switch(action)
+ 106:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****      {
+ 107:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****             case INIT: 
+ 108:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			// Set the pwr ctrl pin as output
+ 109:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			DDRF = PWR_CTRL_MASK;
+ 110:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			PORTF |= PWR_CTRL_MASK;
+ 111:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     		init_adc();  
+ 112:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			is_open=0;
+ 113:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		      return 1;
+ 114:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     
+ 115:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	    case OPEN:  
+ 116:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(is_open==1) return NRK_ERROR;
+ 117:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    is_open=1; 
+ 118:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(opt&READ_FLAG)
+ 119:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    {
+ 120:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		   	// Turn on Sensor Node Power
+ 121:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			PORTF &= ~(PWR_CTRL_MASK);
+ 122:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			channel=0;
+ 123:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			ADC_SET_CHANNEL (0);
+ 124:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			nrk_spin_wait_us(ADC_STARTUP_DELAY);
+ 125:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	return NRK_OK;
+ 126:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    }
+ 127:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(opt&WRITE_FLAG)
+ 128:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    {
+ 129:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	return NRK_ERROR;
+ 130:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    }
+ 131:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(opt&APPEND_FLAG)
+ 132:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    {
+ 133:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	return NRK_ERROR;
+ 134:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    }
+ 135:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    if(((opt)&(READ_FLAG|WRITE_FLAG|APPEND_FLAG))==0)
+ 136:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	return NRK_ERROR;
+ 137:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    else return NRK_OK;
+ 138:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		
+ 139:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	    
+ 140:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 141:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****              case READ:
+ 142:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     	      count=0;
+ 143:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		      if(size!=1 && size!=2) return 0;
+ 144:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(channel!=BAT && channel<7)
+ 145:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			{
+ 146:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      /* Conversion to 8-bit value*/
+ 147:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      uint16_t val=get_adc_val();
+ 148:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 149:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(size==2)
+ 150:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      	{
+ 151:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=val  & 0xFF;
+ 152:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		count++;
+ 153:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		buffer[count]=(val>>8)  & 0xFF;
+ 154:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
+ 155:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 156:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(size==1)
+ 157:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      	{
+ 158:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		buffer[count]=(val>>2)  & 0xFF;
+ 159:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
+ 160:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 161:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 162:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			} else if(channel==BAT)
+ 163:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			{
+ 164:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			uint16_t tmp;
+ 165:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			tmp=read_voltage_status();
+ 166:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(size==2)
+ 167:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				{
+ 168:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=tmp & 0xFF;
+ 169:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					count++;
+ 170:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=(tmp>>8) & 0xFF;
+ 171:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
+ 172:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(size==1)
+ 173:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				{
+ 174:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=(tmp>>2) & 0xFF;
+ 175:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
+ 176:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			}else if(channel==AUDIO_P2P)
+ 177:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			{
+ 178:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			/* Conversion to 8-bit value*/
+ 179:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      //uint16_t val=get_adc_val();
+ 180:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      uint16_t val,min, max;
+ 181:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      uint8_t i;
+ 182:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				max=0;
+ 183:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			        min=1025;
+ 184:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      for(i=0; i<64; i++ )
+ 185:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				{
+ 186:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				val=get_adc_val();
+ 187:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(val<min)min=val;
+ 188:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(val>max)max=val;
+ 189:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				// 8 Khz
+ 190:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				nrk_spin_wait_us(125);	
+ 191:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
+ 192:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			 	val=max-min;	
+ 193:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(size==2)
+ 194:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      	{
+ 195:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					buffer[count]=val  & 0xFF;
+ 196:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		count++;
+ 197:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		buffer[count]=(val>>8)  & 0xFF;
+ 198:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
+ 199:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 200:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(size==1)
+ 201:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      	{
+ 202:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			      		buffer[count]=(val>>2)  & 0xFF;
+ 203:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
+ 204:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 205:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			}
+ 206:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			
+ 207:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		      count++;
+ 208:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****                       return count;
+ 209:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 210:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****              case CLOSE:
+ 211:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			// Turn off sensor power
+ 212:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			PORTF |= PWR_CTRL_MASK;
+ 213:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		    	is_open=0; 
+ 214:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****                         return NRK_OK;
+ 215:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****              
+ 216:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     case GET_STATUS:
+ 217:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     		// use "key" here 
+ 218:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(key==SENSOR_SELECT) return channel;
+ 219:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     		return NRK_ERROR;
+ 220:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			
+ 221:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****              case SET_STATUS:
+ 222:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     		// use "key" and "value" here
+ 223:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   			if(key==SENSOR_SELECT) 
+ 224:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			{
+ 225:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			// Set to audio channel if it is an average value
+ 226:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			if(value==AUDIO_P2P) 
+ 227:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			  {
+ 228:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				channel=value;
+ 229:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				   //ADC_VREF_2_56();	
+ 230:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				ADC_VREF_VCC();	
+ 231:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				ADC_SET_CHANNEL (AUDIO);
+ 232:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				nrk_spin_wait_us(ADC_SETUP_DELAY);
+ 233:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				return NRK_OK;
+ 234:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 235:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			  } else
+ 236:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			  {
+ 237:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(value>7) 
+ 238:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				{
+ 239:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					_nrk_errno_set(1);
+ 240:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 					return NRK_ERROR;
+ 241:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				}
+ 242:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				channel=value;
+ 243:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				if(channel==LIGHT)
+ 244:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				   ADC_VREF_VCC();	
+ 245:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				else
+ 246:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				   ADC_VREF_2_56();	
+ 247:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				ADC_SET_CHANNEL (channel);
+ 248:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				nrk_spin_wait_us(ADC_SETUP_DELAY);
+ 249:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 				return NRK_OK;
+ 250:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			  }
+ 251:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			}
+ 252:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 			return NRK_ERROR;
+ 253:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	     default:
+ 254:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		nrk_kernel_error_add(NRK_DEVICE_DRIVER,0);
+ 255:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 		 return 0;
+ 256:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	}
+ 257:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
+ 258:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 259:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 260:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // read_voltage_status()
+ 261:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** //
+ 262:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // This function sets different voltage threshold levels on
+ 263:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // the cc2420 chip to search for the voltage.
+ 264:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // If the voltage is above 3.3 volts, then the ADC reads
+ 265:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // the external voltage value going through a voltage divider.
+ 266:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // This function will return VOLTS*100
+ 267:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint16_t read_voltage_status()
+ 268:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
+ 269:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** volatile uint16_t val;
+ 270:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint8_t check,level;
+ 271:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** nrk_sem_t *radio_sem;
+ 272:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 273:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** radio_sem= rf_get_sem();
+ 274:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 275:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // if semaphore not created, then assume you own the radio 
+ 276:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** if(radio_sem!=NULL)
+ 277:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****  nrk_sem_pend (radio_sem);
+ 278:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 279:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     // activate cc2420 vreg
+ 280:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     SET_VREG_ACTIVE();
+ 281:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****     // FIXME: Check at end if VREG needs to be disabled again...
+ 282:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 283:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** level=0;
+ 284:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** while(level<0x1F)
+ 285:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
+ 286:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** val=0x0020 | level;
+ 287:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** FASTSPI_SETREG(CC2420_BATTMON, val);
+ 288:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** nrk_spin_wait_us(2);
+ 289:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** FASTSPI_GETREG(CC2420_BATTMON, val);
+ 290:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** if(val&0x0040) break; 
+ 291:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** level++;
+ 292:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
+ 293:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** if(radio_sem!=NULL)
+ 294:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****  nrk_sem_post(radio_sem);
+ 295:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** if(level==0)
+ 296:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   {
+ 297:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   val=get_adc_val();
+ 298:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   // FIXME:  This probably isn't correct...
+ 299:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   if(val>174) val-=174;
+ 300:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   if(val<330) val=330;
+ 301:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   }
+ 302:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** else val=(9000-(level*125)) / 27;
+ 303:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 304:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** return val;
+ 305:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
+ 306:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 307:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 308:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 309:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** void init_adc()
+ 310:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
  142               	.LM0:
  143               	.LFBB1:
  144               	/* prologue: frame size=0 */
  145               	/* prologue end (size=0) */
- 311:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // Initialize values here
- 312:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   ADC_INIT ();
+ 311:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** // Initialize values here
+ 312:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   ADC_INIT ();
  147               	.LM1:
  148 0000 EAE7      		ldi r30,lo8(122)
  149 0002 F0E0      		ldi r31,hi8(122)
@@ -336,15 +336,15 @@
  153 000a B0E0      		ldi r27,hi8(124)
  154 000c 80E4      		ldi r24,lo8(64)
  155 000e 8C93      		st X,r24
- 313:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   ADC_ENABLE ();
+ 313:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   ADC_ENABLE ();
  157               	.LM2:
  158 0010 8081      		ld r24,Z
  159 0012 8068      		ori r24,lo8(-128)
  160 0014 8083      		st Z,r24
- 314:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   channel=0;
+ 314:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   channel=0;
  162               	.LM3:
  163 0016 1092 0000 		sts channel,__zero_reg__
- 315:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   ADC_SET_CHANNEL (0);
+ 315:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   ADC_SET_CHANNEL (0);
  165               	.LM4:
  166 001a 8C91      		ld r24,X
  167 001c 807E      		andi r24,lo8(-32)
@@ -363,23 +363,23 @@
  183               	.global	delay
  185               	delay:
  186               		.stabd	46,0,0
- 316:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
- 317:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
- 318:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint16_t get_adc_val()
- 319:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {                         
- 320:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	uint16_t adc_val;
- 321:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADC_SAMPLE_SINGLE();
- 322:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	delay();
- 323:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADC_GET_SAMPLE_10(adc_val);
- 324:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	return adc_val;
- 325:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
- 326:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** void delay()
- 327:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
+ 316:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
+ 317:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 
+ 318:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** uint16_t get_adc_val()
+ 319:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {                         
+ 320:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	uint16_t adc_val;
+ 321:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADC_SAMPLE_SINGLE();
+ 322:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	delay();
+ 323:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	ADC_GET_SAMPLE_10(adc_val);
+ 324:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** 	return adc_val;
+ 325:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** }
+ 326:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** void delay()
+ 327:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c **** {
  188               	.LM5:
  189               	.LFBB2:
  190               	/* prologue: frame size=0 */
  191               	/* prologue end (size=0) */
- 328:../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   nrk_spin_wait_us(ADC_SETUP_DELAY);
+ 328:../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c ****   nrk_spin_wait_us(ADC_SETUP_DELAY);
  193               	.LM6:
  194 002c 88EC      		ldi r24,lo8(200)
  195 002e 90E0      		ldi r25,hi8(200)
@@ -931,20 +931,20 @@
  858               		.comm channel,1,1
  859               		.comm is_open,1,1
  872               	.Letext0:
- 873               	/* File "../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c": code  450 = 0x01c2 ( 405)
+ 873               	/* File "../../../src/drivers/platform/firefly2_2/source/ff_basic_sensor.c": code  450 = 0x01c2 ( 4
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 ff_basic_sensor.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:139    .text:0000000000000000 init_adc
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:139    .text:0000000000000000 init_adc
                             *COM*:0000000000000001 channel
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:185    .text:000000000000002c delay
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:208    .text:0000000000000036 get_adc_val
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:255    .text:0000000000000062 read_voltage_status
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc864PeM.s:477    .text:0000000000000190 dev_manager_ff_sensors
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:185    .text:000000000000002c delay
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:208    .text:0000000000000036 get_adc_val
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:255    .text:0000000000000062 read_voltage_status
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cci49d3E.s:477    .text:0000000000000190 dev_manager_ff_sensors
                             *COM*:0000000000000001 is_open
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000001 error_task

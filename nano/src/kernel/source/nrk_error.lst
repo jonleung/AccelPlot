@@ -852,573 +852,575 @@
  605               	.LM46:
  606 022a 0E94 0000 		call nrk_int_disable
  608               	.LM47:
- 609 022e 0E94 0000 		call nrk_int_disable
+ 609 022e 0E94 0000 		call nrk_watchdog_disable
  611               	.LM48:
- 612 0232 80E0      		ldi r24,lo8(__c.2351)
- 613 0234 90E0      		ldi r25,hi8(__c.2351)
- 614 0236 0E94 0000 		call nrk_kprintf
- 616               	.LM49:
- 617 023a 8091 0000 		lds r24,error_task
- 618 023e 9927      		clr r25
- 619 0240 9F93      		push r25
- 620 0242 8F93      		push r24
- 621 0244 80E0      		ldi r24,lo8(.LC0)
- 622 0246 90E0      		ldi r25,hi8(.LC0)
- 623 0248 9F93      		push r25
- 624 024a 8F93      		push r24
- 625 024c 0E94 0000 		call printf
- 627               	.LM50:
- 628 0250 80E0      		ldi r24,lo8(__c.2353)
- 629 0252 90E0      		ldi r25,hi8(__c.2353)
- 630 0254 0E94 0000 		call nrk_kprintf
- 632               	.LM51:
- 633 0258 0F90      		pop __tmp_reg__
- 634 025a 0F90      		pop __tmp_reg__
- 635 025c 0F90      		pop __tmp_reg__
- 636 025e 0F90      		pop __tmp_reg__
- 637 0260 8091 0000 		lds r24,error_num
- 638 0264 8731      		cpi r24,lo8(23)
- 639 0266 00F0      		brlo .L49
- 641               	.LM52:
- 642 0268 1092 0000 		sts error_num,__zero_reg__
- 643               	.L49:
- 645               	.LM53:
- 646 026c 8091 0000 		lds r24,error_num
- 647 0270 9927      		clr r25
- 648 0272 AA27      		clr r26
- 649 0274 BB27      		clr r27
- 650 0276 FC01      		movw r30,r24
- 651 0278 3197      		sbiw r30,1
- 652 027a E531      		cpi r30,21
- 653 027c F105      		cpc r31,__zero_reg__
- 654 027e 00F0      		brlo .+2
- 655 0280 00C0      		rjmp .L51
- 656 0282 E050      		subi r30,lo8(-(pm(.L73)))
- 657 0284 F040      		sbci r31,hi8(-(pm(.L73)))
- 658 0286 EE0F      		lsl r30
- 659 0288 FF1F      		rol r31
- 660 028a 0590      		lpm __tmp_reg__,Z+
- 661 028c F491      		lpm r31,Z
- 662 028e E02D      		mov r30,__tmp_reg__
- 663 0290 0994      		ijmp
- 664               		.data
- 665               		.section .progmem.gcc_sw_table, "a", @progbits
- 666               		.p2align 1
- 667               	.L73:
- 668               		.data
- 669               		.section .progmem.gcc_sw_table, "a", @progbits
- 670               		.p2align 1
- 671 0000 0000      		.word pm(.L52)
- 672 0002 0000      		.word pm(.L53)
- 673 0004 0000      		.word pm(.L54)
- 674 0006 0000      		.word pm(.L55)
- 675 0008 0000      		.word pm(.L56)
- 676 000a 0000      		.word pm(.L57)
- 677 000c 0000      		.word pm(.L58)
- 678 000e 0000      		.word pm(.L59)
- 679 0010 0000      		.word pm(.L60)
- 680 0012 0000      		.word pm(.L61)
- 681 0014 0000      		.word pm(.L62)
- 682 0016 0000      		.word pm(.L63)
- 683 0018 0000      		.word pm(.L64)
- 684 001a 0000      		.word pm(.L65)
- 685 001c 0000      		.word pm(.L66)
- 686 001e 0000      		.word pm(.L67)
- 687 0020 0000      		.word pm(.L68)
- 688 0022 0000      		.word pm(.L69)
- 689 0024 0000      		.word pm(.L70)
- 690 0026 0000      		.word pm(.L71)
- 691 0028 0000      		.word pm(.L72)
- 692               		.text
- 693               	.L68:
- 695               	.LM54:
- 696 0292 80E0      		ldi r24,lo8(__c.2356)
- 697 0294 90E0      		ldi r25,hi8(__c.2356)
- 698 0296 00C0      		rjmp .L88
- 699               	.L52:
- 701               	.LM55:
- 702 0298 80E0      		ldi r24,lo8(__c.2360)
- 703 029a 90E0      		ldi r25,hi8(__c.2360)
- 704 029c 00C0      		rjmp .L88
- 705               	.L69:
- 707               	.LM56:
- 708 029e 80E0      		ldi r24,lo8(__c.2363)
- 709 02a0 90E0      		ldi r25,hi8(__c.2363)
- 710 02a2 00C0      		rjmp .L88
- 711               	.L53:
- 713               	.LM57:
- 714 02a4 80E0      		ldi r24,lo8(__c.2366)
- 715 02a6 90E0      		ldi r25,hi8(__c.2366)
- 716 02a8 00C0      		rjmp .L88
- 717               	.L54:
- 719               	.LM58:
- 720 02aa 80E0      		ldi r24,lo8(__c.2369)
- 721 02ac 90E0      		ldi r25,hi8(__c.2369)
- 722 02ae 00C0      		rjmp .L88
- 723               	.L55:
- 725               	.LM59:
- 726 02b0 80E0      		ldi r24,lo8(__c.2372)
- 727 02b2 90E0      		ldi r25,hi8(__c.2372)
- 728 02b4 00C0      		rjmp .L88
- 729               	.L56:
- 731               	.LM60:
- 732 02b6 80E0      		ldi r24,lo8(__c.2375)
- 733 02b8 90E0      		ldi r25,hi8(__c.2375)
- 734 02ba 00C0      		rjmp .L88
- 735               	.L57:
- 737               	.LM61:
- 738 02bc 80E0      		ldi r24,lo8(__c.2378)
- 739 02be 90E0      		ldi r25,hi8(__c.2378)
- 740 02c0 00C0      		rjmp .L88
- 741               	.L59:
- 743               	.LM62:
- 744 02c2 80E0      		ldi r24,lo8(__c.2381)
- 745 02c4 90E0      		ldi r25,hi8(__c.2381)
- 746 02c6 00C0      		rjmp .L88
- 747               	.L58:
- 749               	.LM63:
- 750 02c8 80E0      		ldi r24,lo8(__c.2384)
- 751 02ca 90E0      		ldi r25,hi8(__c.2384)
- 752 02cc 00C0      		rjmp .L88
- 753               	.L60:
- 755               	.LM64:
- 756 02ce 80E0      		ldi r24,lo8(__c.2387)
- 757 02d0 90E0      		ldi r25,hi8(__c.2387)
- 758 02d2 00C0      		rjmp .L88
- 759               	.L61:
- 761               	.LM65:
- 762 02d4 80E0      		ldi r24,lo8(__c.2390)
- 763 02d6 90E0      		ldi r25,hi8(__c.2390)
- 764 02d8 00C0      		rjmp .L88
- 765               	.L62:
- 767               	.LM66:
- 768 02da 80E0      		ldi r24,lo8(__c.2393)
- 769 02dc 90E0      		ldi r25,hi8(__c.2393)
- 770 02de 00C0      		rjmp .L88
- 771               	.L72:
- 773               	.LM67:
- 774 02e0 80E0      		ldi r24,lo8(__c.2396)
- 775 02e2 90E0      		ldi r25,hi8(__c.2396)
- 776 02e4 00C0      		rjmp .L88
- 777               	.L67:
- 779               	.LM68:
- 780 02e6 80E0      		ldi r24,lo8(__c.2399)
- 781 02e8 90E0      		ldi r25,hi8(__c.2399)
- 782 02ea 00C0      		rjmp .L88
- 783               	.L63:
- 785               	.LM69:
- 786 02ec 80E0      		ldi r24,lo8(__c.2402)
- 787 02ee 90E0      		ldi r25,hi8(__c.2402)
- 788 02f0 00C0      		rjmp .L88
- 789               	.L64:
- 791               	.LM70:
- 792 02f2 80E0      		ldi r24,lo8(__c.2405)
- 793 02f4 90E0      		ldi r25,hi8(__c.2405)
- 794 02f6 00C0      		rjmp .L88
- 795               	.L65:
- 797               	.LM71:
- 798 02f8 80E0      		ldi r24,lo8(__c.2408)
- 799 02fa 90E0      		ldi r25,hi8(__c.2408)
- 800 02fc 00C0      		rjmp .L88
- 801               	.L66:
- 803               	.LM72:
- 804 02fe 80E0      		ldi r24,lo8(__c.2411)
- 805 0300 90E0      		ldi r25,hi8(__c.2411)
- 806 0302 00C0      		rjmp .L88
- 807               	.L70:
- 809               	.LM73:
- 810 0304 80E0      		ldi r24,lo8(__c.2414)
- 811 0306 90E0      		ldi r25,hi8(__c.2414)
- 812 0308 00C0      		rjmp .L88
- 813               	.L71:
- 815               	.LM74:
- 816 030a 80E0      		ldi r24,lo8(__c.2417)
- 817 030c 90E0      		ldi r25,hi8(__c.2417)
- 818 030e 00C0      		rjmp .L88
- 819               	.L51:
- 821               	.LM75:
- 822 0310 80E0      		ldi r24,lo8(__c.2420)
- 823 0312 90E0      		ldi r25,hi8(__c.2420)
- 824               	.L88:
- 825 0314 0E94 0000 		call nrk_kprintf
- 827               	.LM76:
- 828 0318 6091 0000 		lds r22,__iob+2
- 829 031c 7091 0000 		lds r23,(__iob+2)+1
- 830 0320 8DE0      		ldi r24,lo8(13)
- 831 0322 90E0      		ldi r25,hi8(13)
- 832 0324 0E94 0000 		call fputc
- 834               	.LM77:
- 835 0328 6091 0000 		lds r22,__iob+2
- 836 032c 7091 0000 		lds r23,(__iob+2)+1
- 837 0330 8AE0      		ldi r24,lo8(10)
- 838 0332 90E0      		ldi r25,hi8(10)
- 839 0334 0E94 0000 		call fputc
- 840 0338 00E0      		ldi r16,lo8(0)
- 841 033a 00C0      		rjmp .L75
- 842               	.L76:
- 844               	.LM78:
- 845 033c 82E0      		ldi r24,lo8(2)
- 846 033e 90E0      		ldi r25,hi8(2)
- 847 0340 0E94 0000 		call nrk_led_set
- 849               	.LM79:
- 850 0344 83E0      		ldi r24,lo8(3)
- 851 0346 90E0      		ldi r25,hi8(3)
- 852 0348 0E94 0000 		call nrk_led_clr
- 853 034c 10E0      		ldi r17,lo8(0)
- 854               	.L77:
- 856               	.LM80:
- 857 034e 88EE      		ldi r24,lo8(1000)
- 858 0350 93E0      		ldi r25,hi8(1000)
- 859 0352 0E94 0000 		call nrk_spin_wait_us
- 861               	.LM81:
- 862 0356 1F5F      		subi r17,lo8(-(1))
- 863 0358 1436      		cpi r17,lo8(100)
- 864 035a 01F4      		brne .L77
- 866               	.LM82:
- 867 035c 83E0      		ldi r24,lo8(3)
- 868 035e 90E0      		ldi r25,hi8(3)
- 869 0360 0E94 0000 		call nrk_led_set
- 871               	.LM83:
- 872 0364 82E0      		ldi r24,lo8(2)
- 873 0366 90E0      		ldi r25,hi8(2)
- 874 0368 0E94 0000 		call nrk_led_clr
- 875 036c 10E0      		ldi r17,lo8(0)
- 876               	.L79:
- 878               	.LM84:
- 879 036e 88EE      		ldi r24,lo8(1000)
- 880 0370 93E0      		ldi r25,hi8(1000)
- 881 0372 0E94 0000 		call nrk_spin_wait_us
- 883               	.LM85:
- 884 0376 1F5F      		subi r17,lo8(-(1))
- 885 0378 1436      		cpi r17,lo8(100)
- 886 037a 01F4      		brne .L79
- 888               	.LM86:
- 889 037c 0F5F      		subi r16,lo8(-(1))
- 890               	.L75:
- 891 037e 0431      		cpi r16,lo8(20)
- 892 0380 04F0      		brlt .L76
- 894               	.LM87:
- 895 0382 83E0      		ldi r24,lo8(3)
- 896 0384 90E0      		ldi r25,hi8(3)
- 897 0386 0E94 0000 		call nrk_led_clr
- 899               	.LM88:
- 900 038a 82E0      		ldi r24,lo8(2)
- 901 038c 90E0      		ldi r25,hi8(2)
- 902 038e 0E94 0000 		call nrk_led_clr
- 904               	.LM89:
- 905 0392 8091 0000 		lds r24,error_task
- 906 0396 0E94 0000 		call blink_morse_code_error
- 908               	.LM90:
- 909 039a 8091 0000 		lds r24,error_num
- 910 039e 0E94 0000 		call blink_morse_code_error
- 911 03a2 00E0      		ldi r16,lo8(0)
- 912 03a4 00C0      		rjmp .L76
- 913               	.L83:
- 915               	.LM91:
- 916 03a6 80E0      		ldi r24,lo8(0)
- 917 03a8 90E0      		ldi r25,hi8(0)
- 918               	/* epilogue: frame size=0 */
- 919 03aa 1F91      		pop r17
- 920 03ac 0F91      		pop r16
- 921 03ae 0895      		ret
- 922               	/* epilogue end (size=3) */
- 923               	/* function nrk_error_print size 223 (218) */
- 929               	.Lscope8:
- 931               		.stabd	78,0,0
- 935               	.global	nrk_kernel_error_add
- 937               	nrk_kernel_error_add:
- 938               		.stabd	46,0,0
- 940               	.LM92:
- 941               	.LFBB9:
- 942               	/* prologue: frame size=0 */
- 943 03b0 EF92      		push r14
- 944 03b2 FF92      		push r15
- 945 03b4 0F93      		push r16
- 946 03b6 1F93      		push r17
- 947               	/* prologue end (size=4) */
- 948 03b8 E82E      		mov r14,r24
- 949 03ba F62E      		mov r15,r22
- 951               	.LM93:
- 952 03bc 8093 0000 		sts error_num,r24
+ 612 0232 0E94 0000 		call nrk_int_disable
+ 614               	.LM49:
+ 615 0236 80E0      		ldi r24,lo8(__c.2351)
+ 616 0238 90E0      		ldi r25,hi8(__c.2351)
+ 617 023a 0E94 0000 		call nrk_kprintf
+ 619               	.LM50:
+ 620 023e 8091 0000 		lds r24,error_task
+ 621 0242 9927      		clr r25
+ 622 0244 9F93      		push r25
+ 623 0246 8F93      		push r24
+ 624 0248 80E0      		ldi r24,lo8(.LC0)
+ 625 024a 90E0      		ldi r25,hi8(.LC0)
+ 626 024c 9F93      		push r25
+ 627 024e 8F93      		push r24
+ 628 0250 0E94 0000 		call printf
+ 630               	.LM51:
+ 631 0254 80E0      		ldi r24,lo8(__c.2353)
+ 632 0256 90E0      		ldi r25,hi8(__c.2353)
+ 633 0258 0E94 0000 		call nrk_kprintf
+ 635               	.LM52:
+ 636 025c 0F90      		pop __tmp_reg__
+ 637 025e 0F90      		pop __tmp_reg__
+ 638 0260 0F90      		pop __tmp_reg__
+ 639 0262 0F90      		pop __tmp_reg__
+ 640 0264 8091 0000 		lds r24,error_num
+ 641 0268 8731      		cpi r24,lo8(23)
+ 642 026a 00F0      		brlo .L49
+ 644               	.LM53:
+ 645 026c 1092 0000 		sts error_num,__zero_reg__
+ 646               	.L49:
+ 648               	.LM54:
+ 649 0270 8091 0000 		lds r24,error_num
+ 650 0274 9927      		clr r25
+ 651 0276 AA27      		clr r26
+ 652 0278 BB27      		clr r27
+ 653 027a FC01      		movw r30,r24
+ 654 027c 3197      		sbiw r30,1
+ 655 027e E531      		cpi r30,21
+ 656 0280 F105      		cpc r31,__zero_reg__
+ 657 0282 00F0      		brlo .+2
+ 658 0284 00C0      		rjmp .L51
+ 659 0286 E050      		subi r30,lo8(-(pm(.L73)))
+ 660 0288 F040      		sbci r31,hi8(-(pm(.L73)))
+ 661 028a EE0F      		lsl r30
+ 662 028c FF1F      		rol r31
+ 663 028e 0590      		lpm __tmp_reg__,Z+
+ 664 0290 F491      		lpm r31,Z
+ 665 0292 E02D      		mov r30,__tmp_reg__
+ 666 0294 0994      		ijmp
+ 667               		.data
+ 668               		.section .progmem.gcc_sw_table, "a", @progbits
+ 669               		.p2align 1
+ 670               	.L73:
+ 671               		.data
+ 672               		.section .progmem.gcc_sw_table, "a", @progbits
+ 673               		.p2align 1
+ 674 0000 0000      		.word pm(.L52)
+ 675 0002 0000      		.word pm(.L53)
+ 676 0004 0000      		.word pm(.L54)
+ 677 0006 0000      		.word pm(.L55)
+ 678 0008 0000      		.word pm(.L56)
+ 679 000a 0000      		.word pm(.L57)
+ 680 000c 0000      		.word pm(.L58)
+ 681 000e 0000      		.word pm(.L59)
+ 682 0010 0000      		.word pm(.L60)
+ 683 0012 0000      		.word pm(.L61)
+ 684 0014 0000      		.word pm(.L62)
+ 685 0016 0000      		.word pm(.L63)
+ 686 0018 0000      		.word pm(.L64)
+ 687 001a 0000      		.word pm(.L65)
+ 688 001c 0000      		.word pm(.L66)
+ 689 001e 0000      		.word pm(.L67)
+ 690 0020 0000      		.word pm(.L68)
+ 691 0022 0000      		.word pm(.L69)
+ 692 0024 0000      		.word pm(.L70)
+ 693 0026 0000      		.word pm(.L71)
+ 694 0028 0000      		.word pm(.L72)
+ 695               		.text
+ 696               	.L68:
+ 698               	.LM55:
+ 699 0296 80E0      		ldi r24,lo8(__c.2356)
+ 700 0298 90E0      		ldi r25,hi8(__c.2356)
+ 701 029a 00C0      		rjmp .L88
+ 702               	.L52:
+ 704               	.LM56:
+ 705 029c 80E0      		ldi r24,lo8(__c.2360)
+ 706 029e 90E0      		ldi r25,hi8(__c.2360)
+ 707 02a0 00C0      		rjmp .L88
+ 708               	.L69:
+ 710               	.LM57:
+ 711 02a2 80E0      		ldi r24,lo8(__c.2363)
+ 712 02a4 90E0      		ldi r25,hi8(__c.2363)
+ 713 02a6 00C0      		rjmp .L88
+ 714               	.L53:
+ 716               	.LM58:
+ 717 02a8 80E0      		ldi r24,lo8(__c.2366)
+ 718 02aa 90E0      		ldi r25,hi8(__c.2366)
+ 719 02ac 00C0      		rjmp .L88
+ 720               	.L54:
+ 722               	.LM59:
+ 723 02ae 80E0      		ldi r24,lo8(__c.2369)
+ 724 02b0 90E0      		ldi r25,hi8(__c.2369)
+ 725 02b2 00C0      		rjmp .L88
+ 726               	.L55:
+ 728               	.LM60:
+ 729 02b4 80E0      		ldi r24,lo8(__c.2372)
+ 730 02b6 90E0      		ldi r25,hi8(__c.2372)
+ 731 02b8 00C0      		rjmp .L88
+ 732               	.L56:
+ 734               	.LM61:
+ 735 02ba 80E0      		ldi r24,lo8(__c.2375)
+ 736 02bc 90E0      		ldi r25,hi8(__c.2375)
+ 737 02be 00C0      		rjmp .L88
+ 738               	.L57:
+ 740               	.LM62:
+ 741 02c0 80E0      		ldi r24,lo8(__c.2378)
+ 742 02c2 90E0      		ldi r25,hi8(__c.2378)
+ 743 02c4 00C0      		rjmp .L88
+ 744               	.L59:
+ 746               	.LM63:
+ 747 02c6 80E0      		ldi r24,lo8(__c.2381)
+ 748 02c8 90E0      		ldi r25,hi8(__c.2381)
+ 749 02ca 00C0      		rjmp .L88
+ 750               	.L58:
+ 752               	.LM64:
+ 753 02cc 80E0      		ldi r24,lo8(__c.2384)
+ 754 02ce 90E0      		ldi r25,hi8(__c.2384)
+ 755 02d0 00C0      		rjmp .L88
+ 756               	.L60:
+ 758               	.LM65:
+ 759 02d2 80E0      		ldi r24,lo8(__c.2387)
+ 760 02d4 90E0      		ldi r25,hi8(__c.2387)
+ 761 02d6 00C0      		rjmp .L88
+ 762               	.L61:
+ 764               	.LM66:
+ 765 02d8 80E0      		ldi r24,lo8(__c.2390)
+ 766 02da 90E0      		ldi r25,hi8(__c.2390)
+ 767 02dc 00C0      		rjmp .L88
+ 768               	.L62:
+ 770               	.LM67:
+ 771 02de 80E0      		ldi r24,lo8(__c.2393)
+ 772 02e0 90E0      		ldi r25,hi8(__c.2393)
+ 773 02e2 00C0      		rjmp .L88
+ 774               	.L72:
+ 776               	.LM68:
+ 777 02e4 80E0      		ldi r24,lo8(__c.2396)
+ 778 02e6 90E0      		ldi r25,hi8(__c.2396)
+ 779 02e8 00C0      		rjmp .L88
+ 780               	.L67:
+ 782               	.LM69:
+ 783 02ea 80E0      		ldi r24,lo8(__c.2399)
+ 784 02ec 90E0      		ldi r25,hi8(__c.2399)
+ 785 02ee 00C0      		rjmp .L88
+ 786               	.L63:
+ 788               	.LM70:
+ 789 02f0 80E0      		ldi r24,lo8(__c.2402)
+ 790 02f2 90E0      		ldi r25,hi8(__c.2402)
+ 791 02f4 00C0      		rjmp .L88
+ 792               	.L64:
+ 794               	.LM71:
+ 795 02f6 80E0      		ldi r24,lo8(__c.2405)
+ 796 02f8 90E0      		ldi r25,hi8(__c.2405)
+ 797 02fa 00C0      		rjmp .L88
+ 798               	.L65:
+ 800               	.LM72:
+ 801 02fc 80E0      		ldi r24,lo8(__c.2408)
+ 802 02fe 90E0      		ldi r25,hi8(__c.2408)
+ 803 0300 00C0      		rjmp .L88
+ 804               	.L66:
+ 806               	.LM73:
+ 807 0302 80E0      		ldi r24,lo8(__c.2411)
+ 808 0304 90E0      		ldi r25,hi8(__c.2411)
+ 809 0306 00C0      		rjmp .L88
+ 810               	.L70:
+ 812               	.LM74:
+ 813 0308 80E0      		ldi r24,lo8(__c.2414)
+ 814 030a 90E0      		ldi r25,hi8(__c.2414)
+ 815 030c 00C0      		rjmp .L88
+ 816               	.L71:
+ 818               	.LM75:
+ 819 030e 80E0      		ldi r24,lo8(__c.2417)
+ 820 0310 90E0      		ldi r25,hi8(__c.2417)
+ 821 0312 00C0      		rjmp .L88
+ 822               	.L51:
+ 824               	.LM76:
+ 825 0314 80E0      		ldi r24,lo8(__c.2420)
+ 826 0316 90E0      		ldi r25,hi8(__c.2420)
+ 827               	.L88:
+ 828 0318 0E94 0000 		call nrk_kprintf
+ 830               	.LM77:
+ 831 031c 6091 0000 		lds r22,__iob+2
+ 832 0320 7091 0000 		lds r23,(__iob+2)+1
+ 833 0324 8DE0      		ldi r24,lo8(13)
+ 834 0326 90E0      		ldi r25,hi8(13)
+ 835 0328 0E94 0000 		call fputc
+ 837               	.LM78:
+ 838 032c 6091 0000 		lds r22,__iob+2
+ 839 0330 7091 0000 		lds r23,(__iob+2)+1
+ 840 0334 8AE0      		ldi r24,lo8(10)
+ 841 0336 90E0      		ldi r25,hi8(10)
+ 842 0338 0E94 0000 		call fputc
+ 843 033c 00E0      		ldi r16,lo8(0)
+ 844 033e 00C0      		rjmp .L75
+ 845               	.L76:
+ 847               	.LM79:
+ 848 0340 82E0      		ldi r24,lo8(2)
+ 849 0342 90E0      		ldi r25,hi8(2)
+ 850 0344 0E94 0000 		call nrk_led_set
+ 852               	.LM80:
+ 853 0348 83E0      		ldi r24,lo8(3)
+ 854 034a 90E0      		ldi r25,hi8(3)
+ 855 034c 0E94 0000 		call nrk_led_clr
+ 856 0350 10E0      		ldi r17,lo8(0)
+ 857               	.L77:
+ 859               	.LM81:
+ 860 0352 88EE      		ldi r24,lo8(1000)
+ 861 0354 93E0      		ldi r25,hi8(1000)
+ 862 0356 0E94 0000 		call nrk_spin_wait_us
+ 864               	.LM82:
+ 865 035a 1F5F      		subi r17,lo8(-(1))
+ 866 035c 1436      		cpi r17,lo8(100)
+ 867 035e 01F4      		brne .L77
+ 869               	.LM83:
+ 870 0360 83E0      		ldi r24,lo8(3)
+ 871 0362 90E0      		ldi r25,hi8(3)
+ 872 0364 0E94 0000 		call nrk_led_set
+ 874               	.LM84:
+ 875 0368 82E0      		ldi r24,lo8(2)
+ 876 036a 90E0      		ldi r25,hi8(2)
+ 877 036c 0E94 0000 		call nrk_led_clr
+ 878 0370 10E0      		ldi r17,lo8(0)
+ 879               	.L79:
+ 881               	.LM85:
+ 882 0372 88EE      		ldi r24,lo8(1000)
+ 883 0374 93E0      		ldi r25,hi8(1000)
+ 884 0376 0E94 0000 		call nrk_spin_wait_us
+ 886               	.LM86:
+ 887 037a 1F5F      		subi r17,lo8(-(1))
+ 888 037c 1436      		cpi r17,lo8(100)
+ 889 037e 01F4      		brne .L79
+ 891               	.LM87:
+ 892 0380 0F5F      		subi r16,lo8(-(1))
+ 893               	.L75:
+ 894 0382 0431      		cpi r16,lo8(20)
+ 895 0384 04F0      		brlt .L76
+ 897               	.LM88:
+ 898 0386 83E0      		ldi r24,lo8(3)
+ 899 0388 90E0      		ldi r25,hi8(3)
+ 900 038a 0E94 0000 		call nrk_led_clr
+ 902               	.LM89:
+ 903 038e 82E0      		ldi r24,lo8(2)
+ 904 0390 90E0      		ldi r25,hi8(2)
+ 905 0392 0E94 0000 		call nrk_led_clr
+ 907               	.LM90:
+ 908 0396 8091 0000 		lds r24,error_task
+ 909 039a 0E94 0000 		call blink_morse_code_error
+ 911               	.LM91:
+ 912 039e 8091 0000 		lds r24,error_num
+ 913 03a2 0E94 0000 		call blink_morse_code_error
+ 914 03a6 00E0      		ldi r16,lo8(0)
+ 915 03a8 00C0      		rjmp .L76
+ 916               	.L83:
+ 918               	.LM92:
+ 919 03aa 80E0      		ldi r24,lo8(0)
+ 920 03ac 90E0      		ldi r25,hi8(0)
+ 921               	/* epilogue: frame size=0 */
+ 922 03ae 1F91      		pop r17
+ 923 03b0 0F91      		pop r16
+ 924 03b2 0895      		ret
+ 925               	/* epilogue end (size=3) */
+ 926               	/* function nrk_error_print size 225 (220) */
+ 932               	.Lscope8:
+ 934               		.stabd	78,0,0
+ 938               	.global	nrk_kernel_error_add
+ 940               	nrk_kernel_error_add:
+ 941               		.stabd	46,0,0
+ 943               	.LM93:
+ 944               	.LFBB9:
+ 945               	/* prologue: frame size=0 */
+ 946 03b4 EF92      		push r14
+ 947 03b6 FF92      		push r15
+ 948 03b8 0F93      		push r16
+ 949 03ba 1F93      		push r17
+ 950               	/* prologue end (size=4) */
+ 951 03bc E82E      		mov r14,r24
+ 952 03be F62E      		mov r15,r22
  954               	.LM94:
- 955 03c0 6093 0000 		sts error_task,r22
+ 955 03c0 8093 0000 		sts error_num,r24
  957               	.LM95:
- 958 03c4 0E94 0000 		call nrk_error_print
- 959 03c8 00E0      		ldi r16,lo8(0)
- 960 03ca 00C0      		rjmp .L90
- 961               	.L91:
- 963               	.LM96:
- 964 03cc 82E0      		ldi r24,lo8(2)
- 965 03ce 90E0      		ldi r25,hi8(2)
- 966 03d0 0E94 0000 		call nrk_led_set
- 968               	.LM97:
- 969 03d4 83E0      		ldi r24,lo8(3)
- 970 03d6 90E0      		ldi r25,hi8(3)
- 971 03d8 0E94 0000 		call nrk_led_clr
- 972 03dc 10E0      		ldi r17,lo8(0)
- 973               	.L92:
- 975               	.LM98:
- 976 03de 88EE      		ldi r24,lo8(1000)
- 977 03e0 93E0      		ldi r25,hi8(1000)
- 978 03e2 0E94 0000 		call nrk_spin_wait_us
- 980               	.LM99:
- 981 03e6 1F5F      		subi r17,lo8(-(1))
- 982 03e8 1436      		cpi r17,lo8(100)
- 983 03ea 01F4      		brne .L92
- 985               	.LM100:
- 986 03ec 83E0      		ldi r24,lo8(3)
- 987 03ee 90E0      		ldi r25,hi8(3)
- 988 03f0 0E94 0000 		call nrk_led_set
- 990               	.LM101:
- 991 03f4 82E0      		ldi r24,lo8(2)
- 992 03f6 90E0      		ldi r25,hi8(2)
- 993 03f8 0E94 0000 		call nrk_led_clr
- 994 03fc 10E0      		ldi r17,lo8(0)
- 995               	.L94:
- 997               	.LM102:
- 998 03fe 88EE      		ldi r24,lo8(1000)
- 999 0400 93E0      		ldi r25,hi8(1000)
- 1000 0402 0E94 0000 		call nrk_spin_wait_us
- 1002               	.LM103:
- 1003 0406 1F5F      		subi r17,lo8(-(1))
- 1004 0408 1436      		cpi r17,lo8(100)
- 1005 040a 01F4      		brne .L94
- 1007               	.LM104:
- 1008 040c 0F5F      		subi r16,lo8(-(1))
- 1009               	.L90:
- 1010 040e 0431      		cpi r16,lo8(20)
- 1011 0410 00F0      		brlo .L91
- 1013               	.LM105:
- 1014 0412 83E0      		ldi r24,lo8(3)
- 1015 0414 90E0      		ldi r25,hi8(3)
- 1016 0416 0E94 0000 		call nrk_led_clr
- 1018               	.LM106:
- 1019 041a 82E0      		ldi r24,lo8(2)
- 1020 041c 90E0      		ldi r25,hi8(2)
- 1021 041e 0E94 0000 		call nrk_led_clr
- 1023               	.LM107:
- 1024 0422 8F2D      		mov r24,r15
- 1025 0424 0E94 0000 		call blink_morse_code_error
- 1027               	.LM108:
- 1028 0428 8E2D      		mov r24,r14
- 1029 042a 0E94 0000 		call blink_morse_code_error
- 1030 042e 00E0      		ldi r16,lo8(0)
- 1031 0430 00C0      		rjmp .L91
- 1032               	/* epilogue: frame size=0 */
- 1033               	/* epilogue: noreturn */
- 1034               	/* epilogue end (size=0) */
- 1035               	/* function nrk_kernel_error_add size 65 (61) */
- 1041               	.Lscope9:
- 1043               		.stabd	78,0,0
- 1046               	.global	nrk_error_add
- 1048               	nrk_error_add:
- 1049               		.stabd	46,0,0
- 1051               	.LM109:
- 1052               	.LFBB10:
- 1053               	/* prologue: frame size=0 */
- 1054               	/* prologue end (size=0) */
- 1056               	.LM110:
- 1057 0432 8093 0000 		sts error_num,r24
+ 958 03c4 6093 0000 		sts error_task,r22
+ 960               	.LM96:
+ 961 03c8 0E94 0000 		call nrk_error_print
+ 962 03cc 00E0      		ldi r16,lo8(0)
+ 963 03ce 00C0      		rjmp .L90
+ 964               	.L91:
+ 966               	.LM97:
+ 967 03d0 82E0      		ldi r24,lo8(2)
+ 968 03d2 90E0      		ldi r25,hi8(2)
+ 969 03d4 0E94 0000 		call nrk_led_set
+ 971               	.LM98:
+ 972 03d8 83E0      		ldi r24,lo8(3)
+ 973 03da 90E0      		ldi r25,hi8(3)
+ 974 03dc 0E94 0000 		call nrk_led_clr
+ 975 03e0 10E0      		ldi r17,lo8(0)
+ 976               	.L92:
+ 978               	.LM99:
+ 979 03e2 88EE      		ldi r24,lo8(1000)
+ 980 03e4 93E0      		ldi r25,hi8(1000)
+ 981 03e6 0E94 0000 		call nrk_spin_wait_us
+ 983               	.LM100:
+ 984 03ea 1F5F      		subi r17,lo8(-(1))
+ 985 03ec 1436      		cpi r17,lo8(100)
+ 986 03ee 01F4      		brne .L92
+ 988               	.LM101:
+ 989 03f0 83E0      		ldi r24,lo8(3)
+ 990 03f2 90E0      		ldi r25,hi8(3)
+ 991 03f4 0E94 0000 		call nrk_led_set
+ 993               	.LM102:
+ 994 03f8 82E0      		ldi r24,lo8(2)
+ 995 03fa 90E0      		ldi r25,hi8(2)
+ 996 03fc 0E94 0000 		call nrk_led_clr
+ 997 0400 10E0      		ldi r17,lo8(0)
+ 998               	.L94:
+ 1000               	.LM103:
+ 1001 0402 88EE      		ldi r24,lo8(1000)
+ 1002 0404 93E0      		ldi r25,hi8(1000)
+ 1003 0406 0E94 0000 		call nrk_spin_wait_us
+ 1005               	.LM104:
+ 1006 040a 1F5F      		subi r17,lo8(-(1))
+ 1007 040c 1436      		cpi r17,lo8(100)
+ 1008 040e 01F4      		brne .L94
+ 1010               	.LM105:
+ 1011 0410 0F5F      		subi r16,lo8(-(1))
+ 1012               	.L90:
+ 1013 0412 0431      		cpi r16,lo8(20)
+ 1014 0414 00F0      		brlo .L91
+ 1016               	.LM106:
+ 1017 0416 83E0      		ldi r24,lo8(3)
+ 1018 0418 90E0      		ldi r25,hi8(3)
+ 1019 041a 0E94 0000 		call nrk_led_clr
+ 1021               	.LM107:
+ 1022 041e 82E0      		ldi r24,lo8(2)
+ 1023 0420 90E0      		ldi r25,hi8(2)
+ 1024 0422 0E94 0000 		call nrk_led_clr
+ 1026               	.LM108:
+ 1027 0426 8F2D      		mov r24,r15
+ 1028 0428 0E94 0000 		call blink_morse_code_error
+ 1030               	.LM109:
+ 1031 042c 8E2D      		mov r24,r14
+ 1032 042e 0E94 0000 		call blink_morse_code_error
+ 1033 0432 00E0      		ldi r16,lo8(0)
+ 1034 0434 00C0      		rjmp .L91
+ 1035               	/* epilogue: frame size=0 */
+ 1036               	/* epilogue: noreturn */
+ 1037               	/* epilogue end (size=0) */
+ 1038               	/* function nrk_kernel_error_add size 65 (61) */
+ 1044               	.Lscope9:
+ 1046               		.stabd	78,0,0
+ 1049               	.global	nrk_error_add
+ 1051               	nrk_error_add:
+ 1052               		.stabd	46,0,0
+ 1054               	.LM110:
+ 1055               	.LFBB10:
+ 1056               	/* prologue: frame size=0 */
+ 1057               	/* prologue end (size=0) */
  1059               	.LM111:
- 1060 0436 E091 0000 		lds r30,nrk_cur_task_TCB
- 1061 043a F091 0000 		lds r31,(nrk_cur_task_TCB)+1
- 1062 043e 8085      		ldd r24,Z+8
- 1063 0440 8093 0000 		sts error_task,r24
- 1065               	.LM112:
- 1066 0444 0E94 0000 		call nrk_error_print
- 1067               	/* epilogue: frame size=0 */
- 1068 0448 0895      		ret
- 1069               	/* epilogue end (size=1) */
- 1070               	/* function nrk_error_add size 12 (11) */
- 1072               	.Lscope10:
- 1074               		.stabd	78,0,0
- 1075               		.section	.progmem.data,"a",@progbits
- 1078               	__c.2420:
- 1079 0000 554E 4B4F 		.string	"UNKOWN"
- 1079      574E 00
- 1082               	__c.2417:
- 1083 0007 4578 7465 		.string	"External Reset"
- 1083      726E 616C 
- 1083      2052 6573 
- 1083      6574 00
- 1086               	__c.2414:
- 1087 0016 4272 6F77 		.string	"Brown Out Detect"
- 1087      6E20 4F75 
- 1087      7420 4465 
- 1087      7465 6374 
- 1087      00
- 1090               	__c.2411:
- 1091 0027 4661 696C 		.string	"Failed to create Semaphore"
- 1091      6564 2074 
- 1091      6F20 6372 
- 1091      6561 7465 
- 1091      2053 656D 
- 1094               	__c.2408:
- 1095 0042 4661 696C 		.string	"Failed to create Signal"
- 1095      6564 2074 
- 1095      6F20 6372 
- 1095      6561 7465 
- 1095      2053 6967 
- 1098               	__c.2405:
- 1099 005a 4B65 726E 		.string	"Kernel function not implemented"
- 1099      656C 2066 
- 1099      756E 6374 
- 1099      696F 6E20 
- 1099      6E6F 7420 
- 1102               	__c.2402:
- 1103 007a 4465 7669 		.string	"Device Driver Error"
- 1103      6365 2044 
- 1103      7269 7665 
- 1103      7220 4572 
- 1103      726F 7200 
- 1106               	__c.2399:
- 1107 008e 5761 7463 		.string	"Watchdog Restart"
- 1107      6864 6F67 
- 1107      2052 6573 
- 1107      7461 7274 
- 1107      00
- 1110               	__c.2396:
- 1111 009f 5357 2057 		.string	"SW Watchdog Restart"
- 1111      6174 6368 
- 1111      646F 6720 
- 1111      5265 7374 
- 1111      6172 7400 
- 1114               	__c.2393:
- 1115 00b3 5469 6D65 		.string	"Timer Overflow"
- 1115      7220 4F76 
- 1115      6572 666C 
- 1115      6F77 00
- 1118               	__c.2390:
- 1119 00c2 556E 6861 		.string	"Unhandled Interrupt Vector"
- 1119      6E64 6C65 
- 1119      6420 496E 
- 1119      7465 7272 
- 1119      7570 7420 
- 1122               	__c.2387:
- 1123 00dd 4C6F 7720 		.string	"Low Voltage"
- 1123      566F 6C74 
- 1123      6167 6500 
- 1126               	__c.2384:
- 1127 00e9 4578 7472 		.string	"Extra Task started, is nrk_cfg.h ok?"
- 1127      6120 5461 
- 1127      736B 2073 
- 1127      7461 7274 
- 1127      6564 2C20 
- 1130               	__c.2381:
- 1131 010e 4964 6C65 		.string	"Idle or Kernel Stack Overflow"
- 1131      206F 7220 
- 1131      4B65 726E 
- 1131      656C 2053 
- 1131      7461 636B 
- 1134               	__c.2378:
- 1135 012c 556E 6578 		.string	"Unexpected Restart"
- 1135      7065 6374 
- 1135      6564 2052 
- 1135      6573 7461 
- 1135      7274 00
- 1138               	__c.2375:
- 1139 013f 4475 706C 		.string	"Duplicated Task ID"
- 1139      6963 6174 
- 1139      6564 2054 
- 1139      6173 6B20 
- 1139      4944 00
- 1142               	__c.2372:
- 1143 0152 5363 6865 		.string	"Scheduler Missed Wakeup"
- 1143      6475 6C65 
- 1143      7220 4D69 
- 1143      7373 6564 
- 1143      2057 616B 
- 1146               	__c.2369:
- 1147 016a 5461 736B 		.string	"Task Reserve Violated"
- 1147      2052 6573 
- 1147      6572 7665 
- 1147      2056 696F 
- 1147      6C61 7465 
- 1150               	__c.2366:
- 1151 0180 5265 7365 		.string	"Reserve Error in Scheduler"
- 1151      7276 6520 
- 1151      4572 726F 
- 1151      7220 696E 
- 1151      2053 6368 
- 1154               	__c.2363:
- 1155 019b 496E 7661 		.string	"Invalid Stack Pointer"
- 1155      6C69 6420 
- 1155      5374 6163 
- 1155      6B20 506F 
- 1155      696E 7465 
- 1158               	__c.2360:
- 1159 01b1 5461 736B 		.string	"Task Stack Overflow"
- 1159      2053 7461 
- 1159      636B 204F 
- 1159      7665 7266 
- 1159      6C6F 7700 
- 1162               	__c.2356:
- 1163 01c5 5374 6163 		.string	"Stack was not defined as large enough!"
- 1163      6B20 7761 
- 1163      7320 6E6F 
- 1163      7420 6465 
- 1163      6669 6E65 
- 1166               	__c.2353:
- 1167 01ec 293A 2000 		.string	"): "
- 1170               	__c.2351:
- 1171 01f0 2A4E 524B 		.string	"*NRK ERROR("
- 1171      2045 5252 
- 1171      4F52 2800 
- 1172               		.comm _nrk_signal_list,4,1
- 1173               		.comm error_task,1,1
- 1174               		.comm error_num,1,1
- 1175               		.comm nrk_idle_task_stk,128,1
- 1176               		.comm nrk_kernel_stk_ptr,2,1
- 1177               		.comm _nrk_prev_timer_val,1,1
- 1178               		.comm _nrk_time_trigger,1,1
- 1179               		.comm app_timer0_callback,2,1
- 1180               		.comm app_timer0_prescale,1,1
- 1214               		.text
- 1216               	.Letext0:
- 1217               	/* File "../../src/kernel/source/nrk_error.c": code  570 = 0x023a ( 510), prologues  30, epilogues 
+ 1060 0436 8093 0000 		sts error_num,r24
+ 1062               	.LM112:
+ 1063 043a E091 0000 		lds r30,nrk_cur_task_TCB
+ 1064 043e F091 0000 		lds r31,(nrk_cur_task_TCB)+1
+ 1065 0442 8085      		ldd r24,Z+8
+ 1066 0444 8093 0000 		sts error_task,r24
+ 1068               	.LM113:
+ 1069 0448 0E94 0000 		call nrk_error_print
+ 1070               	/* epilogue: frame size=0 */
+ 1071 044c 0895      		ret
+ 1072               	/* epilogue end (size=1) */
+ 1073               	/* function nrk_error_add size 12 (11) */
+ 1075               	.Lscope10:
+ 1077               		.stabd	78,0,0
+ 1078               		.section	.progmem.data,"a",@progbits
+ 1081               	__c.2420:
+ 1082 0000 554E 4B4F 		.string	"UNKOWN"
+ 1082      574E 00
+ 1085               	__c.2417:
+ 1086 0007 4578 7465 		.string	"External Reset"
+ 1086      726E 616C 
+ 1086      2052 6573 
+ 1086      6574 00
+ 1089               	__c.2414:
+ 1090 0016 4272 6F77 		.string	"Brown Out Detect"
+ 1090      6E20 4F75 
+ 1090      7420 4465 
+ 1090      7465 6374 
+ 1090      00
+ 1093               	__c.2411:
+ 1094 0027 4661 696C 		.string	"Failed to create Semaphore"
+ 1094      6564 2074 
+ 1094      6F20 6372 
+ 1094      6561 7465 
+ 1094      2053 656D 
+ 1097               	__c.2408:
+ 1098 0042 4661 696C 		.string	"Failed to create Signal"
+ 1098      6564 2074 
+ 1098      6F20 6372 
+ 1098      6561 7465 
+ 1098      2053 6967 
+ 1101               	__c.2405:
+ 1102 005a 4B65 726E 		.string	"Kernel function not implemented"
+ 1102      656C 2066 
+ 1102      756E 6374 
+ 1102      696F 6E20 
+ 1102      6E6F 7420 
+ 1105               	__c.2402:
+ 1106 007a 4465 7669 		.string	"Device Driver Error"
+ 1106      6365 2044 
+ 1106      7269 7665 
+ 1106      7220 4572 
+ 1106      726F 7200 
+ 1109               	__c.2399:
+ 1110 008e 5761 7463 		.string	"Watchdog Restart"
+ 1110      6864 6F67 
+ 1110      2052 6573 
+ 1110      7461 7274 
+ 1110      00
+ 1113               	__c.2396:
+ 1114 009f 5357 2057 		.string	"SW Watchdog Restart"
+ 1114      6174 6368 
+ 1114      646F 6720 
+ 1114      5265 7374 
+ 1114      6172 7400 
+ 1117               	__c.2393:
+ 1118 00b3 5469 6D65 		.string	"Timer Overflow"
+ 1118      7220 4F76 
+ 1118      6572 666C 
+ 1118      6F77 00
+ 1121               	__c.2390:
+ 1122 00c2 556E 6861 		.string	"Unhandled Interrupt Vector"
+ 1122      6E64 6C65 
+ 1122      6420 496E 
+ 1122      7465 7272 
+ 1122      7570 7420 
+ 1125               	__c.2387:
+ 1126 00dd 4C6F 7720 		.string	"Low Voltage"
+ 1126      566F 6C74 
+ 1126      6167 6500 
+ 1129               	__c.2384:
+ 1130 00e9 4578 7472 		.string	"Extra Task started, is nrk_cfg.h ok?"
+ 1130      6120 5461 
+ 1130      736B 2073 
+ 1130      7461 7274 
+ 1130      6564 2C20 
+ 1133               	__c.2381:
+ 1134 010e 4964 6C65 		.string	"Idle or Kernel Stack Overflow"
+ 1134      206F 7220 
+ 1134      4B65 726E 
+ 1134      656C 2053 
+ 1134      7461 636B 
+ 1137               	__c.2378:
+ 1138 012c 556E 6578 		.string	"Unexpected Restart"
+ 1138      7065 6374 
+ 1138      6564 2052 
+ 1138      6573 7461 
+ 1138      7274 00
+ 1141               	__c.2375:
+ 1142 013f 4475 706C 		.string	"Duplicated Task ID"
+ 1142      6963 6174 
+ 1142      6564 2054 
+ 1142      6173 6B20 
+ 1142      4944 00
+ 1145               	__c.2372:
+ 1146 0152 5363 6865 		.string	"Scheduler Missed Wakeup"
+ 1146      6475 6C65 
+ 1146      7220 4D69 
+ 1146      7373 6564 
+ 1146      2057 616B 
+ 1149               	__c.2369:
+ 1150 016a 5461 736B 		.string	"Task Reserve Violated"
+ 1150      2052 6573 
+ 1150      6572 7665 
+ 1150      2056 696F 
+ 1150      6C61 7465 
+ 1153               	__c.2366:
+ 1154 0180 5265 7365 		.string	"Reserve Error in Scheduler"
+ 1154      7276 6520 
+ 1154      4572 726F 
+ 1154      7220 696E 
+ 1154      2053 6368 
+ 1157               	__c.2363:
+ 1158 019b 496E 7661 		.string	"Invalid Stack Pointer"
+ 1158      6C69 6420 
+ 1158      5374 6163 
+ 1158      6B20 506F 
+ 1158      696E 7465 
+ 1161               	__c.2360:
+ 1162 01b1 5461 736B 		.string	"Task Stack Overflow"
+ 1162      2053 7461 
+ 1162      636B 204F 
+ 1162      7665 7266 
+ 1162      6C6F 7700 
+ 1165               	__c.2356:
+ 1166 01c5 5374 6163 		.string	"Stack was not defined as large enough!"
+ 1166      6B20 7761 
+ 1166      7320 6E6F 
+ 1166      7420 6465 
+ 1166      6669 6E65 
+ 1169               	__c.2353:
+ 1170 01ec 293A 2000 		.string	"): "
+ 1173               	__c.2351:
+ 1174 01f0 2A4E 524B 		.string	"*NRK ERROR("
+ 1174      2045 5252 
+ 1174      4F52 2800 
+ 1175               		.comm _nrk_signal_list,4,1
+ 1176               		.comm error_task,1,1
+ 1177               		.comm error_num,1,1
+ 1178               		.comm nrk_idle_task_stk,128,1
+ 1179               		.comm nrk_kernel_stk_ptr,2,1
+ 1180               		.comm _nrk_prev_timer_val,1,1
+ 1181               		.comm _nrk_time_trigger,1,1
+ 1182               		.comm app_timer0_callback,2,1
+ 1183               		.comm app_timer0_prescale,1,1
+ 1217               		.text
+ 1219               	.Letext0:
+ 1220               	/* File "../../src/kernel/source/nrk_error.c": code  572 = 0x023c ( 512), prologues  30, epilogues 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_error.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:136    .text:0000000000000000 _nrk_errno_set
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:159    .text:000000000000000c nrk_errno_get
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:185    .text:000000000000001a nrk_error_get
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:136    .text:0000000000000000 _nrk_errno_set
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:159    .text:000000000000000c nrk_errno_get
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:185    .text:000000000000001a nrk_error_get
                             *COM*:0000000000000001 error_num
                             *COM*:0000000000000001 error_task
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:228    .text:000000000000003a pause
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:286    .text:0000000000000078 blink_dot
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:320    .text:0000000000000092 blink_dash
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:365    .text:00000000000000b4 blink_morse_code_error
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:589    .text:000000000000021c nrk_error_print
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1170   .progmem.data:00000000000001f0 __c.2351
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1166   .progmem.data:00000000000001ec __c.2353
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1162   .progmem.data:00000000000001c5 __c.2356
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1158   .progmem.data:00000000000001b1 __c.2360
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1154   .progmem.data:000000000000019b __c.2363
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1150   .progmem.data:0000000000000180 __c.2366
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1146   .progmem.data:000000000000016a __c.2369
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1142   .progmem.data:0000000000000152 __c.2372
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1138   .progmem.data:000000000000013f __c.2375
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1134   .progmem.data:000000000000012c __c.2378
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1130   .progmem.data:000000000000010e __c.2381
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1126   .progmem.data:00000000000000e9 __c.2384
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1122   .progmem.data:00000000000000dd __c.2387
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1118   .progmem.data:00000000000000c2 __c.2390
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1114   .progmem.data:00000000000000b3 __c.2393
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1110   .progmem.data:000000000000009f __c.2396
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1106   .progmem.data:000000000000008e __c.2399
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1102   .progmem.data:000000000000007a __c.2402
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1098   .progmem.data:000000000000005a __c.2405
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1094   .progmem.data:0000000000000042 __c.2408
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1090   .progmem.data:0000000000000027 __c.2411
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1086   .progmem.data:0000000000000016 __c.2414
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1082   .progmem.data:0000000000000007 __c.2417
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1078   .progmem.data:0000000000000000 __c.2420
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:937    .text:00000000000003b0 nrk_kernel_error_add
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccuUVPRI.s:1048   .text:0000000000000432 nrk_error_add
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:228    .text:000000000000003a pause
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:286    .text:0000000000000078 blink_dot
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:320    .text:0000000000000092 blink_dash
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:365    .text:00000000000000b4 blink_morse_code_error
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:589    .text:000000000000021c nrk_error_print
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1173   .progmem.data:00000000000001f0 __c.2351
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1169   .progmem.data:00000000000001ec __c.2353
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1165   .progmem.data:00000000000001c5 __c.2356
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1161   .progmem.data:00000000000001b1 __c.2360
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1157   .progmem.data:000000000000019b __c.2363
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1153   .progmem.data:0000000000000180 __c.2366
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1149   .progmem.data:000000000000016a __c.2369
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1145   .progmem.data:0000000000000152 __c.2372
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1141   .progmem.data:000000000000013f __c.2375
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1137   .progmem.data:000000000000012c __c.2378
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1133   .progmem.data:000000000000010e __c.2381
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1129   .progmem.data:00000000000000e9 __c.2384
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1125   .progmem.data:00000000000000dd __c.2387
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1121   .progmem.data:00000000000000c2 __c.2390
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1117   .progmem.data:00000000000000b3 __c.2393
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1113   .progmem.data:000000000000009f __c.2396
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1109   .progmem.data:000000000000008e __c.2399
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1105   .progmem.data:000000000000007a __c.2402
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1101   .progmem.data:000000000000005a __c.2405
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1097   .progmem.data:0000000000000042 __c.2408
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1093   .progmem.data:0000000000000027 __c.2411
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1089   .progmem.data:0000000000000016 __c.2414
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1085   .progmem.data:0000000000000007 __c.2417
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1081   .progmem.data:0000000000000000 __c.2420
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:940    .text:00000000000003b4 nrk_kernel_error_add
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFGL7ZU.s:1051   .text:0000000000000436 nrk_error_add
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000080 nrk_idle_task_stk
                             *COM*:0000000000000002 nrk_kernel_stk_ptr
@@ -1436,6 +1438,7 @@ nrk_led_set
 nrk_led_clr
 sprintf
 nrk_int_disable
+nrk_watchdog_disable
 nrk_kprintf
 printf
 __iob

@@ -503,9 +503,9 @@
  514               		.comm _nrk_signal_list,4,1
  515               		.comm nrk_idle_task_stk,128,1
  516               		.comm nrk_kernel_stk_ptr,2,1
- 517               		.comm nrk_task_TCB,66,1
+ 517               		.comm nrk_task_TCB,165,1
  518               		.comm nrk_wakeup_signal,1,1
- 519               		.comm _nrk_readyQ,15,1
+ 519               		.comm _nrk_readyQ,30,1
  520               		.comm _free_node,2,1
  521               		.comm _head_node,2,1
  522               		.comm nrk_cur_task_prio,1,1
@@ -514,7 +514,7 @@
  525               		.comm nrk_high_ready_TCB,2,1
  526               		.comm _nrk_resource_cnt,1,1
  527               		.comm nrk_system_time,8,1
- 528               		.comm nrk_sem_list,6,1
+ 528               		.comm nrk_sem_list,3,1
  529               		.comm _nrk_prev_timer_val,1,1
  530               		.comm _nrk_time_trigger,1,1
  531               		.comm app_timer0_callback,2,1
@@ -525,26 +525,26 @@
  558               	/* File "../../src/kernel/hal/atmega1281/nrk_cpu.c": code  158 = 0x009e ( 137), prologues   6, epil
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_cpu.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:128    .text:0000000000000000 nrk_battery_save
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:146    .text:0000000000000002 nrk_sleep
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:182    .text:000000000000001a nrk_idle
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:219    .text:0000000000000030 nrk_task_set_entry_function
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:245    .text:0000000000000038 nrk_task_stk_init
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:368    .text:00000000000000b4 nrk_stack_pointer_init
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:128    .text:0000000000000000 nrk_battery_save
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:146    .text:0000000000000002 nrk_sleep
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:182    .text:000000000000001a nrk_idle
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:219    .text:0000000000000030 nrk_task_set_entry_function
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:245    .text:0000000000000038 nrk_task_stk_init
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:368    .text:00000000000000b4 nrk_stack_pointer_init
                             *COM*:0000000000000002 nrk_kernel_stk_ptr
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:406    .text:00000000000000d6 nrk_stack_pointer_restore
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:434    .text:00000000000000e8 nrk_target_start
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cckXQbks.s:461    .text:00000000000000f2 nrk_task_set_stk
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:406    .text:00000000000000d6 nrk_stack_pointer_restore
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:434    .text:00000000000000e8 nrk_target_start
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc46mD8H.s:461    .text:00000000000000f2 nrk_task_set_stk
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000080 nrk_idle_task_stk
-                            *COM*:0000000000000042 nrk_task_TCB
+                            *COM*:00000000000000a5 nrk_task_TCB
                             *COM*:0000000000000001 nrk_wakeup_signal
-                            *COM*:000000000000000f _nrk_readyQ
+                            *COM*:000000000000001e _nrk_readyQ
                             *COM*:0000000000000002 _free_node
                             *COM*:0000000000000002 _head_node
                             *COM*:0000000000000001 nrk_cur_task_prio
@@ -553,7 +553,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000002 nrk_high_ready_TCB
                             *COM*:0000000000000001 _nrk_resource_cnt
                             *COM*:0000000000000008 nrk_system_time
-                            *COM*:0000000000000006 nrk_sem_list
+                            *COM*:0000000000000003 nrk_sem_list
                             *COM*:0000000000000001 _nrk_prev_timer_val
                             *COM*:0000000000000001 _nrk_time_trigger
                             *COM*:0000000000000002 app_timer0_callback

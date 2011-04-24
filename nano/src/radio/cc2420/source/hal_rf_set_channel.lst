@@ -126,12 +126,12 @@
  182               	/* File "../../src/radio/cc2420/source/hal_rf_set_channel.c": code   37 = 0x0025 (  36), prologues 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 hal_rf_set_channel.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWpXIE0.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWpXIE0.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWpXIE0.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWpXIE0.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWpXIE0.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWpXIE0.s:110    .text:0000000000000000 halRfSetChannel
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccoxs8wg.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccoxs8wg.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccoxs8wg.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccoxs8wg.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccoxs8wg.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccoxs8wg.s:110    .text:0000000000000000 halRfSetChannel
                             *COM*:0000000000000004 _nrk_signal_list
 
 UNDEFINED SYMBOLS

@@ -165,7 +165,7 @@
  152:bmac_client.c ****    TX_TASK.Type = BASIC_TASK;
  153:bmac_client.c ****    TX_TASK.SchType = PREEMPTIVE;
  154:bmac_client.c ****    TX_TASK.period.secs = 0;
- 155:bmac_client.c ****    TX_TASK.period.nano_secs = 250* NANOS_PER_MS;
+ 155:bmac_client.c ****    TX_TASK.period.nano_secs = 5 * NANOS_PER_MS;//250* NANOS_PER_MS;
  156:bmac_client.c ****    TX_TASK.cpu_reserve.secs = 1;
  157:bmac_client.c ****    TX_TASK.cpu_reserve.nano_secs = 500 * NANOS_PER_MS;
  158:bmac_client.c ****    TX_TASK.offset.secs = 0;
@@ -248,10 +248,10 @@
  216 0058 1092 0000 		sts (TX_TASK+11)+2,__zero_reg__
  217 005c 1092 0000 		sts (TX_TASK+11)+3,__zero_reg__
  219               	.LM13:
- 220 0060 80E8      		ldi r24,lo8(250000000)
- 221 0062 92EB      		ldi r25,hi8(250000000)
- 222 0064 A6EE      		ldi r26,hlo8(250000000)
- 223 0066 BEE0      		ldi r27,hhi8(250000000)
+ 220 0060 80E4      		ldi r24,lo8(5000000)
+ 221 0062 9BE4      		ldi r25,hi8(5000000)
+ 222 0064 ACE4      		ldi r26,hlo8(5000000)
+ 223 0066 B0E0      		ldi r27,hhi8(5000000)
  224 0068 8093 0000 		sts TX_TASK+15,r24
  225 006c 9093 0000 		sts (TX_TASK+15)+1,r25
  226 0070 A093 0000 		sts (TX_TASK+15)+2,r26
@@ -664,22 +664,22 @@
  702               	/* File "bmac_client.c": code  383 = 0x017f ( 350), prologues  30, epilogues   3 */
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 bmac_client.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:138    .text:0000000000000000 nrk_register_drivers
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:655    .progmem.data:0000000000000000 __c.2447
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:173    .text:0000000000000018 nrk_create_taskset
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:284    .text:00000000000000d2 tx_task
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:138    .text:0000000000000000 nrk_register_drivers
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:655    .progmem.data:0000000000000000 __c.2447
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:173    .text:0000000000000018 nrk_create_taskset
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:284    .text:00000000000000d2 tx_task
                             *COM*:0000000000000023 TX_TASK
                             *COM*:0000000000000100 tx_task_stack
                             *COM*:0000000000000074 tx_buf
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:663    .progmem.data:0000000000000034 __c.2406
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:659    .progmem.data:000000000000001f __c.2408
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:667    .progmem.data:000000000000004b __c.2404
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc6GFteK.s:575    .text:0000000000000298 main
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:663    .progmem.data:0000000000000034 __c.2406
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:659    .progmem.data:000000000000001f __c.2408
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:667    .progmem.data:000000000000004b __c.2404
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccfPQ9tU.s:575    .text:0000000000000298 main
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000080 nrk_idle_task_stk
                             *COM*:0000000000000002 nrk_kernel_stk_ptr

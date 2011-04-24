@@ -17,11 +17,11 @@
  136               	/* File "../../src/kernel/source/nrk_sw_wdt.c": code    0 = 0x0000 (   0), prologues   0, epilogues
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_sw_wdt.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccFWoBzB.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccdemO2I.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccdemO2I.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccdemO2I.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccdemO2I.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccdemO2I.s:6      *ABS*:0000000000000001 __zero_reg__
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000080 nrk_idle_task_stk
                             *COM*:0000000000000002 nrk_kernel_stk_ptr

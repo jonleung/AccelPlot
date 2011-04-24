@@ -142,12 +142,12 @@
  223               	/* File "../../src/kernel/source/nrk_idle_task.c": code   36 = 0x0024 (  36), prologues   0, epilog
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_idle_task.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccAJ76S.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccAJ76S.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccAJ76S.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccAJ76S.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccAJ76S.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccAJ76S.s:137    .text:0000000000000000 nrk_idle_task
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIMdtRe.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIMdtRe.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIMdtRe.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIMdtRe.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIMdtRe.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIMdtRe.s:137    .text:0000000000000000 nrk_idle_task
                             *COM*:0000000000000001 _nrk_cpu_state
                             *COM*:0000000000000080 nrk_idle_task_stk
                             *COM*:0000000000000004 _nrk_signal_list

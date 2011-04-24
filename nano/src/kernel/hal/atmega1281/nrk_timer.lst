@@ -1172,39 +1172,39 @@
  1189               	/* File "../../src/kernel/hal/atmega1281/nrk_timer.c": code  519 = 0x0207 ( 401), prologues  62, ep
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_timer.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:116    .text:0000000000000000 nrk_spin_wait_us
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:157    .text:000000000000000e _nrk_high_speed_timer_stop
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:178    .text:0000000000000014 _nrk_high_speed_timer_start
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:200    .text:000000000000001c _nrk_high_speed_timer_reset
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:227    .text:000000000000002c _nrk_high_speed_timer_get
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:276    .text:0000000000000062 _nrk_os_timer_stop
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:310    .text:0000000000000078 _nrk_os_timer_set
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:331    .text:000000000000007e _nrk_os_timer_start
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:360    .text:0000000000000090 _nrk_os_timer_reset
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:116    .text:0000000000000000 nrk_spin_wait_us
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:157    .text:000000000000000e _nrk_high_speed_timer_stop
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:178    .text:0000000000000014 _nrk_high_speed_timer_start
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:200    .text:000000000000001c _nrk_high_speed_timer_reset
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:227    .text:000000000000002c _nrk_high_speed_timer_get
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:276    .text:0000000000000062 _nrk_os_timer_stop
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:310    .text:0000000000000078 _nrk_os_timer_set
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:331    .text:000000000000007e _nrk_os_timer_start
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:360    .text:0000000000000090 _nrk_os_timer_reset
                             *COM*:0000000000000001 _nrk_time_trigger
                             *COM*:0000000000000001 _nrk_prev_timer_val
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:392    .text:00000000000000a4 _nrk_get_next_wakeup
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:418    .text:00000000000000ae _nrk_set_next_wakeup
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:441    .text:00000000000000b6 nrk_timer_int_stop
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:472    .text:00000000000000c4 nrk_timer_int_reset
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:510    .text:00000000000000dc nrk_timer_int_read
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:546    .text:00000000000000f0 nrk_timer_int_start
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:587    .text:0000000000000106 nrk_timer_int_configure
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:392    .text:00000000000000a4 _nrk_get_next_wakeup
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:418    .text:00000000000000ae _nrk_set_next_wakeup
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:441    .text:00000000000000b6 nrk_timer_int_stop
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:472    .text:00000000000000c4 nrk_timer_int_reset
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:510    .text:00000000000000dc nrk_timer_int_read
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:546    .text:00000000000000f0 nrk_timer_int_start
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:587    .text:0000000000000106 nrk_timer_int_configure
                             *COM*:0000000000000001 app_timer0_prescale
                             *COM*:0000000000000002 app_timer0_callback
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:694    .text:000000000000018c _nrk_os_timer_get
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:718    .text:0000000000000194 __vector_15
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:737    .text:0000000000000194 __vector_13
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:808    .text:00000000000001fa __vector_17
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:835    .text:000000000000020e __vector_32
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:903    .text:000000000000026a __vector_default
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:947    .text:0000000000000296 nrk_high_speed_timer_wait
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cc62fv54.s:1068   .text:0000000000000322 _nrk_setup_timer
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:694    .text:000000000000018c _nrk_os_timer_get
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:718    .text:0000000000000194 __vector_15
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:737    .text:0000000000000194 __vector_13
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:808    .text:00000000000001fa __vector_17
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:835    .text:000000000000020e __vector_32
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:903    .text:000000000000026a __vector_default
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:947    .text:0000000000000296 nrk_high_speed_timer_wait
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cciNJ8OT.s:1068   .text:0000000000000322 _nrk_setup_timer
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000001 error_task
                             *COM*:0000000000000001 error_num

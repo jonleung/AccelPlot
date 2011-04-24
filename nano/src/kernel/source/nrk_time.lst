@@ -1321,19 +1321,19 @@
  1348               	/* File "../../src/kernel/source/nrk_time.c": code  944 = 0x03b0 ( 698), prologues 124, epilogues 1
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_time.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:133    .text:0000000000000000 nrk_time_sub
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:320    .text:000000000000011e nrk_time_compact_nanos
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:382    .text:0000000000000162 nrk_time_add
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:501    .text:000000000000021c nrk_time_set
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:532    .text:000000000000023e _nrk_time_to_ticks
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:821    .text:000000000000041c _nrk_ticks_to_time
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:934    .text:00000000000004d4 _nrk_time_to_ticks_long
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccl8Hdul.s:1219   .text:00000000000006ac nrk_time_get
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:133    .text:0000000000000000 nrk_time_sub
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:320    .text:000000000000011e nrk_time_compact_nanos
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:382    .text:0000000000000162 nrk_time_add
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:501    .text:000000000000021c nrk_time_set
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:532    .text:000000000000023e _nrk_time_to_ticks
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:821    .text:000000000000041c _nrk_ticks_to_time
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:934    .text:00000000000004d4 _nrk_time_to_ticks_long
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccerwLJU.s:1219   .text:00000000000006ac nrk_time_get
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000080 nrk_idle_task_stk
                             *COM*:0000000000000002 nrk_kernel_stk_ptr

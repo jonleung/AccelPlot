@@ -172,12 +172,12 @@
  217               	/* File "../../src/kernel/hal/atmega1281/nrk_status.c": code   44 = 0x002c (  44), prologues   0, e
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_status.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccSiWohA.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccSiWohA.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccSiWohA.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccSiWohA.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccSiWohA.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccSiWohA.s:112    .text:0000000000000000 _nrk_startup_error
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccEiaQz.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccEiaQz.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccEiaQz.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccEiaQz.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccEiaQz.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cccEiaQz.s:112    .text:0000000000000000 _nrk_startup_error
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000001 error_task
                             *COM*:0000000000000001 error_num

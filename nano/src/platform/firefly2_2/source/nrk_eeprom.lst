@@ -786,21 +786,21 @@
  722               	/* File "../../src/platform/firefly2_2/source/nrk_eeprom.c": code  156 = 0x009c ( 147), prologues  
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_eeprom.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:115    .text:0000000000000000 read_eeprom_current_image_checksum
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:164    .text:0000000000000014 write_eeprom_current_image_checksum
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:208    .text:0000000000000028 nrk_eeprom_read_byte
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:251    .text:0000000000000034 read_eeprom_mac_address
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:415    .text:0000000000000086 read_eeprom_channel
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:464    .text:000000000000009a read_eeprom_load_img_pages
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:513    .text:00000000000000ae read_eeprom_aes_key
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:578    .text:00000000000000d6 nrk_eeprom_write_byte
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:613    .text:00000000000000e0 write_eeprom_load_img_pages
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMcWkTb.s:659    .text:00000000000000f4 write_eeprom_aes_key
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:115    .text:0000000000000000 read_eeprom_current_image_checksum
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:164    .text:0000000000000014 write_eeprom_current_image_checksum
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:208    .text:0000000000000028 nrk_eeprom_read_byte
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:251    .text:0000000000000034 read_eeprom_mac_address
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:415    .text:0000000000000086 read_eeprom_channel
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:464    .text:000000000000009a read_eeprom_load_img_pages
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:513    .text:00000000000000ae read_eeprom_aes_key
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:578    .text:00000000000000d6 nrk_eeprom_write_byte
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:613    .text:00000000000000e0 write_eeprom_load_img_pages
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccS9nNcE.s:659    .text:00000000000000f4 write_eeprom_aes_key
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000001 error_task
                             *COM*:0000000000000001 error_num

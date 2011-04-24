@@ -6,7 +6,7 @@ PLATFORM = firefly2_2
 TARGET = basic_tasks
 
 # Set the Port that you programmer is connected to 
-PROGRAMMING_PORT = /dev/ttyUSB1
+PROGRAMMING_PORT = /dev/tty.usbserial-000014FAB
 
 
 # PROGRAMMING_PORT = `ls /dev/tty.* | grep usb | head -n 1` # programmer connected to serial device

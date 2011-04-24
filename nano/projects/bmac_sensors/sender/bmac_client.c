@@ -152,7 +152,7 @@ void nrk_create_taskset ()
    TX_TASK.Type = BASIC_TASK;
    TX_TASK.SchType = PREEMPTIVE;
    TX_TASK.period.secs = 0;
-   TX_TASK.period.nano_secs = 250* NANOS_PER_MS;
+   TX_TASK.period.nano_secs = 5 * NANOS_PER_MS;//250* NANOS_PER_MS;
    TX_TASK.cpu_reserve.secs = 1;
    TX_TASK.cpu_reserve.nano_secs = 500 * NANOS_PER_MS;
    TX_TASK.offset.secs = 0;

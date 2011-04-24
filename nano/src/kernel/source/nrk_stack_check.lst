@@ -381,7 +381,7 @@
  391 0176 9EBF      		out __SP_H__,r25
  392 0178 0FBE      		out __SREG__,__tmp_reg__
  393 017a 8DBF      		out __SP_L__,r24
- 394 017c 92E0      		ldi r25,lo8(2)
+ 394 017c 95E0      		ldi r25,lo8(5)
  395 017e A916      		cp r10,r25
  396 0180 B104      		cpc r11,__zero_reg__
  397 0182 01F4      		brne .L9
@@ -470,15 +470,15 @@
  501               	/* File "../../src/kernel/source/nrk_stack_check.c": code  246 = 0x00f6 ( 212), prologues  16, epil
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_stack_check.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIEUfm5.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIEUfm5.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIEUfm5.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIEUfm5.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIEUfm5.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIEUfm5.s:135    .text:0000000000000000 nrk_stack_check_pid
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIEUfm5.s:217    .text:000000000000004a dump_stack_info
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIEUfm5.s:485    .progmem.data:0000000000000000 __c.2270
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccIEUfm5.s:423    .text:00000000000001a2 nrk_stack_check
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWlcygG.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWlcygG.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWlcygG.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWlcygG.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWlcygG.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWlcygG.s:135    .text:0000000000000000 nrk_stack_check_pid
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWlcygG.s:217    .text:000000000000004a dump_stack_info
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWlcygG.s:485    .progmem.data:0000000000000000 __c.2270
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccWlcygG.s:423    .text:00000000000001a2 nrk_stack_check
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000080 nrk_idle_task_stk
                             *COM*:0000000000000002 nrk_kernel_stk_ptr

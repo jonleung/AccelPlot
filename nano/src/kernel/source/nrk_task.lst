@@ -1634,28 +1634,28 @@
  1522               	/* File "../../src/kernel/source/nrk_task.c": code  819 = 0x0333 ( 677), prologues  66, epilogues  
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_task.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:130    .text:0000000000000000 nrk_get_high_ready_task_ID
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:154    .text:000000000000000e nrk_print_readyQ
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:192    .text:0000000000000024 nrk_add_to_readyQ
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:404    .text:0000000000000132 nrk_rem_from_readyQ
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:532    .text:00000000000001d6 nrk_get_pid
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:556    .text:00000000000001e4 _nrk_wait_for_scheduler
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:586    .text:00000000000001f8 nrk_wait
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:130    .text:0000000000000000 nrk_get_high_ready_task_ID
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:154    .text:000000000000000e nrk_print_readyQ
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:192    .text:0000000000000024 nrk_add_to_readyQ
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:404    .text:0000000000000132 nrk_rem_from_readyQ
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:532    .text:00000000000001d6 nrk_get_pid
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:556    .text:00000000000001e4 _nrk_wait_for_scheduler
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:586    .text:00000000000001f8 nrk_wait
                             *COM*:0000000000000001 _nrk_prev_timer_val
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:712    .text:00000000000002a6 nrk_wait_until
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:829    .text:0000000000000356 nrk_wait_until_nw
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:905    .text:00000000000003a4 nrk_set_next_wakeup
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:993    .text:0000000000000414 nrk_wait_until_ticks
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:1073   .text:000000000000046a nrk_wait_ticks
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:1163   .text:00000000000004d8 nrk_wait_until_next_n_periods
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:1256   .text:000000000000053e nrk_wait_until_next_period
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:1337   .text:0000000000000596 nrk_terminate_task
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//cchldGXe.s:1375   .text:00000000000005ba nrk_activate_task
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:712    .text:00000000000002a6 nrk_wait_until
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:829    .text:0000000000000356 nrk_wait_until_nw
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:905    .text:00000000000003a4 nrk_set_next_wakeup
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:993    .text:0000000000000414 nrk_wait_until_ticks
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:1073   .text:000000000000046a nrk_wait_ticks
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:1163   .text:00000000000004d8 nrk_wait_until_next_n_periods
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:1256   .text:000000000000053e nrk_wait_until_next_period
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:1337   .text:0000000000000596 nrk_terminate_task
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccMwzrVV.s:1375   .text:00000000000005ba nrk_activate_task
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000080 nrk_idle_task_stk
                             *COM*:0000000000000002 nrk_kernel_stk_ptr

@@ -199,15 +199,15 @@
  288               	/* File "../../src/kernel/hal/atmega1281/nrk_watchdog.c": code   45 = 0x002d (  42), prologues   0,
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 nrk_watchdog.c
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccDUk1II.s:2      *ABS*:000000000000003f __SREG__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccDUk1II.s:3      *ABS*:000000000000003e __SP_H__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccDUk1II.s:4      *ABS*:000000000000003d __SP_L__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccDUk1II.s:5      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccDUk1II.s:6      *ABS*:0000000000000001 __zero_reg__
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccDUk1II.s:125    .text:0000000000000000 nrk_watchdog_check
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccDUk1II.s:159    .text:0000000000000012 nrk_watchdog_reset
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccDUk1II.s:182    .text:0000000000000016 nrk_watchdog_disable
-/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccDUk1II.s:230    .text:0000000000000034 nrk_watchdog_enable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccZbjjqP.s:2      *ABS*:000000000000003f __SREG__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccZbjjqP.s:3      *ABS*:000000000000003e __SP_H__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccZbjjqP.s:4      *ABS*:000000000000003d __SP_L__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccZbjjqP.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccZbjjqP.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccZbjjqP.s:125    .text:0000000000000000 nrk_watchdog_check
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccZbjjqP.s:159    .text:0000000000000012 nrk_watchdog_reset
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccZbjjqP.s:182    .text:0000000000000016 nrk_watchdog_disable
+/var/folders/Qq/QqLTHlelFveneFuzSoIahU+++TI/-Tmp-//ccZbjjqP.s:230    .text:0000000000000034 nrk_watchdog_enable
                             *COM*:0000000000000004 _nrk_signal_list
                             *COM*:0000000000000001 error_task
                             *COM*:0000000000000001 error_num
